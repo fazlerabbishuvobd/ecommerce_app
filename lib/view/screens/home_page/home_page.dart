@@ -1,234 +1,335 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+
+  bool isButtonLoading = false;
+  Future<void> refresh()async{
+    await Future.delayed(const Duration(seconds: 2));
+    debugPrint("Refresh");
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SizedBox(
-        height: Get.height,
-        width: Get.width,
-        child: Column(
-          children: [
+    return RefreshIndicator(
+     onRefresh: refresh,
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
 
-            /// Top Part ( Slider - Search Bar )
-            const Expanded(
-                flex: 5,
-                child: Stack(
+              /// Slider and Search Bar
+              SizedBox(
+                height: Get.height*0.34,
+                child: const Stack(
                   children: [
                     BannerSliderWidgets(),
                     SearchBarWidgets(),
                   ],
                 ),
-            ),
+              ),
 
-            Expanded(
-                flex: 10,
-                child: Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      /// Categories
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text('Categories'),
-                          TextButton(onPressed: (){
-                            debugPrint("See More");
-                          }, child: const Text("See More")),
-                        ],
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(5),
-                        width: Get.width,
-                        height: Get.height*0.16,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.amber,
-                        ),
-                        child: ListView.builder(
-                            itemCount: 18,
-                            physics: const BouncingScrollPhysics(),
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onTap: (){
-                                  debugPrint("$index");
-                                },
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  margin: const EdgeInsets.only(right: 10),
-                                  height: Get.height*0.3,
-                                  width: Get.width*0.3,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Colors.white
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: const Icon(Icons.ac_unit_outlined,size: 90,),
-                                      ),
-                                      Text('$index'),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                        ),
-                      ),
-                      const SizedBox(height: 20,),
-
-                      Expanded(
-                          child: GridView.builder(
-                            itemCount: 20+1,
-                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                crossAxisSpacing: 5,
-                                mainAxisSpacing: 5,
-                              ),
-                              itemBuilder: (context, index) {
-                              if(index<20)
-                                {
-                                  return Container(
-                                    padding: const EdgeInsets.all(5),
-                                    height: Get.height*0.3,
-                                    width: Get.width*0.03,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Colors.amber,
-                                    ),
-                                    child: const Column(
-                                      children: [
-                                        Expanded(
-                                            child: Icon(Icons.ac_unit_outlined)
-                                        ),
-                                        Text('Product Name',maxLines: 2,overflow: TextOverflow.ellipsis,),
-
-                                        //Product Rating-Sold
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                          children: [
-                                            Text('Rating 4.5/5(61)'),
-                                            Text('Sold - 1.8K'),
-                                          ],
-                                        ),
-
-                                        //Product Price
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                          children: [
-                                            Text('\$45.00'),
-                                            Text('\$50.00'),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                }
-                              else{
-                                return const Center(
-                                    child: Text('No Available')
-                                );
-                              }
-                              },
-                          )
-                      ),
-                    ],
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('Categories'),
+                  TextButton(
+                    onPressed: () {
+                      debugPrint("See More");
+                    },
+                    child: const Text("See More"),
                   ),
+                ],
+              ),
+
+              /// Category
+              Container(
+                padding: const EdgeInsets.all(5),
+                width: Get.width,
+                height: Get.height*0.12,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.amber,
                 ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+                child: const CategoryListViewWidget(),
+              ),
+              SizedBox(height: Get.height*0.02,),
 
-class BannerSliderWidgets extends StatelessWidget {
-  const BannerSliderWidgets({
-    super.key,
-  });
+              const Text('Products'),
+              const ProductGridViewWidgets(),
+              SizedBox(height: Get.height*0.02,),
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: Get.height,
-      width: Get.width,
-      color: Colors.grey,
-      child: CarouselSlider.builder(
-          itemCount: 5,
-          itemBuilder: (context, index, realIndex) {
-            return Column(
-              children: [
-                const Text('Index'),
-                const Spacer(),
-                Text('$index'),
-              ],
-            );
-          },
-          options: CarouselOptions(
-            autoPlay: true,
-          )
-      ),
-    );
-  }
-}
-class SearchBarWidgets extends StatelessWidget {
-  const SearchBarWidgets({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-      top: Get.height*0.04,
-        child: Container(
-          padding: const EdgeInsets.all(5),
-          alignment: Alignment.center,
-        width: Get.width,
-        height: 48,
-        color: Colors.amber,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              const Icon(Icons.home),
-
-              GestureDetector(
-                onTap: (){
-                  debugPrint("Search Page");
-                },
-                child: Container(
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.all(5),
-                  height: 48,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: Colors.white,
-                  ),
+              Center(
+                child: SizedBox(
                   width: Get.width*0.8,
-                  child: Row(
-                    children: [
-                      const Icon(Icons.search),
-                      SizedBox(width: Get.width*0.04,),
-                      const Text('Search Bar'),
-                    ],
+                  child: MaterialButton(
+                    onPressed: ()async{
+                      setState(() {
+                        isButtonLoading = true;
+                      });
+                      await Future.delayed(const Duration(seconds: 2));
+                      setState(() {
+                        isButtonLoading = false;
+                      });
+                    },
+                    height: 48,
+                    color: Colors.amber,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)
+                    ),
+                    child: isButtonLoading?
+                    const Center(child: CircularProgressIndicator(),
+                    ):const Text("Load More"),
                   ),
                 ),
               ),
 
-              const Icon(Icons.system_security_update_good),
+              SizedBox(height: Get.height*0.02,),
+
             ],
           ),
         ),
+
+
+      ),
+    );
+  }
+}
+
+class CategoryListViewWidget extends StatelessWidget {
+  const CategoryListViewWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: 18,
+      physics: const BouncingScrollPhysics(),
+      scrollDirection: Axis.horizontal,
+      itemBuilder: (context, index) {
+        return GestureDetector(
+          onTap: () {
+            debugPrint("$index");
+          },
+          child: Container(
+            alignment: Alignment.center,
+            margin: const EdgeInsets.only(right: 10),
+            width: Get.width * 0.2,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white),
+            child: Column(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Icon(
+                    Icons.ac_unit_outlined,
+                    size: Get.height * 0.08,
+                  ),
+                ),
+                Text('$index'),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class ProductGridViewWidgets extends StatelessWidget {
+  const ProductGridViewWidgets({
+    super.key,
+  });
+
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: 21,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 5,
+        mainAxisSpacing: 5,
+        childAspectRatio: 1.0,
+      ),
+      itemBuilder: (context, index) {
+        if (index < 20) {
+          return GestureDetector(
+            onTap: (){
+              debugPrint("$index");
+            },
+            child: Container(
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.amber.withOpacity(0.5),
+              ),
+              child: Column(
+                children: [
+                  const Expanded(
+                      child: Icon(Icons.ac_unit_outlined)
+                  ),
+                  Text('Product Name $index', maxLines: 2, overflow: TextOverflow.ellipsis,),
+
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text('Rating 4.5/5(61)'),
+                      Text('Sold - 1.8K'),
+                    ],
+                  ),
+
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text('\$45.00'),
+                      Text('\$50.00'),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        } else {
+          return const Center(
+              child: Text('No Available')
+          );
+        }
+      },
+    );
+  }
+}
+
+class BannerSliderWidgets extends StatefulWidget {
+  const BannerSliderWidgets({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<BannerSliderWidgets> createState() => _BannerSliderWidgetsState();
+}
+
+class _BannerSliderWidgetsState extends State<BannerSliderWidgets> {
+  List sliderInfo = ["Element 1", "Element 2","Element 3",'Element 4'];
+  int _currentImageIndex = 0;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: Get.width,
+      color: Colors.blue.withOpacity(0.5),
+      child: Column(
+        children: [
+          SizedBox(
+            height: Get.height*0.28,
+            child: CarouselSlider.builder(
+              itemCount: sliderInfo.length,
+              itemBuilder: (context, index, realIndex) {
+                return Column(
+                  children: [
+                    const Text('Index'),
+                    const Spacer(),
+                    Text(sliderInfo[index].toString()),
+                    Text('${index+1}'),
+                  ],
+                );
+              },
+              options: CarouselOptions(
+                autoPlay: true,
+                aspectRatio: 16/9,
+                onPageChanged: (index, reason) {
+                  setState(() {
+                    _currentImageIndex = index;
+                  });
+                },
+              ),
+            ),
+          ),
+          SizedBox(height: Get.height*0.02,),
+
+          ///Slider Indicator
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: sliderInfo.map((item){
+              int index = sliderInfo.indexOf(item);
+              return AnimatedContainer(
+                duration: const Duration(milliseconds: 500),
+                margin:const EdgeInsets.symmetric(horizontal: 8,vertical: 2),
+                height: 10.0,
+                width: _currentImageIndex == index?30.0:10.0,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: _currentImageIndex == index? Colors.blue:Colors.grey,
+                ),
+              );
+            }).toList(),
+          ),
+          SizedBox(height: Get.height*0.02,),
+        ],
+      ),
+    );
+  }
+}
+
+class SearchBarWidgets extends StatelessWidget {
+  const SearchBarWidgets({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      top: Get.height * 0.04,
+      child: Container(
+        padding: const EdgeInsets.all(5),
+        alignment: Alignment.center,
+        width: Get.width,
+        height: 48,
+        color: Colors.amber,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            const Icon(Icons.home),
+
+            GestureDetector(
+              onTap: () {
+                debugPrint("Search Page");
+              },
+              child: Container(
+                alignment: Alignment.center,
+                padding: const EdgeInsets.all(5),
+                height: 48,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Colors.white,
+                ),
+                width: Get.width * 0.8,
+                child: Row(
+                  children: [
+                    const Icon(Icons.search),
+                    SizedBox(width: Get.width * 0.04,),
+                    const Text('Search Bar'),
+                  ],
+                ),
+              ),
+            ),
+
+            const Icon(Icons.system_security_update_good),
+          ],
+        ),
+      ),
     );
   }
 }
