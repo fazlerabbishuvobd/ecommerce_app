@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:ecommerce_app/view/screens/home_page/add_to_cart_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -299,9 +300,8 @@ class SearchBarWidgets extends StatelessWidget {
         height: 48,
         color: Colors.amber,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Icon(Icons.home),
 
             GestureDetector(
               onTap: () {
@@ -326,7 +326,13 @@ class SearchBarWidgets extends StatelessWidget {
               ),
             ),
 
-            const Icon(Icons.system_security_update_good),
+            GestureDetector(
+              onTap: (){
+                debugPrint("Add to Cart");
+                Get.to(()=> const AddToCartPage());
+              },
+                child: const Icon(Icons.shopping_cart)
+            ),
           ],
         ),
       ),
