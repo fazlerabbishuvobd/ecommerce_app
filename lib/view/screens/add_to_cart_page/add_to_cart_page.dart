@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/view/screens/add_to_cart_page/checkout_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 class AddToCartPage extends StatefulWidget {
@@ -124,6 +125,7 @@ class _AddToCartPageState extends State<AddToCartPage> {
                     isCheckoutButtonLoading = true;
                   });
                   await Future.delayed(const Duration(seconds: 2));
+                  Get.to(()=> const CheckoutPage());
                   setState(() {
                     isCheckoutButtonLoading = false;
                   });

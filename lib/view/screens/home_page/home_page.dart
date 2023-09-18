@@ -1,5 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:ecommerce_app/view/screens/home_page/add_to_cart_page.dart';
+import 'package:ecommerce_app/view/screens/add_to_cart_page/add_to_cart_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
