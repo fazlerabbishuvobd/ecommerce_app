@@ -124,7 +124,7 @@ class _AddToCartPageState extends State<AddToCartPage> {
                   setState(() {
                     isCheckoutButtonLoading = true;
                   });
-                  await Future.delayed(const Duration(seconds: 2));
+                  await Future.delayed(const Duration(seconds: 1));
                   Get.to(()=> const CheckoutPage());
                   setState(() {
                     isCheckoutButtonLoading = false;

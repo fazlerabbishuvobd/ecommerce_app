@@ -1,4 +1,5 @@
 import 'package:ecommerce_app/view/screens/add_to_cart_page/chekout_page/address_page/address_page.dart';
+import 'package:ecommerce_app/view/screens/add_to_cart_page/chekout_page/payment_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 class CheckoutPage extends StatefulWidget {
@@ -59,6 +60,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 },
                   child: const DeliveryInfoWidgets()
               ),
+              SizedBox(height: Get.height*0.04,),
 
               const Text('Item Information',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
               SizedBox(
@@ -110,7 +112,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     },
                 ),
               ),
-              SizedBox(height: Get.height*0.01,),
+              SizedBox(height: Get.height*0.04,),
 
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -162,108 +164,13 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   ),
                 ],
               ),
+              SizedBox(height: Get.height*0.02,),
 
+              const PromotionsWidgets(),
               SizedBox(height: Get.height*0.02,),
-              const Text('Promotions',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
-              SizedBox(
-                height: 40,
-                width: Get.width,
-                child: const ListTile(
-                  leading: Icon(Icons.airplane_ticket),
-                  title: Text("Voucher"),
-                  trailing: Icon(Icons.arrow_forward_ios_outlined),
-                ),
-              ),
-              SizedBox(height: Get.height*0.02,),
-              SizedBox(
-                height: 40,
-                width: Get.width,
-                child: const ListTile(
-                  leading: Icon(Icons.airplane_ticket),
-                  title: Text("Promo Code"),
-                  trailing: Icon(Icons.arrow_forward_ios_outlined),
-                ),
-              ),
 
-              SizedBox(height: Get.height*0.02,),
-              const Text('Order Summery',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
-              SizedBox(height: Get.height*0.02,),
-              Table(
-                border: TableBorder.all(),
-                children: const [
-                  TableRow(
-                    children: [
-                      TableCell(
-                        child: Center(
-                            child: Text('Item Total')
-                        ),
-                      ),
-                      TableCell(
-                        child: Center(
-                            child: Text('1025680.00 Tk',textAlign: TextAlign.left,)
-                        ),
-                      ),
-                    ],
-                  ),
-                  TableRow(
-                    children: [
-                      TableCell(
-                        child: Center(
-                            child: Text('Delivery Fee')
-                        ),
-                      ),
-                      TableCell(
-                        child: Center(
-                            child: Text('950')
-                        ),
-                      ),
-                    ],
-                  ),
-                  TableRow(
-                    children: [
-                      TableCell(
-                        child: Center(
-                            child: Text('Delivery Discount')
-                        ),
-                      ),
-                      TableCell(
-                        child: Center(
-                            child: Text('-45 Tk')
-                        ),
-                      ),
-                    ],
-                  ),
-                  TableRow(
-                    children: [
-                      TableCell(
-                        child: Center(
-                            child: Text('Discount')
-                        ),
-                      ),
-                      TableCell(
-                        child: Center(
-                            child: Text('-70 Tk')
-                        ),
-                      ),
-                    ],
-                  ),
-                  TableRow(
-                    children: [
-                      TableCell(
-                        child: Center(
-                            child: Text('Total Payment')
-                        ),
-                      ),
-                      TableCell(
-                        child: Center(
-                            child: Text('456987510.00 Tk')
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
 
+              const OrderSummeryWidgets(),
               SizedBox(height: Get.height*0.15,),
               
             ],
@@ -295,7 +202,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     isOrderButtonLoading = true;
                   });
                   await Future.delayed(const Duration(seconds: 2));
-                  Get.to(()=> const CheckoutPage());
+                  Get.offAll(()=> const PaymentPage());
                   setState(() {
                     isOrderButtonLoading = false;
                   });
@@ -312,6 +219,121 @@ class _CheckoutPageState extends State<CheckoutPage> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class PromotionsWidgets extends StatelessWidget {
+  const PromotionsWidgets({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 5,
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        height: Get.height*0.24,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('Promotions',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
+            const Divider(),
+            SizedBox(
+              height: 40,
+              width: Get.width,
+              child: const ListTile(
+                leading: Icon(Icons.airplane_ticket),
+                title: Text("Voucher"),
+                trailing: Icon(Icons.arrow_forward_ios_outlined),
+              ),
+            ),
+            SizedBox(height: Get.height*0.02,),
+
+            SizedBox(
+              height: 40,
+              width: Get.width,
+              child: const ListTile(
+                leading: Icon(Icons.airplane_ticket),
+                title: Text("Promo Code"),
+                trailing: Icon(Icons.arrow_forward_ios_outlined),
+              ),
+            ),
+            SizedBox(height: Get.height*0.04,),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class OrderSummeryWidgets extends StatelessWidget {
+  const OrderSummeryWidgets({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Container(
+        height: Get.height*0.25,
+        width: Get.width,
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('Order Summery',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
+            const Divider(),
+            SizedBox(height: Get.height*0.02,),
+            const OrderSummeryInfo(
+              name: 'Item Total',
+              amount: '1234560.00',
+            ),
+            const OrderSummeryInfo(
+              name: 'Delivery Fee',
+              amount: '123',
+            ),
+            const OrderSummeryInfo(
+              name: 'Delivery Discount',
+              amount: '00',
+            ),
+            const OrderSummeryInfo(
+              name: 'Discounts',
+              amount: '1230',
+            ),
+            const OrderSummeryInfo(
+              name: 'Total Payment',
+              amount: '1234560.00',
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class OrderSummeryInfo extends StatelessWidget {
+  const OrderSummeryInfo({
+    super.key,
+    this.name,
+    this.amount
+  });
+
+  final String? name,amount;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+      Text('$name'),
+      Text('$amount TK'),
+      ],
     );
   }
 }
