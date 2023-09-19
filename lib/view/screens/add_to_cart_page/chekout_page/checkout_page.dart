@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/view/screens/add_to_cart_page/chekout_page/address_page/address_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 class CheckoutPage extends StatefulWidget {
@@ -9,6 +10,7 @@ class CheckoutPage extends StatefulWidget {
 
 class _CheckoutPageState extends State<CheckoutPage> {
   bool isOrderButtonLoading = false;
+  int selectedDeliveryType = -1;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +52,13 @@ class _CheckoutPageState extends State<CheckoutPage> {
               const Text("Delivery Information",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
-              const DeliveryInfoWidgets(),
+              GestureDetector(
+                onTap: (){
+                  debugPrint("Choose address");
+                  Get.to(()=> const AddressSetupPage());
+                },
+                  child: const DeliveryInfoWidgets()
+              ),
 
               const Text('Item Information',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
               SizedBox(
@@ -58,7 +66,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 child: ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                    itemCount: 1,
+                    itemCount: 5,
                     itemBuilder: (context, index) {
                       return Card(
                         elevation: 5,
@@ -119,8 +127,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: (){
-                              debugPrint("Click");
-
+                              debugPrint(index.toString());
+                              setState(() {
+                                selectedDeliveryType = index;
+                              });
                             },
                             child: Container(
                               margin: const EdgeInsets.only(right: 10),
@@ -131,6 +141,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 border: Border.all(width: 1,color: Colors.black),
+                                color: selectedDeliveryType == index? Colors.amber:Colors.transparent,
                               ),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -153,7 +164,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
               ),
 
               SizedBox(height: Get.height*0.02,),
-              const Text('Promotions || Discount',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
+              const Text('Promotions',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
               SizedBox(
                 height: 40,
                 width: Get.width,
@@ -295,7 +306,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 ),
                 child: isOrderButtonLoading? const Center(
                   child: CircularProgressIndicator(),
-                ): const Text("Confirm Order",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                ): const Text("Pay Order",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
               ),
             )
           ],
