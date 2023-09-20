@@ -1,8 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:ecommerce_app/resources/app_constant/app_constant.dart';
 import 'package:ecommerce_app/view/screens/add_to_cart_page/add_to_cart_page.dart';
 import 'package:ecommerce_app/view/screens/product_details_page/product_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -18,6 +20,7 @@ class _HomePageState extends State<HomePage> {
     await Future.delayed(const Duration(seconds: 2));
     debugPrint("Refresh");
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +51,11 @@ class _HomePageState extends State<HomePage> {
 
               /// Slider and Search Bar
               SizedBox(
-                height: Get.height*0.34,
-                child: const BannerSliderWidgets(),
+                height: Get.height*0.30,
+                child: BannerSliderWidgets(
+                  itemCount: AppConstants.bannerImageList.length,
+                  imageList: AppConstants.bannerImageList,
+                ),
               ),
 
               Row(
@@ -69,16 +75,16 @@ class _HomePageState extends State<HomePage> {
               Container(
                 padding: const EdgeInsets.all(5),
                 width: Get.width,
-                height: Get.height*0.12,
+                height: Get.height*0.13,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: Colors.amber,
                 ),
                 child: const CategoryListViewWidget(),
               ),
               SizedBox(height: Get.height*0.02,),
 
               const Text('Products'),
+              SizedBox(height: Get.height*0.01,),
               const ProductGridViewWidgets(),
               SizedBox(height: Get.height*0.02,),
 
@@ -141,7 +147,9 @@ class CategoryListViewWidget extends StatelessWidget {
             width: Get.width * 0.2,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: Colors.white),
+                border: Border.all(width: 1,color: Colors.black),
+                color: Colors.white
+            ),
             child: Column(
               children: [
                 ClipRRect(
@@ -231,40 +239,48 @@ class ProductGridViewWidgets extends StatelessWidget {
 class BannerSliderWidgets extends StatefulWidget {
   const BannerSliderWidgets({
     Key? key,
-    this.isVisibleImageNumber
+    this.isVisibleImageNumber,
+    this.itemCount,
+    this.imageList,
   }) : super(key: key);
 
   final bool? isVisibleImageNumber;
+  final int? itemCount;
+  final List? imageList;
 
   @override
   State<BannerSliderWidgets> createState() => _BannerSliderWidgetsState();
 }
 
 class _BannerSliderWidgetsState extends State<BannerSliderWidgets> {
-  List sliderInfo = ["Element 1", "Element 2","Element 3",'Element 4'];
   int _currentImageIndex = 0;
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: Get.width,
-      color: Colors.blue.withOpacity(0.5),
-      child: Column(
+      child: Stack(
+        alignment: Alignment.center,
         children: [
           SizedBox(
-            height: Get.height*0.28,
+            height: Get.height,
+            width: Get.width,
             child: CarouselSlider.builder(
-              itemCount: sliderInfo.length,
+              itemCount: widget.itemCount,
               itemBuilder: (context, index, realIndex) {
-                return Column(
-                  children: [
-                    const Text('Index'),
-                    const Spacer(),
-                    Text(sliderInfo[index].toString()),
-                    Text('${index+1}'),
-                  ],
+                return Container(
+                  height: Get.height,
+                  width: Get.width,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    image: DecorationImage(
+                        image: NetworkImage(widget.imageList![index].toString()),
+                      fit: BoxFit.fill
+                    ),
+                  ),
                 );
               },
               options: CarouselOptions(
+                viewportFraction: 1.0,
                 autoPlay: true,
                 aspectRatio: 16/9,
                 onPageChanged: (index, reason) {
@@ -275,32 +291,46 @@ class _BannerSliderWidgetsState extends State<BannerSliderWidgets> {
               ),
             ),
           ),
-          SizedBox(height: Get.height*0.02,),
 
           ///Slider Indicator
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: sliderInfo.map((item){
-              int index = sliderInfo.indexOf(item);
-              return AnimatedContainer(
-                duration: const Duration(milliseconds: 500),
-                margin:const EdgeInsets.symmetric(horizontal: 8,vertical: 2),
-                height: 10.0,
-                width: _currentImageIndex == index?30.0:10.0,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: _currentImageIndex == index? Colors.blue:Colors.grey,
-                ),
-              );
-            }).toList(),
-          ),
-          SizedBox(height: Get.height*0.02,),
-          Visibility(
-            visible: widget.isVisibleImageNumber??false,
+          Positioned(
+            bottom: 0,
             child: Column(
               children: [
-                Text('${_currentImageIndex+1}/${sliderInfo.length.toString()}'),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: widget.imageList!.map((item){
+                    int index = widget.imageList!.indexOf(item);
+                    return GestureDetector(
+                      onTap: (){
+                        debugPrint("$index");
+                        setState(() {
+                          _currentImageIndex =index;
+                        });
+                      },
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 450),
+                        margin:const EdgeInsets.symmetric(horizontal: 5,vertical: 2),
+                        height: 10.0,
+                        width: _currentImageIndex == index?30.0:15.0,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: _currentImageIndex == index? Colors.amber:Colors.white60,
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
                 SizedBox(height: Get.height*0.02,),
+                Visibility(
+                  visible: widget.isVisibleImageNumber??false,
+                  child: Column(
+                    children: [
+                      Text('${_currentImageIndex+1}/${widget.imageList!.length.toString()}'),
+                      SizedBox(height: Get.height*0.02,),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
