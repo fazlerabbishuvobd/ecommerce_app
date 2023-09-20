@@ -1,5 +1,5 @@
+import 'package:ecommerce_app/view/screens/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'view/screens/home_page/home_page.dart';
 import 'package:get/get.dart';
 
 void main() {
@@ -19,8 +19,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
         useMaterial3: true,
       ),
-      home: const HomePage(),
-      //home: const ProductDetailsPage(),
+      home: const SplashScreen(),
     );
   }
 }

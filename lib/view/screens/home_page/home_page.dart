@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ecommerce_app/view/screens/add_to_cart_page/add_to_cart_page.dart';
-import 'package:ecommerce_app/view/screens/product_details_page.dart';
+import 'package:ecommerce_app/view/screens/product_details_page/product_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -231,7 +231,10 @@ class ProductGridViewWidgets extends StatelessWidget {
 class BannerSliderWidgets extends StatefulWidget {
   const BannerSliderWidgets({
     Key? key,
+    this.isVisibleImageNumber
   }) : super(key: key);
+
+  final bool? isVisibleImageNumber;
 
   @override
   State<BannerSliderWidgets> createState() => _BannerSliderWidgetsState();
@@ -292,6 +295,15 @@ class _BannerSliderWidgetsState extends State<BannerSliderWidgets> {
             }).toList(),
           ),
           SizedBox(height: Get.height*0.02,),
+          Visibility(
+            visible: widget.isVisibleImageNumber??false,
+            child: Column(
+              children: [
+                Text('${_currentImageIndex+1}/${sliderInfo.length.toString()}'),
+                SizedBox(height: Get.height*0.02,),
+              ],
+            ),
+          ),
         ],
       ),
     );

@@ -14,7 +14,14 @@ class _AddToCartPageState extends State<AddToCartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("My Cart"),
+        title: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("My Cart"),
+            SizedBox(width: 10,),
+            Icon(Icons.shopping_cart),
+          ],
+        ),
         centerTitle: true,
         backgroundColor: Colors.amber,
       ),
@@ -23,80 +30,87 @@ class _AddToCartPageState extends State<AddToCartPage> {
         height: Get.height*0.8,
         child: ListView.builder(
           physics: const BouncingScrollPhysics(),
-            itemCount: 10,
+            itemCount: 11,
             itemBuilder: (context, index) {
-              return Card(
-                margin: const EdgeInsets.only(bottom: 15),
-                elevation: 5,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  height: Get.height*0.15,
-                  width: Get.width,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Image.network('https://play-lh.googleusercontent.com/C9CAt9tZr8SSi4zKCxhQc9v4I6AOTqRmnLchsu1wVDQL0gsQ3fmbCVgQmOVM1zPru8UH=w240-h480-rw',height: Get.height,fit: BoxFit.fill,),
-                          ),
-                          SizedBox(width: Get.width*0.02,),
+              if(index<10){
+                return Card(
+                  margin: EdgeInsets.only(bottom: Get.height*0.02),
+                  elevation: 5,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    height: Get.height*0.15,
+                    width: Get.width,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.network('https://play-lh.googleusercontent.com/C9CAt9tZr8SSi4zKCxhQc9v4I6AOTqRmnLchsu1wVDQL0gsQ3fmbCVgQmOVM1zPru8UH=w240-h480-rw',height: Get.height,fit: BoxFit.fill,),
+                            ),
+                            SizedBox(width: Get.width*0.02,),
 
-                          SizedBox(
-                            width: Get.width*0.49,
-                            child: const Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('Product Name Product Name Product Name Product Name',
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(fontWeight:FontWeight.bold),
-                                ),
-                                Text('Product details',maxLines: 1,overflow: TextOverflow.ellipsis,),
-                                Spacer(),
-                                Text('\$ 5666.00',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18.0,
-                                    color: Colors.deepPurple
+                            SizedBox(
+                              width: Get.width*0.49,
+                              child: const Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Product Name Product Name Product Name Product Name',
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(fontWeight:FontWeight.bold),
                                   ),
+                                  Text('Product details',maxLines: 1,overflow: TextOverflow.ellipsis,),
+                                  Spacer(),
+                                  Text('\$ 5666.00',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18.0,
+                                        color: Colors.deepPurple
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                GestureDetector(
+                                    onTap: (){
+                                      debugPrint("1");
+                                    },
+                                    child: const Icon(Icons.remove_circle,color: Colors.red,)
+                                ),
+
+                                SizedBox(width: Get.width*0.01,),
+                                const Text('1',style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold),),
+                                SizedBox(width: Get.width*0.01,),
+
+                                GestureDetector(
+                                    onTap: (){
+                                      debugPrint("2");
+                                    },
+                                    child: const Icon(Icons.add_circle,color: Colors.green,)
                                 ),
                               ],
                             ),
-                          ),
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              GestureDetector(
-                                  onTap: (){
-                                    debugPrint("1");
-                                  },
-                                  child: const Icon(Icons.remove_circle,color: Colors.red,)
-                              ),
-
-                              SizedBox(width: Get.width*0.01,),
-                              const Text('1',style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold),),
-                              SizedBox(width: Get.width*0.01,),
-
-                              GestureDetector(
-                                  onTap: (){
-                                    debugPrint("2");
-                                  },
-                                  child: const Icon(Icons.add_circle,color: Colors.green,)
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              );
+                );
+              }
+              else{
+                return Container(
+                  height: Get.height*0.1,
+                );
+              }
             },
         ),
       ),
