@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ecommerce_app/view/screens/add_to_cart_page/add_to_cart_page.dart';
+import 'package:ecommerce_app/view/screens/product_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -23,6 +24,23 @@ class _HomePageState extends State<HomePage> {
     return RefreshIndicator(
      onRefresh: refresh,
       child: Scaffold(
+        appBar: AppBar(
+          leading: const Icon(Icons.menu),
+          backgroundColor: Colors.amber,
+          title: const SearchBarWidgets(),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: GestureDetector(
+                  onTap: (){
+                    debugPrint("Add to Cart");
+                    Get.to(()=> const AddToCartPage());
+                  },
+                  child: const Icon(Icons.shopping_cart)
+              ),
+            ),
+          ],
+        ),
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,12 +49,7 @@ class _HomePageState extends State<HomePage> {
               /// Slider and Search Bar
               SizedBox(
                 height: Get.height*0.34,
-                child: const Stack(
-                  children: [
-                    BannerSliderWidgets(),
-                    SearchBarWidgets(),
-                  ],
-                ),
+                child: const BannerSliderWidgets(),
               ),
 
               Row(
@@ -171,6 +184,7 @@ class ProductGridViewWidgets extends StatelessWidget {
           return GestureDetector(
             onTap: (){
               debugPrint("$index");
+              Get.to(()=> const ProductDetailsPage());
             },
             child: Container(
               padding: const EdgeInsets.all(5),
@@ -291,48 +305,24 @@ class SearchBarWidgets extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      top: Get.height * 0.04,
+    return GestureDetector(
+      onTap: () {
+        debugPrint("Search Page");
+      },
       child: Container(
-        padding: const EdgeInsets.all(5),
         alignment: Alignment.center,
-        width: Get.width,
-        height: 48,
-        color: Colors.amber,
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        height: Get.height*0.06,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.white,
+        ),
+        width: Get.width * 0.8,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-
-            GestureDetector(
-              onTap: () {
-                debugPrint("Search Page");
-              },
-              child: Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.all(5),
-                height: 48,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Colors.white,
-                ),
-                width: Get.width * 0.8,
-                child: Row(
-                  children: [
-                    const Icon(Icons.search),
-                    SizedBox(width: Get.width * 0.04,),
-                    const Text('Search Bar'),
-                  ],
-                ),
-              ),
-            ),
-
-            GestureDetector(
-              onTap: (){
-                debugPrint("Add to Cart");
-                Get.to(()=> const AddToCartPage());
-              },
-                child: const Icon(Icons.shopping_cart)
-            ),
+            const Icon(Icons.search),
+            SizedBox(width: Get.width * 0.04,),
+            const Text('Search Bar'),
           ],
         ),
       ),

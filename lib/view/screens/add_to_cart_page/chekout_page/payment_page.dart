@@ -1,7 +1,8 @@
-import 'package:ecommerce_app/resources/assets/app_images/app_images.dart';
 import 'package:ecommerce_app/view/screens/add_to_cart_page/chekout_page/order_confirmation_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../../resources/assets/app_icon/app_icons.dart';
+
 class PaymentPage extends StatefulWidget {
   const PaymentPage({super.key});
 
@@ -30,7 +31,7 @@ class _PaymentPageState extends State<PaymentPage> {
               SizedBox(height: Get.height*0.01,),
               const Divider(),
               PaymentMethodListTile(
-                icon: AppImage.bkash,
+                icon: AppIcon.bkash,
                 paymentMethodName: 'Bkash',
                 widget: const Icon(Icons.arrow_forward),
                 onPressed: (){
@@ -40,7 +41,7 @@ class _PaymentPageState extends State<PaymentPage> {
               const Divider(),
 
               PaymentMethodListTile(
-                icon: AppImage.rocket,
+                icon: AppIcon.rocket,
                 paymentMethodName: 'Rocket',
                 widget: const Icon(Icons.arrow_forward),
                 onPressed: (){
@@ -50,7 +51,7 @@ class _PaymentPageState extends State<PaymentPage> {
               const Divider(),
 
               PaymentMethodListTile(
-                icon: AppImage.nagad,
+                icon: AppIcon.nagad,
                 paymentMethodName: 'Nagad',
                 widget: const Icon(Icons.arrow_forward),
                 onPressed: (){
@@ -65,7 +66,7 @@ class _PaymentPageState extends State<PaymentPage> {
               const Divider(),
 
               PaymentMethodListTile(
-                icon: AppImage.card,
+                icon: AppIcon.card,
                 paymentMethodName: 'Credit/Debit Card',
                 widget: const Icon(Icons.arrow_forward),
                 onPressed: (){
@@ -80,7 +81,7 @@ class _PaymentPageState extends State<PaymentPage> {
               const Divider(),
 
               PaymentMethodListTile(
-                icon: AppImage.stripe,
+                icon: AppIcon.stripe,
                 paymentMethodName: 'Stripe',
                 widget: const Icon(Icons.arrow_forward),
                 onPressed: (){
@@ -90,7 +91,7 @@ class _PaymentPageState extends State<PaymentPage> {
               const Divider(),
 
               PaymentMethodListTile(
-                icon: AppImage.gPay,
+                icon: AppIcon.gPay,
                 paymentMethodName: 'Google Pay',
                 widget: const Icon(Icons.arrow_forward),
                 onPressed: (){
@@ -100,7 +101,7 @@ class _PaymentPageState extends State<PaymentPage> {
               const Divider(),
 
               PaymentMethodListTile(
-                icon: AppImage.applePay,
+                icon: AppIcon.applePay,
                 paymentMethodName: 'Apple Pay',
                 widget: const Icon(Icons.arrow_forward),
                 onPressed: (){
@@ -112,7 +113,7 @@ class _PaymentPageState extends State<PaymentPage> {
 
               PaymentMethodListTile(
                 paymentMethodName: 'Cash On Delivery',
-                icon: AppImage.cashOn,
+                icon: AppIcon.cashOn,
                 widget: const Icon(Icons.arrow_forward),
                 onPressed: (){
                   debugPrint("Cash On Delivery");
