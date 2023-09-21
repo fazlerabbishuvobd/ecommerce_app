@@ -1,6 +1,6 @@
 import 'package:ecommerce_app/view/screens/add_to_cart_page/add_to_cart_page.dart';
-import 'package:ecommerce_app/view/screens/add_to_cart_page/chekout_page/checkout_page.dart';
 import 'package:ecommerce_app/view/screens/add_to_cart_page/chekout_page/payment_page.dart';
+import 'package:ecommerce_app/view/screens/favourite_product_page/favourite_product_page.dart';
 import 'package:ecommerce_app/view/screens/home_page/home_page.dart';
 import 'package:flutter/material.dart';
 class BottomNavBarPage extends StatefulWidget {
@@ -13,7 +13,7 @@ class BottomNavBarPage extends StatefulWidget {
 class _BottomNavBarPageState extends State<BottomNavBarPage> {
   List screens = [
     const HomePage(),
-    const CheckoutPage(),
+    const FavouriteProductPage(),
     const AddToCartPage(),
     const PaymentPage(),
   ];
@@ -31,8 +31,8 @@ class _BottomNavBarPageState extends State<BottomNavBarPage> {
         icon: Icon(Icons.shopping_cart)
     ),
     const BottomNavigationBarItem(
-        label: 'Message',
-        icon: Icon(Icons.message)
+        label: 'Profile',
+        icon: Icon(Icons.person)
     ),
   ];
 

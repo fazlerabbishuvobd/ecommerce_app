@@ -1,6 +1,7 @@
-import 'package:ecommerce_app/view/screens/add_to_cart_page/chekout_page/checkout_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../resources/app_route/app_routes_name.dart';
+
 class AddToCartPage extends StatefulWidget {
   const AddToCartPage({super.key});
 
@@ -139,7 +140,7 @@ class _AddToCartPageState extends State<AddToCartPage> {
                     isCheckoutButtonLoading = true;
                   });
                   await Future.delayed(const Duration(seconds: 1));
-                  Get.to(()=> const CheckoutPage());
+                  Get.toNamed(AppRouteName.checkoutPage);
                   setState(() {
                     isCheckoutButtonLoading = false;
                   });

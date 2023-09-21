@@ -1,5 +1,5 @@
+import 'package:ecommerce_app/resources/app_route/app_routes_name.dart';
 import 'package:ecommerce_app/view/screens/add_to_cart_page/add_to_cart_page.dart';
-import 'package:ecommerce_app/view/screens/add_to_cart_page/chekout_page/checkout_page.dart';
 import 'package:ecommerce_app/view/screens/home_page/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -358,7 +358,7 @@ class BottomPartWidgets extends StatelessWidget {
                 buttonText: 'Buy Now',
                 onPressed: () {
                   debugPrint("Buy Now");
-                  Get.to(()=> const CheckoutPage());
+                  Get.toNamed(AppRouteName.checkoutPage);
                 },
               ),
               SizedBox(width: Get.width*0.02,),
@@ -368,7 +368,7 @@ class BottomPartWidgets extends StatelessWidget {
                 buttonText: 'Add to Cart',
                 onPressed: () {
                   debugPrint("Add to Cart");
-                  Get.to(()=> const AddToCartPage());
+                  Get.toNamed(AppRouteName.addToCartPage);
                 },
               ),
             ],

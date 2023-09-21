@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ecommerce_app/resources/app_constant/app_constant.dart';
-import 'package:ecommerce_app/view/screens/add_to_cart_page/add_to_cart_page.dart';
-import 'package:ecommerce_app/view/screens/product_details_page/product_details_page.dart';
+import 'package:ecommerce_app/resources/app_route/app_routes_name.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -21,7 +20,6 @@ class _HomePageState extends State<HomePage> {
     debugPrint("Refresh");
   }
 
-
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
@@ -36,14 +34,14 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.only(right: 10),
               child: GestureDetector(
                   onTap: (){
-                    debugPrint("Add to Cart");
-                    Get.to(()=> const AddToCartPage());
+                    debugPrint("Notification Page");
                   },
-                  child: const Icon(Icons.shopping_cart)
+                  child: const Icon(Icons.notifications)
               ),
             ),
           ],
         ),
+
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,31 +49,37 @@ class _HomePageState extends State<HomePage> {
 
               /// Slider and Search Bar
               SizedBox(
-                height: Get.height*0.30,
+                height: Get.height*0.25,
                 child: BannerSliderWidgets(
                   itemCount: AppConstants.bannerImageList.length,
                   imageList: AppConstants.bannerImageList,
                 ),
               ),
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('Categories'),
-                  TextButton(
-                    onPressed: () {
-                      debugPrint("See More");
-                    },
-                    child: const Text("See More"),
-                  ),
-                ],
+              Container(
+                alignment: Alignment.center,
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                height: Get.height*0.05,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Categories'),
+                    GestureDetector(
+                      onTap: () {
+                        debugPrint("See More");
+                        Get.toNamed(AppRouteName.allCategoryPage)
+;                    },
+                      child: const Text("See More"),
+                    ),
+                  ],
+                ),
               ),
 
               /// Category
               Container(
                 padding: const EdgeInsets.all(5),
                 width: Get.width,
-                height: Get.height*0.13,
+                height: Get.height*0.14,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -83,7 +87,10 @@ class _HomePageState extends State<HomePage> {
               ),
               SizedBox(height: Get.height*0.02,),
 
-              const Text('Products'),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Text('Products'),
+              ),
               SizedBox(height: Get.height*0.01,),
               const ProductGridViewWidgets(),
               SizedBox(height: Get.height*0.02,),
@@ -133,7 +140,7 @@ class CategoryListViewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: 18,
+      itemCount: AppConstants.bannerImageList.length,
       physics: const BouncingScrollPhysics(),
       scrollDirection: Axis.horizontal,
       itemBuilder: (context, index) {
@@ -144,7 +151,7 @@ class CategoryListViewWidget extends StatelessWidget {
           child: Container(
             alignment: Alignment.center,
             margin: const EdgeInsets.only(right: 10),
-            width: Get.width * 0.2,
+            width: Get.width * 0.3,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(width: 1,color: Colors.black),
@@ -154,12 +161,10 @@ class CategoryListViewWidget extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                  child: Icon(
-                    Icons.ac_unit_outlined,
-                    size: Get.height * 0.08,
-                  ),
+                  child: Image.network(AppConstants.bannerImageList[index],height: Get.height*0.08,fit: BoxFit.fill,),
                 ),
-                Text('$index'),
+                SizedBox(height: Get.height*0.01,),
+                Text('Electronics $index',maxLines: 1,overflow: TextOverflow.ellipsis,),
               ],
             ),
           ),
@@ -192,7 +197,7 @@ class ProductGridViewWidgets extends StatelessWidget {
           return GestureDetector(
             onTap: (){
               debugPrint("$index");
-              Get.to(()=> const ProductDetailsPage());
+              Get.toNamed(AppRouteName.productDetailsPage);
             },
             child: Container(
               padding: const EdgeInsets.all(5),
@@ -271,7 +276,6 @@ class _BannerSliderWidgetsState extends State<BannerSliderWidgets> {
                   height: Get.height,
                   width: Get.width,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
                     image: DecorationImage(
                         image: NetworkImage(widget.imageList![index].toString()),
                       fit: BoxFit.fill

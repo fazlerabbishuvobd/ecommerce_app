@@ -1,4 +1,5 @@
-import 'package:ecommerce_app/view/screens/splash_screen/splash_screen.dart';
+import 'package:ecommerce_app/resources/app_route/app_routes.dart';
+import 'package:ecommerce_app/resources/app_route/app_routes_name.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -19,7 +20,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
         useMaterial3: true,
       ),
-      home: const SplashScreen(),
+      initialRoute: AppRouteName.splashScreen,
+      getPages: AppRoutes.appRoutes(),
     );
   }
 }

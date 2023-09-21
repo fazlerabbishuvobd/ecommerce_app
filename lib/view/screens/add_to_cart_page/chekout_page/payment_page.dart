@@ -1,6 +1,6 @@
-import 'package:ecommerce_app/view/screens/add_to_cart_page/chekout_page/order_confirmation_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../../resources/app_route/app_routes_name.dart';
 import '../../../../resources/assets/app_icon/app_icons.dart';
 
 class PaymentPage extends StatefulWidget {
@@ -117,7 +117,7 @@ class _PaymentPageState extends State<PaymentPage> {
                 widget: const Icon(Icons.arrow_forward),
                 onPressed: (){
                   debugPrint("Cash On Delivery");
-                  Get.offAll(()=> const OrderConfirmationPage());
+                  Get.offAllNamed(AppRouteName.orderConfirmPage);
                 },
               ),
               const Divider(),

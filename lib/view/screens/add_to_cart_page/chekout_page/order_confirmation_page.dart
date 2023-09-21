@@ -1,6 +1,7 @@
-import 'package:ecommerce_app/view/screens/bottom_navbar/bottom_navbar_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../../../resources/app_route/app_routes_name.dart';
 class OrderConfirmationPage extends StatefulWidget {
   const OrderConfirmationPage({super.key});
 
@@ -38,7 +39,7 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                     isButtonLoading = true;
                   });
                   await Future.delayed(const Duration(seconds: 2));
-                  Get.offAll(()=> const BottomNavBarPage());
+                  Get.offAllNamed(AppRouteName.bottomNavBarPage);
                   setState(() {
                     isButtonLoading = false;
                   });

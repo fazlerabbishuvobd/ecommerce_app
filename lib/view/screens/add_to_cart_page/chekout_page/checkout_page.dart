@@ -1,7 +1,8 @@
-import 'package:ecommerce_app/view/screens/add_to_cart_page/chekout_page/address_page/address_page.dart';
-import 'package:ecommerce_app/view/screens/add_to_cart_page/chekout_page/payment_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../../../resources/app_route/app_routes_name.dart';
+
 class CheckoutPage extends StatefulWidget {
   const CheckoutPage({super.key});
 
@@ -56,7 +57,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
               GestureDetector(
                 onTap: (){
                   debugPrint("Choose address");
-                  Get.to(()=> const AddressSetupPage());
+                  Get.toNamed(AppRouteName.addressPage);
                 },
                   child: const DeliveryInfoWidgets()
               ),
@@ -202,7 +203,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     isOrderButtonLoading = true;
                   });
                   await Future.delayed(const Duration(seconds: 2));
-                  Get.offAll(()=> const PaymentPage());
+                  Get.toNamed(AppRouteName.paymentPage);
                   setState(() {
                     isOrderButtonLoading = false;
                   });
