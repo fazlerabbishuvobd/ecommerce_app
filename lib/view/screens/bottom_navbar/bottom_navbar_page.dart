@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/utils/app_style.dart';
 import 'package:ecommerce_app/view/screens/add_to_cart_page/add_to_cart_page.dart';
 import 'package:ecommerce_app/view/screens/add_to_cart_page/chekout_page/payment_page.dart';
 import 'package:ecommerce_app/view/screens/favourite_product_page/favourite_product_page.dart';
@@ -20,7 +21,7 @@ class _BottomNavBarPageState extends State<BottomNavBarPage> {
   List<BottomNavigationBarItem> navBarItem = [
     const BottomNavigationBarItem(
         label: 'Home',
-        icon: Icon(Icons.home)
+        icon: Icon(Icons.home),
     ),
     const BottomNavigationBarItem(
         label: 'Favourite',
@@ -55,6 +56,8 @@ class _BottomNavBarPageState extends State<BottomNavBarPage> {
         unselectedItemColor: Colors.black.withOpacity(0.5),
         showUnselectedLabels: true,
         type: BottomNavigationBarType.fixed,
+        selectedLabelStyle: AppStyle.playFontBold,
+        unselectedLabelStyle: AppStyle.playFont,
       ),
     );
   }

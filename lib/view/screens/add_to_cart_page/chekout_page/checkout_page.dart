@@ -1,7 +1,7 @@
+import 'package:ecommerce_app/utils/app_style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../../resources/app_route/app_routes_name.dart';
+import '../../../../resources/routes/app_routes_name.dart';
 
 class CheckoutPage extends StatefulWidget {
   const CheckoutPage({super.key});
@@ -18,42 +18,43 @@ class _CheckoutPageState extends State<CheckoutPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Checkout Page"),
+        title: Text("Checkout",style: AppStyle.playFontBold.copyWith(fontSize: 18),),
         centerTitle: true,
         backgroundColor: Colors.amber,
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Container(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(AppStyle.padding10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                margin: const EdgeInsets.only(bottom: 10),
+                padding: const EdgeInsets.symmetric(horizontal: AppStyle.padding10),
+                margin: const EdgeInsets.only(bottom: AppStyle.padding10),
                 height: Get.height*0.06,
                 width: Get.width,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(AppStyle.radius10),
                   color: Colors.amber.withOpacity(0.3),
                 ),
                 child: Row(
                   children: [
                     const Icon(Icons.info_outline,color: Colors.red,),
-                    SizedBox(width: Get.width*0.02,),
-                    const Expanded(
+                    AppStyle.width20,
+                    Expanded(
                         child: Text("Before making an order, make sure the address is correct and match your current address",
+                          style: AppStyle.playFont,
                           textAlign: TextAlign.justify
                         )
                     ),
                   ],
                 ),
               ),
+              AppStyle.height10,
 
-              const Text("Delivery Information",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-              ),
+              Text("Delivery Information", style: AppStyle.playFont16Bold,),
+
               GestureDetector(
                 onTap: (){
                   debugPrint("Choose address");
@@ -61,9 +62,11 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 },
                   child: const DeliveryInfoWidgets()
               ),
-              SizedBox(height: Get.height*0.04,),
+              AppStyle.height20,
 
-              const Text('Item Information',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
+              Text('Item Information',style: AppStyle.playFont16Bold),
+              AppStyle.height10,
+
               SizedBox(
                 width: Get.width,
                 child: ListView.builder(
@@ -84,23 +87,27 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                 borderRadius: BorderRadius.circular(10),
                                 child: Image.network('https://play-lh.googleusercontent.com/C9CAt9tZr8SSi4zKCxhQc9v4I6AOTqRmnLchsu1wVDQL0gsQ3fmbCVgQmOVM1zPru8UH=w240-h480-rw',height: Get.height*0.13,fit: BoxFit.fill,),
                               ),
-                              SizedBox(width: Get.width*0.02,),
+                              AppStyle.width20,
 
-                              const Expanded(
+                              Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text("Product Name Product Name Product Name Product Name",
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(fontWeight: FontWeight.bold),
+                                      style: AppStyle.playFontBold
                                     ),
-                                    Text("Details",maxLines: 1,overflow: TextOverflow.ellipsis,),
+                                    Text("Details",
+                                      style: AppStyle.playFont,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text("12300 Tk",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.deepOrange),),
-                                        Text("Qty: 4",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.deepOrange))
+                                        Text("12300 Tk",style: AppStyle.playFontBold.copyWith(color: Colors.deepOrange)),
+                                        Text("Qty: 4",style: AppStyle.playFontBold.copyWith(color: Colors.deepOrange))
                                       ],
                                     )
                                   ],
@@ -113,13 +120,14 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     },
                 ),
               ),
-              SizedBox(height: Get.height*0.04,),
+              AppStyle.height20,
 
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Delivery Type',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
-                  SizedBox(height: Get.height*0.01,),
+                  Text('Delivery Type',style: AppStyle.playFont16Bold),
+                  AppStyle.height10,
+
                   SizedBox(
                     width: Get.width,
                     height: Get.height*0.1,
@@ -136,26 +144,26 @@ class _CheckoutPageState extends State<CheckoutPage> {
                               });
                             },
                             child: Container(
-                              margin: const EdgeInsets.only(right: 10),
+                              margin: const EdgeInsets.only(right: AppStyle.padding10),
                               alignment: Alignment.center,
-                              padding: const EdgeInsets.all(5),
+                              padding: const EdgeInsets.all(AppStyle.padding5),
                               height: Get.height*0.08,
                               width: Get.width*0.5,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(AppStyle.radius10),
                                 border: Border.all(width: 1,color: Colors.black),
                                 color: selectedDeliveryType == index? Colors.amber:Colors.transparent,
                               ),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  index==0?const Text("Standard Delivery - 89TK"):index==1?
-                                  const Text("Fastest Delivery - 90TK"):
-                                  const Text("Express Delivery - 98TK"),
+                                  index==0? Text("Standard Delivery - 90TK",style: AppStyle.playFontBold):
+                                  index==1? Text("Fastest Delivery - 120 TK",style: AppStyle.playFontBold):
+                                  Text("Express Delivery - 150 TK",style: AppStyle.playFontBold),
 
-                                  index==0?const Text("Day = 7"):index==1?
-                                  const Text("Day = 2-3 "):
-                                  const Text("Tomorrow"),
+                                  index==0? Text("Day = 7",style: AppStyle.playFont):
+                                  index==1? Text("Day = 2-3 ",style: AppStyle.playFont):
+                                  Text("Tomorrow",style: AppStyle.playFont),
                                 ],
                               ),
                             ),
@@ -165,10 +173,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   ),
                 ],
               ),
-              SizedBox(height: Get.height*0.02,),
+              AppStyle.height20,
 
               const PromotionsWidgets(),
-              SizedBox(height: Get.height*0.02,),
+              AppStyle.height20,
 
 
               const OrderSummeryWidgets(),
@@ -185,12 +193,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const Column(
+            Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Total"),
-                Text("456250.00 TK",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
+                Text("Total",style: AppStyle.playFontBold,),
+                Text("456250.00 TK",style: AppStyle.playFont16Bold),
               ],
             ),
 
@@ -210,11 +218,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 },
                 color: Colors.white,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(AppStyle.radius10),
                 ),
                 child: isOrderButtonLoading? const Center(
-                  child: CircularProgressIndicator(),
-                ): const Text("Pay Order",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                  child: CircularProgressIndicator(),):
+                  Text("Pay Order",style: AppStyle.playFont16Bold.copyWith(color: Colors.deepOrange),
+                ),
               ),
             )
           ],
@@ -223,6 +232,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
     );
   }
 }
+
+
 
 class PromotionsWidgets extends StatelessWidget {
   const PromotionsWidgets({
@@ -234,34 +245,35 @@ class PromotionsWidgets extends StatelessWidget {
     return Card(
       elevation: 5,
       child: Container(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(AppStyle.padding10),
         height: Get.height*0.24,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('Promotions',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
+            Text('Promotions',style: AppStyle.playFont16Bold),
             const Divider(),
-            SizedBox(
-              height: 40,
-              width: Get.width,
-              child: const ListTile(
-                leading: Icon(Icons.airplane_ticket),
-                title: Text("Voucher"),
-                trailing: Icon(Icons.arrow_forward_ios_outlined),
-              ),
-            ),
-            SizedBox(height: Get.height*0.02,),
 
             SizedBox(
-              height: 40,
+              height: Get.height*0.04,
               width: Get.width,
-              child: const ListTile(
-                leading: Icon(Icons.airplane_ticket),
-                title: Text("Promo Code"),
-                trailing: Icon(Icons.arrow_forward_ios_outlined),
+              child: ListTile(
+                leading: const Icon(Icons.airplane_ticket),
+                title: Text("Voucher",style: AppStyle.playFont16,),
+                trailing: const Icon(Icons.arrow_forward_ios_outlined),
               ),
             ),
-            SizedBox(height: Get.height*0.04,),
+            AppStyle.height20,
+
+            SizedBox(
+              height: Get.height*0.04,
+              width: Get.width,
+              child: ListTile(
+                leading: const Icon(Icons.money),
+                title: Text("Promo Code",style: AppStyle.playFont16,),
+                trailing: const Icon(Icons.arrow_forward_ios_outlined),
+              ),
+            ),
+            AppStyle.height20,
           ],
         ),
       ),
@@ -279,18 +291,19 @@ class OrderSummeryWidgets extends StatelessWidget {
     return Card(
       elevation: 5,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(AppStyle.radius10),
       ),
       child: Container(
         height: Get.height*0.25,
         width: Get.width,
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(AppStyle.padding10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('Order Summery',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
+            Text('Order Summery',style: AppStyle.playFont16Bold),
             const Divider(),
-            SizedBox(height: Get.height*0.02,),
+            AppStyle.height20,
+
             const OrderSummeryInfo(
               name: 'Item Total',
               amount: '1234560.00',
@@ -332,8 +345,8 @@ class OrderSummeryInfo extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-      Text('$name'),
-      Text('$amount TK'),
+      Text('$name',style: AppStyle.playFontBold,),
+      Text('$amount TK',style: AppStyle.playFont,),
       ],
     );
   }
@@ -348,11 +361,11 @@ class DeliveryInfoWidgets extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: Get.height*0.01),
-      padding: const EdgeInsets.all(10),
-      height: Get.height*0.22,
+      padding: const EdgeInsets.all(AppStyle.padding10),
+      height: Get.height*0.15,
       width: Get.width,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(AppStyle.radius10),
         border: Border.all(width: 1,color: Colors.black)
       ),
       child: Row(
@@ -406,10 +419,14 @@ class DeliveryInfoListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(icon,size: 28,),
-        SizedBox(width: Get.width*0.02,),
+        Icon(icon,size: Get.height*0.025,),
+        AppStyle.width20,
         Expanded(
-            child: Text('$text',maxLines: line,overflow: TextOverflow.ellipsis,)
+            child: Text('$text',
+              style: AppStyle.playFont,
+              maxLines: line,
+              overflow: TextOverflow.ellipsis
+            )
         ),
       ],
     );

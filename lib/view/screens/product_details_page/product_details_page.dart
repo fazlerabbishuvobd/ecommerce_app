@@ -1,8 +1,11 @@
-import 'package:ecommerce_app/resources/app_route/app_routes_name.dart';
+import 'package:ecommerce_app/resources/app_constant/app_constant.dart';
+import 'package:ecommerce_app/utils/app_style.dart';
 import 'package:ecommerce_app/view/screens/add_to_cart_page/add_to_cart_page.dart';
 import 'package:ecommerce_app/view/screens/home_page/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../resources/routes/app_routes_name.dart';
+
 class ProductDetailsPage extends StatefulWidget {
   const ProductDetailsPage({super.key});
 
@@ -21,7 +24,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
         backgroundColor: Colors.amber,
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 10),
+            padding: const EdgeInsets.only(right: AppStyle.padding10),
             child: GestureDetector(
               onTap: (){
                 Get.to(()=> const AddToCartPage());
@@ -36,85 +39,94 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+
             Container(
               alignment: Alignment.center,
-              height: Get.height*0.4,
-              child: const BannerSliderWidgets(
+              height: Get.height*0.3,
+              child: BannerSliderWidgets(
+                itemCount: AppConstants.bannerImageList.length,
+                imageList: AppConstants.bannerImageList,
                 isVisibleImageNumber: true,
+                isVisibleSliderDot: false,
               ),
             ),
-            SizedBox(height: Get.height*0.02,),
+            AppStyle.height20,
 
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: AppStyle.padding10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Row(
+
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("4560.00 TK"),
+                      Text("4560.00 TK",style: AppStyle.playFont16Bold.copyWith(color: Colors.deepOrange)),
                       
                       /// Favourite Share Button
-                      FavouriteShareButtonWidgets(),
+                      const FavouriteShareButtonWidgets(),
                     ],
                   ),
-                  const Row(
+                  Row(
                     children: [
-                      Text("1230.00 Tk",style: TextStyle(decoration: TextDecoration.lineThrough),),
-                      SizedBox(width: 10,),
-                      Text("5%"),
+                      Text("1230.00 Tk",style: AppStyle.playFont.copyWith(decoration: TextDecoration.lineThrough),),
+                      AppStyle.width10,
+                      Text("5%",style: AppStyle.playFontBold,),
                     ],
                   ),
-                  SizedBox(height: Get.height*0.02,),
+                  AppStyle.height20,
 
-                  const Text("Product Name",maxLines: 3,overflow: TextOverflow.ellipsis,),
-                  SizedBox(height: Get.height*0.02,),
+                  Text("Product Name",
+                    style: AppStyle.playFont16Bold,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis
+                  ),
+                  AppStyle.height10,
 
                   /// Rating Sold Favourite
                   const RatingSoldFavouriteWidgets(),
-                  SizedBox(height: Get.height*0.02,),
+                  AppStyle.height20,
 
-                  const Text("Product Variation"),
-                  SizedBox(height: Get.height*0.01,),
+                  Text("Product Variation",style: AppStyle.playFont16Bold),
+                  AppStyle.height10,
                   const ProductVariationWidgets(),
-                  SizedBox(height: Get.height*0.02,),
+                  AppStyle.height20,
 
-                  const Text("Delivery"),
-                  SizedBox(height: Get.height*0.01,),
+                  Text("Delivery",style: AppStyle.playFont16Bold),
+                  AppStyle.height10,
                   const DeliveryListViewBuilderWidgets(),
-                  SizedBox(height: Get.height*0.02,),
+                  AppStyle.height20,
 
-                  const Text("Services"),
-                  SizedBox(height: Get.width*0.01,),
+                  Text("Services",style: AppStyle.playFont16Bold),
+                  AppStyle.height10,
                   Row(
                     children: [
                       const Icon(Icons.do_not_disturb_on_total_silence),
-                      SizedBox(width: Get.width*0.02,),
-                      const Text('7 Days Return'),
+                      AppStyle.width20,
+                      Text('7 Days Return',style: AppStyle.playFont),
                     ],
                   ),
                   Row(
                     children: [
                       const Icon(Icons.do_not_disturb_on_total_silence),
-                      SizedBox(width: Get.width*0.02,),
-                      const Text('Warranty not available'),
+                      AppStyle.width20,
+                      Text('Warranty not available',style: AppStyle.playFont),
                     ],
                   ),
-                  SizedBox(height: Get.height*0.02,),
+                  AppStyle.height20,
 
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Review & Ratings"),
-                      Text("View All"),
+                      Text("Review & Ratings",style: AppStyle.playFont16Bold),
+                      Text("View All",style: AppStyle.playFont16Bold),
                     ],
                   ),
-                  SizedBox(height: Get.height*0.02,),
+                  AppStyle.height20,
 
                   /// Review ListView
                   const ReviewRatingListWidgets(),
-                  SizedBox(height: Get.height*0.02,),
+                  AppStyle.height20,
 
                   /// View More Review Button
                   Center(
@@ -127,17 +139,12 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       },
                     ),
                   ),
-                  SizedBox(height: Get.height*0.04,),
+                  AppStyle.height20,
 
                   /// Product Descriptions
-                  const Text("Product Descriptions",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      fontSize: 16
-                    ),
-                  ),
-                  const Text("Product Descriptions Product Descriptions Product Descriptions Product Descriptions"),
-                  SizedBox(height: Get.height*0.2,),
+                  Text("Product Descriptions", style: AppStyle.playFont16Bold,),
+                  Text("Product Descriptions Product Descriptions Product Descriptions Product Descriptions",style: AppStyle.playFont),
+                  SizedBox(height: Get.height*0.2),
                 ],
               ),
             ),
@@ -165,7 +172,7 @@ class FavouriteShareButtonWidgets extends StatelessWidget {
           },
             child: const Icon(Icons.favorite_border_outlined)
         ),
-        SizedBox(width: Get.width*0.02,),
+        AppStyle.width20,
         GestureDetector(
           onTap: (){
             debugPrint("Share Product");
@@ -193,8 +200,8 @@ class RatingSoldFavouriteWidgets extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Icon(Icons.star,color: Colors.amber,),
-              SizedBox(width: Get.width*0.01,),
-              const Text("4/5"),
+              AppStyle.width10,
+              Text("4.25/5",style: AppStyle.playFontBold,),
             ],
           ),
         ),
@@ -205,9 +212,9 @@ class RatingSoldFavouriteWidgets extends StatelessWidget {
           widget: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text('Sold'),
-              SizedBox(width: Get.width*0.01,),
-              const Text("450"),
+              Text('Sold',style: AppStyle.playFontBold,),
+              AppStyle.width10,
+              Text("450",style: AppStyle.playFontBold),
             ],
           ),
         ),
@@ -219,8 +226,8 @@ class RatingSoldFavouriteWidgets extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Icon(Icons.favorite_border,color: Colors.amber,),
-              SizedBox(width: Get.width*0.01,),
-              const Text("560"),
+              AppStyle.width20,
+              Text("560",style: AppStyle.playFontBold),
             ],
           ),
         ),
@@ -246,7 +253,7 @@ class CustomContainerWidgets extends StatelessWidget {
       height: Get.height*0.05,
         width: Get.width*0.3,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(AppStyle.radius10),
           color: color
         ),
         child: widget,
@@ -275,11 +282,11 @@ class ProductVariationWidgets extends StatelessWidget {
               debugPrint("$index");
             },
             child: Container(
-              margin: const EdgeInsets.only(right: 10),
+              margin: const EdgeInsets.only(right: AppStyle.padding10),
               height: Get.height,
               width: Get.width*0.2,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(AppStyle.radius10),
                 color: Colors.amber
               ),
               child: const Icon(Icons.image),
@@ -305,11 +312,11 @@ class ReviewRatingListWidgets extends StatelessWidget {
         itemBuilder: (context, index) {
           return Column(
             children: [
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Fazle Rabbi"),
-                  Row(
+                  Text("Fazle Rabbi",style: AppStyle.playFontBold),
+                  const Row(
                     children: [
                       Icon(Icons.star),
                       Icon(Icons.star),
@@ -320,13 +327,13 @@ class ReviewRatingListWidgets extends StatelessWidget {
                   )
                 ],
               ),
-              SizedBox(height: Get.height*0.01,),
+              AppStyle.height10,
 
-              const Text("Review Details Review Details Review Details Review Details Review Details"),
-              SizedBox(height: Get.height*0.01,),
+              Text("Review Details Review Details Review Details Review Details Review Details",style: AppStyle.playFont),
+              AppStyle.height10,
 
               const ReviewImageSliderWidgets(),
-              SizedBox(height: Get.height*0.02,),
+              AppStyle.height20,
             ],
           );
         },
@@ -342,7 +349,7 @@ class BottomPartWidgets extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: AppStyle.padding10),
       height: Get.height*0.08,
       color: Colors.deepOrange,
       child: Row(
@@ -361,7 +368,8 @@ class BottomPartWidgets extends StatelessWidget {
                   Get.toNamed(AppRouteName.checkoutPage);
                 },
               ),
-              SizedBox(width: Get.width*0.02,),
+              AppStyle.width10,
+
               CustomMaterialButton(
                 color: Colors.white,
                 width: Get.width*0.3,
@@ -399,11 +407,11 @@ class ReviewImageSliderWidgets extends StatelessWidget {
                 debugPrint("$index");
               },
               child: Container(
-                margin: const EdgeInsets.only(right: 10),
+                margin: const EdgeInsets.only(right: AppStyle.padding10),
                 height: Get.height,
                 width: Get.width*0.25,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(AppStyle.radius10),
                   color: Colors.amber
                 ),
                 child: const Icon(Icons.shop),
@@ -431,25 +439,25 @@ class DeliveryListViewBuilderWidgets extends StatelessWidget {
         itemCount: 3,
         itemBuilder: (context, index) {
           return Container(
-            margin: const EdgeInsets.only(right: 10),
+            margin: const EdgeInsets.only(right: AppStyle.padding10),
             alignment: Alignment.center,
-            padding: const EdgeInsets.all(5),
+            padding: const EdgeInsets.all(AppStyle.padding5),
             height: Get.height*0.08,
             width: Get.width*0.5,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(AppStyle.radius10),
               border: Border.all(width: 1,color: Colors.black),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                index==0?const Text("Standard Delivery - 89TK"):index==1?
-                const Text("Fastest Delivery - 90TK"):
-                const Text("Express Delivery - 98TK"),
+                index==0?Text("Standard Delivery - 85 TK",style: AppStyle.playFontBold,):
+                index==1? Text("Fastest Delivery - 120 TK",style: AppStyle.playFontBold):
+                Text("Express Delivery - 150 TK",style: AppStyle.playFontBold),
 
-                index==0?const Text("Day = 7"):index==1?
-                const Text("Day = 2-3 "):
-                const Text("Tomorrow"),
+                index==0?Text("Day = 7",style: AppStyle.playFont):
+                index==1?Text("Day = 2-3 ",style: AppStyle.playFont):
+                Text("Tomorrow",style: AppStyle.playFont),
               ],
             ),
           );
@@ -482,9 +490,9 @@ class CustomMaterialButton extends StatelessWidget {
       height: Get.height*0.06,
       minWidth: width,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10)
+        borderRadius: BorderRadius.circular(AppStyle.radius10)
       ),
-      child: Text('$buttonText'),
+      child: Text('$buttonText',style: AppStyle.playFont16Bold,),
     );
   }
 }

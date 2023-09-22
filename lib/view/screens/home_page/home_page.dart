@@ -1,8 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ecommerce_app/resources/app_constant/app_constant.dart';
-import 'package:ecommerce_app/resources/app_route/app_routes_name.dart';
+import 'package:ecommerce_app/utils/app_style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../resources/routes/app_routes_name.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -31,7 +32,7 @@ class _HomePageState extends State<HomePage> {
           title: const SearchBarWidgets(),
           actions: [
             Padding(
-              padding: const EdgeInsets.only(right: 10),
+              padding: const EdgeInsets.only(right: AppStyle.padding10),
               child: GestureDetector(
                   onTap: (){
                     debugPrint("Notification Page");
@@ -47,29 +48,32 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
-              /// Slider and Search Bar
+              /// Banner Slider
               SizedBox(
                 height: Get.height*0.25,
                 child: BannerSliderWidgets(
+                  isVisibleSliderDot: true,
+                  isVisibleImageNumber: false,
                   itemCount: AppConstants.bannerImageList.length,
                   imageList: AppConstants.bannerImageList,
                 ),
               ),
 
+              /// Category
               Container(
                 alignment: Alignment.center,
-                padding: const EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.symmetric(horizontal: AppStyle.padding10),
                 height: Get.height*0.05,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Categories'),
+                    Text('Categories', style: AppStyle.playFont16Bold),
                     GestureDetector(
                       onTap: () {
                         debugPrint("See More");
-                        Get.toNamed(AppRouteName.allCategoryPage)
-;                    },
-                      child: const Text("See More"),
+                        Get.toNamed(AppRouteName.allCategoryPage);
+                      },
+                      child: Text("See More", style: AppStyle.playFont16Bold),
                     ),
                   ],
                 ),
@@ -77,24 +81,28 @@ class _HomePageState extends State<HomePage> {
 
               /// Category
               Container(
-                padding: const EdgeInsets.all(5),
+                padding: const EdgeInsets.all(AppStyle.padding5),
                 width: Get.width,
                 height: Get.height*0.14,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(AppStyle.radius10),
                 ),
                 child: const CategoryListViewWidget(),
               ),
-              SizedBox(height: Get.height*0.02,),
+              AppStyle.height20,
 
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: Text('Products'),
+              /// Product List
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: AppStyle.padding10),
+                child: Text('Products', style: AppStyle.playFont16Bold),
               ),
-              SizedBox(height: Get.height*0.01,),
-              const ProductGridViewWidgets(),
-              SizedBox(height: Get.height*0.02,),
+              AppStyle.height10,
+              ProductGridViewWidgets(
+                itemCount: AppConstants.bannerImageList.length,
+              ),
+              AppStyle.height20,
 
+              /// Load More Button
               Center(
                 child: SizedBox(
                   width: Get.width*0.8,
@@ -111,16 +119,15 @@ class _HomePageState extends State<HomePage> {
                     height: 48,
                     color: Colors.amber,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)
+                        borderRadius: BorderRadius.circular(AppStyle.radius10)
                     ),
                     child: isButtonLoading?
                     const Center(child: CircularProgressIndicator(),
-                    ):const Text("Load More"),
+                    ):Text("Load More", style: AppStyle.playFont16Bold),
                   ),
                 ),
               ),
-
-              SizedBox(height: Get.height*0.02,),
+              AppStyle.height20,
 
             ],
           ),
@@ -150,21 +157,25 @@ class CategoryListViewWidget extends StatelessWidget {
           },
           child: Container(
             alignment: Alignment.center,
-            margin: const EdgeInsets.only(right: 10),
+            margin: const EdgeInsets.only(right: AppStyle.padding10),
             width: Get.width * 0.3,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(AppStyle.radius10),
                 border: Border.all(width: 1,color: Colors.black),
                 color: Colors.white
             ),
             child: Column(
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(AppStyle.radius10),
                   child: Image.network(AppConstants.bannerImageList[index],height: Get.height*0.08,fit: BoxFit.fill,),
                 ),
-                SizedBox(height: Get.height*0.01,),
-                Text('Electronics $index',maxLines: 1,overflow: TextOverflow.ellipsis,),
+                AppStyle.height10,
+                Text('Electronics $index',
+                  style: AppStyle.playFont16,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ],
             ),
           ),
@@ -177,66 +188,87 @@ class CategoryListViewWidget extends StatelessWidget {
 class ProductGridViewWidgets extends StatelessWidget {
   const ProductGridViewWidgets({
     super.key,
+    required this.itemCount,
   });
 
+  final int itemCount;
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: 21,
+      itemCount: itemCount,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        crossAxisSpacing: 5,
-        mainAxisSpacing: 5,
-        childAspectRatio: 1.0,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
+        childAspectRatio: 0.8,
       ),
       itemBuilder: (context, index) {
-        if (index < 20) {
           return GestureDetector(
             onTap: (){
               debugPrint("$index");
               Get.toNamed(AppRouteName.productDetailsPage);
             },
             child: Container(
-              padding: const EdgeInsets.all(5),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.amber.withOpacity(0.5),
+                borderRadius: BorderRadius.circular(AppStyle.radius10),
+
               ),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Expanded(
-                      child: Icon(Icons.ac_unit_outlined)
+                  ClipRRect(
+                      borderRadius: const BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10)),
+                      child: Image.network(AppConstants.bannerImageList[index],height: Get.height*0.15,fit: BoxFit.fill,)
                   ),
-                  Text('Product Name $index', maxLines: 2, overflow: TextOverflow.ellipsis,),
+                  Padding(
+                    padding: const EdgeInsets.all(AppStyle.padding5),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Apple watch ultra pro - max 256 GB 7 pro 9 240 GB Apple',
+                          style: AppStyle.playFontBold,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        AppStyle.height10,
+                        Row(
+                          children: [
+                            Row(
+                              children: [
+                                const Icon(Icons.star,color: Colors.deepOrange,),
+                                Text('4.5/5(61)',style: AppStyle.playFont,),
+                              ],
+                            ),
+                            AppStyle.width20,
+                            const Text('Sold - 1.8K'),
+                          ],
+                        ),
+                        AppStyle.height10,
 
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text('Rating 4.5/5(61)'),
-                      Text('Sold - 1.8K'),
-                    ],
-                  ),
-
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text('\$45.00'),
-                      Text('\$50.00'),
-                    ],
+                        Row(
+                          children: [
+                            Text('\$45.00',
+                                style: AppStyle.playFont16Bold.copyWith(color: Colors.deepOrange)
+                            ),
+                            AppStyle.width20,
+                            Text('\$50.00',
+                              style: AppStyle.playFont.copyWith(
+                                decoration: TextDecoration.lineThrough,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
           );
-        } else {
-          return const Center(
-              child: Text('No Available')
-          );
         }
-      },
     );
   }
 }
@@ -244,20 +276,22 @@ class ProductGridViewWidgets extends StatelessWidget {
 class BannerSliderWidgets extends StatefulWidget {
   const BannerSliderWidgets({
     Key? key,
-    this.isVisibleImageNumber,
-    this.itemCount,
-    this.imageList,
+    required this.isVisibleImageNumber,
+    required this.isVisibleSliderDot,
+    required this.itemCount,
+    required this.imageList,
   }) : super(key: key);
 
-  final bool? isVisibleImageNumber;
-  final int? itemCount;
-  final List? imageList;
+  final bool isVisibleImageNumber,isVisibleSliderDot;
+  final int itemCount;
+  final List imageList;
 
   @override
   State<BannerSliderWidgets> createState() => _BannerSliderWidgetsState();
 }
 
 class _BannerSliderWidgetsState extends State<BannerSliderWidgets> {
+  final carouselController = CarouselController();
   int _currentImageIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -270,15 +304,22 @@ class _BannerSliderWidgetsState extends State<BannerSliderWidgets> {
             height: Get.height,
             width: Get.width,
             child: CarouselSlider.builder(
+              carouselController: carouselController,
               itemCount: widget.itemCount,
               itemBuilder: (context, index, realIndex) {
-                return Container(
-                  height: Get.height,
-                  width: Get.width,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: NetworkImage(widget.imageList![index].toString()),
-                      fit: BoxFit.fill
+                return GestureDetector(
+                  onTap: () {
+                    debugPrint("${index+1}");
+                    Get.toNamed(AppRouteName.productFullImagePage);
+                  },
+                  child: Container(
+                    height: Get.height,
+                    width: Get.width,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: NetworkImage(widget.imageList[index].toString()),
+                        fit: BoxFit.fill
+                      ),
                     ),
                   ),
                 );
@@ -301,37 +342,38 @@ class _BannerSliderWidgetsState extends State<BannerSliderWidgets> {
             bottom: 0,
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: widget.imageList!.map((item){
-                    int index = widget.imageList!.indexOf(item);
-                    return GestureDetector(
-                      onTap: (){
-                        debugPrint("$index");
-                        setState(() {
-                          _currentImageIndex =index;
-                        });
-                      },
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 450),
-                        margin:const EdgeInsets.symmetric(horizontal: 5,vertical: 2),
-                        height: 10.0,
-                        width: _currentImageIndex == index?30.0:15.0,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: _currentImageIndex == index? Colors.amber:Colors.white60,
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                ),
-                SizedBox(height: Get.height*0.02,),
                 Visibility(
-                  visible: widget.isVisibleImageNumber??false,
+                  visible: widget.isVisibleSliderDot,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: widget.imageList.map((item){
+                      int index = widget.imageList.indexOf(item);
+                      return GestureDetector(
+                        onTap: (){
+                          debugPrint("$index");
+                          carouselController.jumpToPage(index);
+                        },
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 450),
+                          margin:const EdgeInsets.symmetric(horizontal: AppStyle.padding5,vertical: 2),
+                          height: 10.0,
+                          width: _currentImageIndex == index?30.0:15.0,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: _currentImageIndex == index? Colors.amber:Colors.white60,
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+                AppStyle.height20,
+                Visibility(
+                  visible: widget.isVisibleImageNumber,
                   child: Column(
                     children: [
-                      Text('${_currentImageIndex+1}/${widget.imageList!.length.toString()}'),
-                      SizedBox(height: Get.height*0.02,),
+                      Text('${_currentImageIndex+1}/${widget.imageList.length.toString()}',style: AppStyle.playFontBold,),
+                      AppStyle.height20,
                     ],
                   ),
                 ),
@@ -354,21 +396,22 @@ class SearchBarWidgets extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         debugPrint("Search Page");
+        Get.toNamed(AppRouteName.productSearchPage);
       },
       child: Container(
         alignment: Alignment.center,
-        padding: const EdgeInsets.symmetric(horizontal: 10),
+        padding: const EdgeInsets.symmetric(horizontal: AppStyle.padding10),
         height: Get.height*0.06,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(AppStyle.radius10),
           color: Colors.white,
         ),
         width: Get.width * 0.8,
         child: Row(
           children: [
             const Icon(Icons.search),
-            SizedBox(width: Get.width * 0.04,),
-            const Text('Search Bar'),
+            AppStyle.width40,
+            Text('Search Bar', style: AppStyle.playFont.copyWith(fontSize: 18),),
           ],
         ),
       ),

@@ -1,6 +1,8 @@
+import 'package:ecommerce_app/utils/app_style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../resources/app_route/app_routes_name.dart';
+
+import '../../../resources/routes/app_routes_name.dart';
 
 class AddToCartPage extends StatefulWidget {
   const AddToCartPage({super.key});
@@ -15,19 +17,19 @@ class _AddToCartPageState extends State<AddToCartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Row(
+        title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("My Cart"),
-            SizedBox(width: 10,),
-            Icon(Icons.shopping_cart),
+            Text("My Cart",style: AppStyle.playFontBold.copyWith(fontSize: 18),),
+            AppStyle.width20,
+            const Icon(Icons.shopping_cart),
           ],
         ),
         centerTitle: true,
         backgroundColor: Colors.amber,
       ),
       body: Container(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(AppStyle.padding10),
         height: Get.height*0.8,
         child: ListView.builder(
           physics: const BouncingScrollPhysics(),
@@ -35,45 +37,47 @@ class _AddToCartPageState extends State<AddToCartPage> {
             itemBuilder: (context, index) {
               if(index<10){
                 return Card(
-                  margin: EdgeInsets.only(bottom: Get.height*0.02),
+                  margin: EdgeInsets.only(
+                      bottom: Get.height*0.02
+                  ),
                   elevation: 5,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
+                    borderRadius: BorderRadius.circular(AppStyle.radius5),
                   ),
                   child: Container(
-                    padding: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(AppStyle.padding10),
                     height: Get.height*0.15,
-                    width: Get.width,
+                    width: Get.width*0.85,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
                           children: [
                             ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(AppStyle.radius10),
                               child: Image.network('https://play-lh.googleusercontent.com/C9CAt9tZr8SSi4zKCxhQc9v4I6AOTqRmnLchsu1wVDQL0gsQ3fmbCVgQmOVM1zPru8UH=w240-h480-rw',height: Get.height,fit: BoxFit.fill,),
                             ),
-                            SizedBox(width: Get.width*0.02,),
+                            AppStyle.width20,
 
                             SizedBox(
-                              width: Get.width*0.49,
-                              child: const Column(
+                              width: Get.width*0.46,
+                              child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text('Product Name Product Name Product Name Product Name',
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(fontWeight:FontWeight.bold),
+                                    style: AppStyle.playFontBold
                                   ),
-                                  Text('Product details',maxLines: 1,overflow: TextOverflow.ellipsis,),
-                                  Spacer(),
-                                  Text('\$ 5666.00',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18.0,
-                                        color: Colors.deepPurple
-                                    ),
+                                  Text('Product details',
+                                    style: AppStyle.playFont,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.justify,
                                   ),
+                                  const Spacer(),
+
+                                  Text('\$ 5666.00', style: AppStyle.playFont16Bold.copyWith(color: Colors.deepOrange)),
                                 ],
                               ),
                             ),
@@ -88,9 +92,9 @@ class _AddToCartPageState extends State<AddToCartPage> {
                                     child: const Icon(Icons.remove_circle,color: Colors.red,)
                                 ),
 
-                                SizedBox(width: Get.width*0.01,),
-                                const Text('1',style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold),),
-                                SizedBox(width: Get.width*0.01,),
+                                AppStyle.width10,
+                                Text('1',style: AppStyle.playFontBold),
+                                AppStyle.width10,
 
                                 GestureDetector(
                                     onTap: (){
@@ -116,25 +120,25 @@ class _AddToCartPageState extends State<AddToCartPage> {
         ),
       ),
       bottomSheet: Container(
+        padding: const EdgeInsets.all(AppStyle.padding10),
         height: Get.height*0.1,
-        width: Get.width,
         color: Colors.amber,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Column(
+            Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Total"),
-                Text("456250.00 TK",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
+                Text("Total",style: AppStyle.playFontBold,),
+                Text("456250.00 TK",style: AppStyle.playFont16Bold,),
               ],
             ),
 
             SizedBox(
-              height: Get.height*0.06,
-              width: Get.width*0.4,
+              width: Get.width*0.36,
               child: MaterialButton(
+                height: Get.height*0.06,
                 onPressed: ()async{
                   setState(() {
                     isCheckoutButtonLoading = true;
@@ -147,15 +151,15 @@ class _AddToCartPageState extends State<AddToCartPage> {
                 },
                 color: Colors.white,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(AppStyle.radius10),
                 ),
                 child: isCheckoutButtonLoading? const Center(
                   child: CircularProgressIndicator(),
                 ): Row(
                 children: [
-                  const Text("Checkout",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                  Text("Checkout",style: AppStyle.playFont16Bold),
                   SizedBox(width: Get.width*0.01,),
-                  const Text("(120)",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: Colors.red)),
+                  Text("(120)",style: AppStyle.playFont16Bold.copyWith(color: Colors.red)),
                 ],
                 ),
               ),

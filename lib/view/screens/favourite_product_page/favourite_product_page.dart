@@ -1,6 +1,8 @@
-import 'package:ecommerce_app/resources/app_route/app_routes_name.dart';
+import 'package:ecommerce_app/utils/app_style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../../resources/routes/app_routes_name.dart';
 class FavouriteProductPage extends StatefulWidget {
   const FavouriteProductPage({super.key});
 
@@ -16,8 +18,8 @@ class _FavouriteProductPageState extends State<FavouriteProductPage> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text("Favourite Product"),
-            SizedBox(width: Get.width*0.02,),
+            Text("Favourite Product",style: AppStyle.playFont16Bold.copyWith(fontSize: AppStyle.font18),),
+            AppStyle.width20,
             const Icon(Icons.favorite)
           ],
         ),
@@ -25,7 +27,7 @@ class _FavouriteProductPageState extends State<FavouriteProductPage> {
         backgroundColor: Colors.amber,
       ),
       body: Container(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(AppStyle.padding10),
         width: Get.width,
         child: ListView.builder(
           physics: const BouncingScrollPhysics(),
@@ -39,9 +41,9 @@ class _FavouriteProductPageState extends State<FavouriteProductPage> {
                 child: Stack(
                   children: [
                     Container(
-                      margin: const EdgeInsets.only(bottom: 10),
+                      margin: const EdgeInsets.only(bottom: AppStyle.padding10),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(AppStyle.radius10),
                         color: Colors.amber,
                       ),
                       height: Get.height*0.15,
@@ -53,27 +55,34 @@ class _FavouriteProductPageState extends State<FavouriteProductPage> {
                                 height: Get.height,
                                   width: Get.width,
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
+                                    borderRadius: BorderRadius.circular(AppStyle.radius10),
                                     color: Colors.deepOrange,
                                   ),
                                   child: const Icon(Icons.ac_unit_outlined)
                               )
                           ),
-                          SizedBox(width: Get.width*0.02,),
-                          const Expanded(
+                          AppStyle.width10,
+
+                          Expanded(
                               flex: 6,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text("Product Name",maxLines: 3,overflow: TextOverflow.ellipsis,),
-                                  Text("Ratings: 4/5"),
-                                  Text("Sold: 200"),
+                                  Text("Product Name",
+                                    style: AppStyle.playFontBold,
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+
+                                  Text("Ratings: 4/5",style: AppStyle.playFont,),
+                                  Text("Sold: 200",style: AppStyle.playFont,),
+
                                   Row(
                                     children: [
-                                      Text("10230.00 Tk"),
-                                      SizedBox(width: 10,),
-                                      Text("123.00 Tk"),
+                                      Text("10230.00 Tk",style: AppStyle.playFontBold.copyWith(color: Colors.deepOrange),),
+                                      AppStyle.width10,
+                                      Text("123.00 Tk",style: AppStyle.playFont.copyWith(decoration: TextDecoration.lineThrough),),
                                     ],
                                   ),
                                 ],

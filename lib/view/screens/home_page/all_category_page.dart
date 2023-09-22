@@ -1,6 +1,8 @@
 import 'package:ecommerce_app/resources/app_constant/app_constant.dart';
+import 'package:ecommerce_app/utils/app_style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 class AllCategoryPage extends StatefulWidget {
   const AllCategoryPage({super.key});
 
@@ -13,12 +15,12 @@ class _AllCategoryPageState extends State<AllCategoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("All Categories"),
+        title: Text("All Categories",style: AppStyle.playFontBold.copyWith(fontSize: 18),),
         centerTitle: true,
         backgroundColor: Colors.amber,
       ),
       body: Container(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(AppStyle.padding10),
         width: Get.width,
         child: ListView.builder(
           physics: const BouncingScrollPhysics(),
@@ -33,11 +35,11 @@ class _AllCategoryPageState extends State<AllCategoryPage> {
                   children: [
                     /// Category Image
                     Container(
-                      margin: const EdgeInsets.only(bottom: 10),
+                      margin: const EdgeInsets.only(bottom: AppStyle.padding10),
                       height: Get.height*0.2,
                       width: Get.width,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(AppStyle.radius10),
                         color: Colors.deepOrange,
                         border: Border.all(color: Colors.black,width: 2),
                         image: DecorationImage(
@@ -55,10 +57,10 @@ class _AllCategoryPageState extends State<AllCategoryPage> {
                           height: Get.height*0.06,
                           width: Get.width*0.95,
                           decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10),bottomRight: Radius.circular(10)),
+                            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(AppStyle.radius10),bottomRight: Radius.circular(AppStyle.radius10)),
                             color: Colors.grey,
                           ),
-                          child: Text("Clothes $index",style: const TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: Colors.black),),
+                          child: Text("Clothes $index",style: AppStyle.playFontBold.copyWith(fontSize: 18),),
                         )
                     ),
                   ],

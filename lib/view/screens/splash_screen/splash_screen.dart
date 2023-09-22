@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/utils/app_style.dart';
 import 'package:ecommerce_app/view/screens/bottom_navbar/bottom_navbar_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,11 +24,8 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Spacer(),
-            const Text("E-Commerce App",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24
-              ),
+            Text("E-Commerce App",
+              style: AppStyle.playFontBold.copyWith(fontSize: 24),
             ),
             const Icon(Icons.shopping_cart,size: 60,color: Colors.amber,),
             const Spacer(),
@@ -36,14 +34,13 @@ class _SplashScreenState extends State<SplashScreen> {
                 color: Colors.amber,
               ),
             ),
-            SizedBox(height: Get.height*0.03,),
-            const Text("Design & Developed by"),
-            const Text("Fazle Rabbi",
-              style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold),
+            AppStyle.height30,
+
+            Text("Design & Developed by",style: AppStyle.playFont,),
+            Text("Fazle Rabbi",
+              style: AppStyle.playFontBold.copyWith(fontSize: AppStyle.font18),
             ),
-            SizedBox(height: Get.height*0.04,),
+            AppStyle.height40
           ],
         ),
       ),

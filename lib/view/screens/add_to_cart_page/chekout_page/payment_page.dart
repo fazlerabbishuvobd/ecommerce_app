@@ -1,7 +1,8 @@
+import 'package:ecommerce_app/utils/app_style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../resources/app_route/app_routes_name.dart';
 import '../../../../resources/assets/app_icon/app_icons.dart';
+import '../../../../resources/routes/app_routes_name.dart';
 
 class PaymentPage extends StatefulWidget {
   const PaymentPage({super.key});
@@ -15,7 +16,14 @@ class _PaymentPageState extends State<PaymentPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Select Payment Method"),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Select Payment Method",style: AppStyle.playFontBold.copyWith(fontSize: 18),),
+            AppStyle.width20,
+            const Icon(Icons.payments_outlined),
+          ],
+        ),
         centerTitle: true,
         backgroundColor: Colors.amber,
       ),
@@ -23,13 +31,14 @@ class _PaymentPageState extends State<PaymentPage> {
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Container(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(AppStyle.padding10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text("Mobile Banking"),
-              SizedBox(height: Get.height*0.01,),
+              Text("Mobile Banking",style: AppStyle.playFont,),
+              AppStyle.height10,
               const Divider(),
+
               PaymentMethodListTile(
                 icon: AppIcon.bkash,
                 paymentMethodName: 'Bkash',
@@ -59,10 +68,10 @@ class _PaymentPageState extends State<PaymentPage> {
                 },
               ),
               const Divider(),
-              SizedBox(height: Get.height*0.03,),
+              AppStyle.height30,
 
-              const Text("Card"),
-              SizedBox(height: Get.height*0.01,),
+              Text("Card",style: AppStyle.playFont,),
+              AppStyle.height10,
               const Divider(),
 
               PaymentMethodListTile(
@@ -74,10 +83,10 @@ class _PaymentPageState extends State<PaymentPage> {
                 },
               ),
               const Divider(),
-              SizedBox(height: Get.height*0.03,),
+              AppStyle.height30,
 
-              const Text("Others Method"),
-              SizedBox(height: Get.height*0.01,),
+              Text("Others Method",style: AppStyle.playFont),
+              AppStyle.height10,
               const Divider(),
 
               PaymentMethodListTile(
@@ -128,14 +137,15 @@ class _PaymentPageState extends State<PaymentPage> {
       ),
 
       bottomSheet: Container(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(AppStyle.padding10),
         height: Get.height*0.08,
+        color: Colors.amber,
         width: Get.width,
-        child: const Row(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Total Amount: "),
-            Text("2220.00 TK"),
+            Text("Total Amount: ",style: AppStyle.playFont16Bold,),
+            Text("2220.00 TK",style: AppStyle.playFont16Bold.copyWith(color: Colors.deepOrange),),
           ],
         ),
       ),
@@ -163,10 +173,10 @@ class PaymentMethodListTile extends StatelessWidget {
       onTap: onPressed,
       child: ListTile(
         leading: ClipRRect(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(AppStyle.radius10),
             child: Image.asset('$icon',height: Get.height*0.05,fit: BoxFit.fill,)
         ),
-        title: Text("$paymentMethodName"),
+        title: Text("$paymentMethodName",style: AppStyle.playFont16Bold,),
         trailing: widget,
       ),
     );

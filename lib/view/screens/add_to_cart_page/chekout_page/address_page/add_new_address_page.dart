@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/utils/app_style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 class AddNewAddressPage extends StatefulWidget {
@@ -28,29 +29,37 @@ class _AddNewAddressPageState extends State<AddNewAddressPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Add new delivery Address"),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.location_on),
+            AppStyle.width10,
+            Text("Add new delivery Address",style: AppStyle.playFontBold.copyWith(fontSize: 18)),
+          ],
+        ),
         centerTitle: true,
         backgroundColor: Colors.amber,
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(AppStyle.padding10),
           child: Column(
             children: [
 
               Card(
                 elevation: 5,
                 child: Container(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(AppStyle.padding10),
                   height: Get.height*0.18,
                   width: Get.width,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text("Full Name",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
+                          Text("Full Name",style: AppStyle.playFont16Bold),
                           SizedBox(
                             width: Get.width*0.4,
                             child: CustomTextField(
@@ -61,10 +70,11 @@ class _AddNewAddressPageState extends State<AddNewAddressPage> {
                         ],
                       ),
                       const Divider(),
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text("Mobile Number",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
+                          Text("Mobile Number",style: AppStyle.playFont16Bold),
                           SizedBox(
                             width: Get.width*0.4,
                             child: CustomTextField(
@@ -79,29 +89,29 @@ class _AddNewAddressPageState extends State<AddNewAddressPage> {
                   ),
                 ),
               ),
-              SizedBox(height: Get.height*0.02,),
+              AppStyle.height20,
 
               Card(
                 elevation: 5,
                 child: Container(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(AppStyle.padding10),
                   height: Get.height*0.25,
                   width: Get.width,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("Area",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
-                          Text("Input Area"),
+                          Text("Area",style: AppStyle.playFont16Bold),
+                          Text("Input Area",style: AppStyle.playFont16Bold),
                         ],
                       ),
                       const Divider(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text("Address",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
+                          Text("Address",style: AppStyle.playFont16Bold),
                           SizedBox(
                             width: Get.width*0.65,
                             child: CustomTextField(
@@ -112,10 +122,11 @@ class _AddNewAddressPageState extends State<AddNewAddressPage> {
                         ],
                       ),
                       const Divider(),
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text("Landmark (Optional)",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
+                          Text("Landmark (Optional)",style: AppStyle.playFont16Bold),
                           SizedBox(
                             width: Get.width*0.4,
                             child: CustomTextField(
@@ -129,20 +140,20 @@ class _AddNewAddressPageState extends State<AddNewAddressPage> {
                   ),
                 ),
               ),
-              SizedBox(height: Get.height*0.02,),
+              AppStyle.height20,
 
               Card(
                 elevation: 5,
                 child: Container(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(AppStyle.padding10),
                   height: Get.height*0.14,
                   width: Get.width,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text("Address Label (Optional)",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
-                      SizedBox(height: Get.height*0.02,),
+                      Text("Address Label (Optional)",style: AppStyle.playFont16Bold),
+                      AppStyle.height20,
 
                       SizedBox(
                         height: Get.height*0.05,
@@ -159,14 +170,14 @@ class _AddNewAddressPageState extends State<AddNewAddressPage> {
                                 },
                                 child: Container(
                                   width: Get.width*0.28,
-                                  margin: const EdgeInsets.only(right: 10),
+                                  margin: const EdgeInsets.only(right: AppStyle.padding10),
                                   alignment: Alignment.center,
-                                  padding: const EdgeInsets.all(5),
+                                  padding: const EdgeInsets.all(AppStyle.padding5),
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
+                                    borderRadius: BorderRadius.circular(AppStyle.radius10),
                                     color: selectedAddressLabel == index?Colors.amber:Colors.amber.withOpacity(0.5),
                                   ),
-                                  child: Text(index==0?'Home':index==1?'Office':'Others'),
+                                  child: Text(index==0?'Home':index==1?'Office':'Others',style: AppStyle.playFont16,),
                                 ),
                               );
                             },
@@ -179,13 +190,13 @@ class _AddNewAddressPageState extends State<AddNewAddressPage> {
               SizedBox(height: Get.height*0.14,),
 
               Container(
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(AppStyle.padding10),
                 height: Get.height*0.09,
                 width: Get.width,
                 child: MaterialButton(
                   color: Colors.deepOrange,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)
+                      borderRadius: BorderRadius.circular(AppStyle.radius10)
                   ),
                   onPressed: () async{
                     debugPrint("Save");
@@ -198,7 +209,7 @@ class _AddNewAddressPageState extends State<AddNewAddressPage> {
                       saveButtonLoading = false;
                     });
                   },
-                  child: saveButtonLoading? const Center(child: CircularProgressIndicator(),):const Text("Save"),
+                  child: saveButtonLoading? const Center(child: CircularProgressIndicator(),): Text("Save",style: AppStyle.playFont16Bold),
                 ),
               ),
             ],
@@ -229,6 +240,7 @@ class CustomTextField extends StatelessWidget {
       controller: controller,
       decoration: InputDecoration(
         hintText: '$hintText',
+        hintStyle: AppStyle.playFont,
         border: InputBorder.none,
       ),
       keyboardType: inputType,

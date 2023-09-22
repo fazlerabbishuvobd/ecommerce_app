@@ -3,9 +3,10 @@ class AppRouteName{
   static const String bottomNavBarPage = '/';
   static const String homePage = '/home_page';
   static const String favouriteProductPage = '/favourite_product_page';
-  static const String searchPage = '/search_page';
+  static const String productSearchPage = '/product_search_page';
   static const String allCategoryPage = '/all_category_page';
   static const String productDetailsPage = '/product_details_page';
+  static const String productFullImagePage = '/product_full_image_page';
   static const String allReviewPage = '/all_review_page';
   static const String addToCartPage = '/add_to_cart_page';
   static const String checkoutPage = '/checkout_page';
