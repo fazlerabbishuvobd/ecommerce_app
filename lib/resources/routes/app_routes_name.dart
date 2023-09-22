@@ -18,4 +18,7 @@ class AppRouteName{
   static const String profilePage = '/profile_page';
   static const String profileInfoPage = '/profile_info_page';
   static const String profileInfoUpdatePage = '/profile_info_update_page';
+  static const String signInPage = '/signIn_page';
+  static const String signUpPage = '/signUp_page';
+  static const String settingPage = '/setting_page';
 }

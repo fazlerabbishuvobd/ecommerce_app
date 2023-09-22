@@ -1,5 +1,5 @@
 import 'package:ecommerce_app/utils/app_style.dart';
-import 'package:ecommerce_app/view/screens/add_to_cart_page/chekout_page/address_page/add_new_address_page.dart';
+import 'package:ecommerce_app/view/screens/add_to_cart_page/checkout_page/address_page/add_new_address_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

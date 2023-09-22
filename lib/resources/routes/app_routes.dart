@@ -1,11 +1,7 @@
 import 'package:ecommerce_app/resources/routes/app_routes_name.dart';
 import 'package:ecommerce_app/view/screens/add_to_cart_page/add_to_cart_page.dart';
-import 'package:ecommerce_app/view/screens/add_to_cart_page/chekout_page/address_page/add_new_address_page.dart';
-import 'package:ecommerce_app/view/screens/add_to_cart_page/chekout_page/address_page/address_page.dart';
-import 'package:ecommerce_app/view/screens/add_to_cart_page/chekout_page/address_page/update_address_page.dart';
-import 'package:ecommerce_app/view/screens/add_to_cart_page/chekout_page/checkout_page.dart';
-import 'package:ecommerce_app/view/screens/add_to_cart_page/chekout_page/order_confirmation_page.dart';
-import 'package:ecommerce_app/view/screens/add_to_cart_page/chekout_page/payment_page.dart';
+import 'package:ecommerce_app/view/screens/auth/signIn_page.dart';
+import 'package:ecommerce_app/view/screens/auth/signUp_page.dart';
 import 'package:ecommerce_app/view/screens/bottom_navbar/bottom_navbar_page.dart';
 import 'package:ecommerce_app/view/screens/favourite_product_page/favourite_product_page.dart';
 import 'package:ecommerce_app/view/screens/home_page/all_category_page.dart';
@@ -16,8 +12,16 @@ import 'package:ecommerce_app/view/screens/product_details_page/product_full_ima
 import 'package:ecommerce_app/view/screens/profile_page/profile_info_page.dart';
 import 'package:ecommerce_app/view/screens/profile_page/profile_info_update_page.dart';
 import 'package:ecommerce_app/view/screens/profile_page/profile_page.dart';
+import 'package:ecommerce_app/view/screens/profile_page/setting_page.dart';
 import 'package:ecommerce_app/view/screens/splash_screen/splash_screen.dart';
 import 'package:get/get.dart';
+
+import '../../view/screens/add_to_cart_page/checkout_page/address_page/add_new_address_page.dart';
+import '../../view/screens/add_to_cart_page/checkout_page/address_page/address_page.dart';
+import '../../view/screens/add_to_cart_page/checkout_page/address_page/update_address_page.dart';
+import '../../view/screens/add_to_cart_page/checkout_page/checkout_page.dart';
+import '../../view/screens/add_to_cart_page/checkout_page/order_confirmation_page.dart';
+import '../../view/screens/add_to_cart_page/checkout_page/payment_page.dart';
 
 class AppRoutes{
   static appRoutes()=>[
@@ -40,5 +44,8 @@ class AppRoutes{
     GetPage(name: AppRouteName.profilePage, page: ()=> const ProfilePage()),
     GetPage(name: AppRouteName.profileInfoPage, page: ()=> const ProfileInfoPage()),
     GetPage(name: AppRouteName.profileInfoUpdatePage, page: ()=> const ProfileInfoUpdatePage()),
+    GetPage(name: AppRouteName.signInPage, page: ()=> const SignInPage()),
+    GetPage(name: AppRouteName.signUpPage, page: ()=> const SignUpPage()),
+    GetPage(name: AppRouteName.settingPage, page: ()=> const SettingPage()),
   ];
 }

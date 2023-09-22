@@ -1,6 +1,5 @@
+import 'package:ecommerce_app/resources/routes/app_routes_name.dart';
 import 'package:ecommerce_app/utils/app_style.dart';
-import 'package:ecommerce_app/view/screens/add_to_cart_page/chekout_page/address_page/add_new_address_page.dart';
-import 'package:ecommerce_app/view/screens/add_to_cart_page/chekout_page/address_page/update_address_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -37,7 +36,7 @@ class _AddressSetupPageState extends State<AddressSetupPage> {
               GestureDetector(
                 onTap: (){
                   debugPrint("Add New Address");
-                  Get.to(()=> const AddNewAddressPage());
+                  Get.toNamed(AppRouteName.addNewAddressPage);
                 },
                 child: Container(
                   height: Get.height*0.05,
@@ -75,7 +74,7 @@ class _AddressSetupPageState extends State<AddressSetupPage> {
                                     TextButton(
                                         onPressed: (){
                                           debugPrint("Edit Address");
-                                          Get.to(()=> const UpdateAddressPage());
+                                          Get.toNamed(AppRouteName.updateAddressPage);
                                         },
                                         child: Text("Edit",style: AppStyle.playFont)
                                     ),

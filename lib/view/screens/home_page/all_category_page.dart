@@ -16,7 +16,14 @@ class _AllCategoryPageState extends State<AllCategoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("All Categories",style: AppStyle.playFontBold.copyWith(fontSize: 18),),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.category),
+            AppStyle.width10,
+            Text("All Categories",style: AppStyle.playFontBold.copyWith(fontSize: 18),),
+          ],
+        ),
         centerTitle: true,
         backgroundColor: Colors.amber,
       ),
