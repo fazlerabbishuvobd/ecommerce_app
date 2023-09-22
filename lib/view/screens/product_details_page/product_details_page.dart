@@ -1,9 +1,9 @@
-import 'package:ecommerce_app/resources/app_constant/app_constant.dart';
 import 'package:ecommerce_app/utils/app_style.dart';
 import 'package:ecommerce_app/view/screens/add_to_cart_page/add_to_cart_page.dart';
 import 'package:ecommerce_app/view/screens/home_page/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../resources/constant/app_constant.dart';
 import '../../../resources/routes/app_routes_name.dart';
 
 class ProductDetailsPage extends StatefulWidget {

@@ -187,11 +187,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
         ),
       ),
       bottomSheet: Container(
+        padding: const EdgeInsets.symmetric(horizontal: AppStyle.padding10),
         height: Get.height*0.1,
         width: Get.width,
         color: Colors.amber,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
               mainAxisAlignment: MainAxisAlignment.center,

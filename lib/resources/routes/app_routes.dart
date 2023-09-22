@@ -13,6 +13,9 @@ import 'package:ecommerce_app/view/screens/home_page/home_page.dart';
 import 'package:ecommerce_app/view/screens/home_page/product_search_page.dart';
 import 'package:ecommerce_app/view/screens/product_details_page/product_details_page.dart';
 import 'package:ecommerce_app/view/screens/product_details_page/product_full_image_page.dart';
+import 'package:ecommerce_app/view/screens/profile_page/profile_info_page.dart';
+import 'package:ecommerce_app/view/screens/profile_page/profile_info_update_page.dart';
+import 'package:ecommerce_app/view/screens/profile_page/profile_page.dart';
 import 'package:ecommerce_app/view/screens/splash_screen/splash_screen.dart';
 import 'package:get/get.dart';
 
@@ -34,5 +37,8 @@ class AppRoutes{
     GetPage(name: AppRouteName.paymentPage, page: ()=> const PaymentPage()),
     GetPage(name: AppRouteName.orderConfirmPage, page: ()=> const OrderConfirmationPage()),
     GetPage(name: AppRouteName.favouriteProductPage, page: ()=> const FavouriteProductPage()),
+    GetPage(name: AppRouteName.profilePage, page: ()=> const ProfilePage()),
+    GetPage(name: AppRouteName.profileInfoPage, page: ()=> const ProfileInfoPage()),
+    GetPage(name: AppRouteName.profileInfoUpdatePage, page: ()=> const ProfileInfoUpdatePage()),
   ];
 }

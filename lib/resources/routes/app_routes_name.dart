@@ -15,4 +15,7 @@ class AppRouteName{
   static const String updateAddressPage = '/update_address_page';
   static const String orderConfirmPage = '/order_confirmation_page';
   static const String paymentPage = '/payment_page';
+  static const String profilePage = '/profile_page';
+  static const String profileInfoPage = '/profile_info_page';
+  static const String profileInfoUpdatePage = '/profile_info_update_page';
 }

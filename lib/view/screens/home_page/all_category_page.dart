@@ -1,7 +1,8 @@
-import 'package:ecommerce_app/resources/app_constant/app_constant.dart';
 import 'package:ecommerce_app/utils/app_style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../../resources/constant/app_constant.dart';
 
 class AllCategoryPage extends StatefulWidget {
   const AllCategoryPage({super.key});

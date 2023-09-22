@@ -1,8 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:ecommerce_app/resources/app_constant/app_constant.dart';
 import 'package:ecommerce_app/utils/app_style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../resources/constant/app_constant.dart';
 import '../../../resources/routes/app_routes_name.dart';
 
 
