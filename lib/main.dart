@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
         useMaterial3: true,
       ),
-      initialRoute: AppRouteName.signInPage,
+      initialRoute: AppRouteName.splashScreen,
       getPages: AppRoutes.appRoutes(),
     );
   }

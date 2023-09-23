@@ -158,11 +158,11 @@ class _AddNewAddressPageState extends State<AddNewAddressPage> {
                       SizedBox(
                         height: Get.height*0.05,
                         width: Get.width,
-                        child: Obx(() {
-                          return ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: 3,
-                            itemBuilder: (context, index) {
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: 3,
+                          itemBuilder: (context, index) {
+                            return Obx(() {
                               return GestureDetector(
                                 onTap: (){
                                   getController.selectedAddressLabel.value = index;
@@ -179,9 +179,9 @@ class _AddNewAddressPageState extends State<AddNewAddressPage> {
                                   child: Text(index==0?'Home':index==1?'Office':'Others',style: AppStyle.playFont16,),
                                 ),
                               );
-                            },
-                          );
-                        }),
+                            });
+                          },
+                        ),
                       )
                     ],
                   ),

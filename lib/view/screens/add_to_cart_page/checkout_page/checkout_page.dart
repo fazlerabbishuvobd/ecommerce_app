@@ -132,12 +132,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   SizedBox(
                     width: Get.width,
                     height: Get.height*0.1,
-                    child: Obx(() {
-                      return ListView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 3,
-                        itemBuilder: (context, index) {
+                    child: ListView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      itemCount: 3,
+                      itemBuilder: (context, index) {
+                        return Obx(() {
                           return GestureDetector(
                             onTap: (){
                               debugPrint(index.toString());
@@ -168,9 +168,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
                               ),
                             ),
                           );
-                        },
-                      );
-                    }),
+                        });
+                      },
+                    ),
                   ),
                 ],
               ),

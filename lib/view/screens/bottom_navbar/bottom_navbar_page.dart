@@ -4,6 +4,7 @@ import 'package:ecommerce_app/view/screens/favourite_product_page/favourite_prod
 import 'package:ecommerce_app/view/screens/home_page/home_page.dart';
 import 'package:ecommerce_app/view/screens/profile_page/profile_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 class BottomNavBarPage extends StatefulWidget {
   const BottomNavBarPage({super.key});
 
@@ -43,21 +44,33 @@ class _BottomNavBarPageState extends State<BottomNavBarPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: screens[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        //backgroundColor: Colors.deepOrange.withOpacity(0.3),
-        items: navBarItem,
-        onTap: (value) {
-          setState(() {
-            _currentIndex = value;
-          });
-        },
-        currentIndex: _currentIndex,
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.black.withOpacity(0.5),
-        showUnselectedLabels: true,
-        type: BottomNavigationBarType.fixed,
-        selectedLabelStyle: AppStyle.playFontBold,
-        unselectedLabelStyle: AppStyle.playFont,
+      bottomNavigationBar: Stack(
+        children: [
+          BottomNavigationBar(
+            //backgroundColor: Colors.deepOrange.withOpacity(0.3),
+            items: navBarItem,
+            onTap: (value) {
+              setState(() {
+                _currentIndex = value;
+              });
+            },
+            currentIndex: _currentIndex,
+            selectedItemColor: Colors.black,
+            unselectedItemColor: Colors.black.withOpacity(0.5),
+            showUnselectedLabels: true,
+            type: BottomNavigationBarType.fixed,
+            selectedLabelStyle: AppStyle.playFontBold,
+            unselectedLabelStyle: AppStyle.playFont,
+          ),
+          Positioned(
+              left: Get.width*0.40,
+              child: Text("100",style: AppStyle.playFontBold.copyWith(color: Colors.deepOrange),)
+          ),
+          Positioned(
+            right: Get.width*0.29,
+              child: Text("100",style: AppStyle.playFontBold.copyWith(color: Colors.deepOrange),)
+          ),
+        ],
       ),
     );
   }
