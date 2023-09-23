@@ -2,6 +2,7 @@ import 'package:ecommerce_app/resources/assets/app_icon/app_icons.dart';
 import 'package:ecommerce_app/resources/routes/app_routes_name.dart';
 import 'package:ecommerce_app/utils/app_style.dart';
 import 'package:ecommerce_app/view/screens/product_details_page/product_details_page.dart';
+import 'package:ecommerce_app/viewmodel/auth/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,7 +17,7 @@ class _SignInPageState extends State<SignInPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  bool isObscure = true;
+  final getController = Get.put(AuthViewModel());
 
   @override
   Widget build(BuildContext context) {
@@ -44,15 +45,15 @@ class _SignInPageState extends State<SignInPage> {
                   controller: passwordController,
                   icon: Icons.lock_open,
                   hintText: 'Your password',
-                  isObscure: isObscure,
-                  widget: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          isObscure = !isObscure;
-                        });
-                      },
-                      icon: Icon(isObscure?Icons.visibility_off:Icons.visibility)
-                  ),
+                  isObscure: getController.isObscure.value,
+                  widget: Obx(() {
+                    return IconButton(
+                        onPressed: () {
+                          getController.isObscure.value = !getController.isObscure.value;
+                        },
+                        icon: Icon(getController.isObscure.value?Icons.visibility_off:Icons.visibility)
+                    );
+                  }),
                 ),
                 Align(
                   alignment: Alignment.centerRight,

@@ -1,8 +1,8 @@
 import 'package:ecommerce_app/utils/app_style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../resources/routes/app_routes_name.dart';
+
 class FavouriteProductPage extends StatefulWidget {
   const FavouriteProductPage({super.key});
 

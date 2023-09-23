@@ -1,5 +1,6 @@
 import 'package:ecommerce_app/utils/app_style.dart';
 import 'package:ecommerce_app/view/screens/add_to_cart_page/checkout_page/address_page/add_new_address_page.dart';
+import 'package:ecommerce_app/viewmodel/address_page/address_page_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,8 +17,7 @@ class _AddNewAddressPageState extends State<UpdateAddressPage> {
   final addressController = TextEditingController();
   final landmarkController = TextEditingController();
 
-  int selectedAddressLabel = -1;
-  bool updateButtonLoading = false;
+  final getController = Get.put(AddressPageViewModel());
 
   @override
   void dispose() {
@@ -150,30 +150,30 @@ class _AddNewAddressPageState extends State<UpdateAddressPage> {
                       SizedBox(
                         height: Get.height*0.05,
                         width: Get.width,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: 3,
-                          itemBuilder: (context, index) {
-                            return GestureDetector(
-                              onTap: (){
-                                setState(() {
-                                  selectedAddressLabel = index;
-                                });
-                              },
-                              child: Container(
-                                width: Get.width*0.28,
-                                margin: const EdgeInsets.only(right: AppStyle.padding10),
-                                alignment: Alignment.center,
-                                padding: const EdgeInsets.all(AppStyle.padding5),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(AppStyle.radius10),
-                                  color: selectedAddressLabel == index?Colors.amber:Colors.amber.withOpacity(0.5),
+                        child: Obx(() {
+                          return ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: 3,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: (){
+                                  getController.selectedUpdateAddressLabel.value = index;
+                                },
+                                child: Container(
+                                  width: Get.width*0.28,
+                                  margin: const EdgeInsets.only(right: AppStyle.padding10),
+                                  alignment: Alignment.center,
+                                  padding: const EdgeInsets.all(AppStyle.padding5),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(AppStyle.radius10),
+                                    color: getController.selectedUpdateAddressLabel.value == index?Colors.amber:Colors.amber.withOpacity(0.5),
+                                  ),
+                                  child: Text(index==0?'Home':index==1?'Office':'Others',style: AppStyle.playFont16,),
                                 ),
-                                child: Text(index==0?'Home':index==1?'Office':'Others',style: AppStyle.playFont16,),
-                              ),
-                            );
-                          },
-                        ),
+                              );
+                            },
+                          );
+                        }),
                       )
                     ],
                   ),
@@ -185,24 +185,22 @@ class _AddNewAddressPageState extends State<UpdateAddressPage> {
                 padding: const EdgeInsets.all(10),
                 height: Get.height*0.09,
                 width: Get.width,
-                child: MaterialButton(
-                  color: Colors.deepOrange,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)
-                  ),
-                  onPressed: () async{
-                    debugPrint("Update");
-                    setState(() {
-                      updateButtonLoading = true;
-                    });
-                    await Future.delayed(const Duration(seconds: 2));
-                    Get.back();
-                    setState(() {
-                      updateButtonLoading = false;
-                    });
-                  },
-                  child: updateButtonLoading? const Center(child: CircularProgressIndicator(),):Text("Update",style: AppStyle.playFont16Bold),
-                ),
+                child: Obx(() {
+                  return MaterialButton(
+                    color: Colors.deepOrange,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)
+                    ),
+                    onPressed: () async{
+                      debugPrint("Update");
+                      getController.updateButtonLoading.value = true;
+                      await Future.delayed(const Duration(seconds: 2));
+                      Get.back();
+                      getController.updateButtonLoading.value = false;
+                    },
+                    child: getController.updateButtonLoading.value? const Center(child: CircularProgressIndicator(),):Text("Update",style: AppStyle.playFont16Bold),
+                  );
+                }),
               ),
             ],
           ),

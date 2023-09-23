@@ -1,6 +1,7 @@
 import 'package:ecommerce_app/resources/assets/app_icon/app_icons.dart';
 import 'package:ecommerce_app/resources/routes/app_routes_name.dart';
 import 'package:ecommerce_app/utils/app_style.dart';
+import 'package:ecommerce_app/viewmodel/profile_page/profile_page_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,7 +13,8 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  bool isOpen = false;
+
+  final getController = Get.put(ProfilePageViewModel());
 
   @override
   Widget build(BuildContext context) {
@@ -80,35 +82,32 @@ class _ProfilePageState extends State<ProfilePage> {
                 AppStyle.height20,
 
                 /// Check Balance
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      isOpen = true;
-                    });
-                  },
-                  child: Center(
-                    child: AnimatedContainer(
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.amber,
-                      ),
-                      height: Get.height*0.05,
-                      width: isOpen? Get.width*0.7:Get.width*0.5,
-                      padding: const EdgeInsets.all(AppStyle.padding5),
+                Obx(() {
+                  return GestureDetector(
+                    onTap: () {
+                      getController.isCheckBalance.value = true;
+                    },
+                    child: Center(
+                      child: AnimatedContainer(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.amber,
+                        ),
+                        height: Get.height*0.05,
+                        width: getController.isCheckBalance.value? Get.width*0.7:Get.width*0.5,
+                        padding: const EdgeInsets.all(AppStyle.padding5),
                         duration: const Duration(seconds: 1),
-                      onEnd: () {
-                        Future.delayed(const Duration(seconds: 2)).then((value) {
-                          setState(() {
-                            isOpen = false;
+                        onEnd: () {
+                          Future.delayed(const Duration(seconds: 2)).then((value) {
+                            getController.isCheckBalance.value = false;
                           });
-                        });
-                      },
-                      child: Text(isOpen? "Balance: 45602350.00 TK":"Tap to Show Balance",style: AppStyle.playFont16Bold,),
-
+                        },
+                        child: Text(getController.isCheckBalance.value? "Balance: 45602350.00 TK":"Tap to Show Balance",style: AppStyle.playFont16Bold,),
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                }),
                 AppStyle.height30,
 
                 /// Order Amount

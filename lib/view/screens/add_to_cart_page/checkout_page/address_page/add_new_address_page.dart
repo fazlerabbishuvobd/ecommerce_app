@@ -1,4 +1,5 @@
 import 'package:ecommerce_app/utils/app_style.dart';
+import 'package:ecommerce_app/viewmodel/address_page/address_page_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 class AddNewAddressPage extends StatefulWidget {
@@ -14,8 +15,7 @@ class _AddNewAddressPageState extends State<AddNewAddressPage> {
   final addressController = TextEditingController();
   final landmarkController = TextEditingController();
 
-  int selectedAddressLabel = -1;
-  bool saveButtonLoading = false;
+  final getController = Get.put(AddressPageViewModel());
 
   @override
   void dispose() {
@@ -158,15 +158,14 @@ class _AddNewAddressPageState extends State<AddNewAddressPage> {
                       SizedBox(
                         height: Get.height*0.05,
                         width: Get.width,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
+                        child: Obx(() {
+                          return ListView.builder(
+                            scrollDirection: Axis.horizontal,
                             itemCount: 3,
                             itemBuilder: (context, index) {
                               return GestureDetector(
                                 onTap: (){
-                                  setState(() {
-                                    selectedAddressLabel = index;
-                                  });
+                                  getController.selectedAddressLabel.value = index;
                                 },
                                 child: Container(
                                   width: Get.width*0.28,
@@ -175,13 +174,14 @@ class _AddNewAddressPageState extends State<AddNewAddressPage> {
                                   padding: const EdgeInsets.all(AppStyle.padding5),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(AppStyle.radius10),
-                                    color: selectedAddressLabel == index?Colors.amber:Colors.amber.withOpacity(0.5),
+                                    color: getController.selectedAddressLabel.value == index?Colors.amber:Colors.amber.withOpacity(0.5),
                                   ),
                                   child: Text(index==0?'Home':index==1?'Office':'Others',style: AppStyle.playFont16,),
                                 ),
                               );
                             },
-                        ),
+                          );
+                        }),
                       )
                     ],
                   ),
@@ -193,24 +193,22 @@ class _AddNewAddressPageState extends State<AddNewAddressPage> {
                 padding: const EdgeInsets.all(AppStyle.padding10),
                 height: Get.height*0.09,
                 width: Get.width,
-                child: MaterialButton(
-                  color: Colors.deepOrange,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(AppStyle.radius10)
-                  ),
-                  onPressed: () async{
-                    debugPrint("Save");
-                    setState(() {
-                      saveButtonLoading = true;
-                    });
-                    await Future.delayed(const Duration(seconds: 2));
-                    Get.back();
-                    setState(() {
-                      saveButtonLoading = false;
-                    });
-                  },
-                  child: saveButtonLoading? const Center(child: CircularProgressIndicator(),): Text("Save",style: AppStyle.playFont16Bold),
-                ),
+                child: Obx(() {
+                  return MaterialButton(
+                    color: Colors.deepOrange,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(AppStyle.radius10)
+                    ),
+                    onPressed: () async{
+                      debugPrint("Save");
+                      getController.saveButtonLoading.value = true;
+                      await Future.delayed(const Duration(seconds: 2));
+                      Get.back();
+                      getController.saveButtonLoading.value = false;
+                    },
+                    child: getController.saveButtonLoading.value? const Center(child: CircularProgressIndicator(),): Text("Save",style: AppStyle.playFont16Bold),
+                  );
+                }),
               ),
             ],
           ),

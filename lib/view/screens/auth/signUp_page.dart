@@ -2,6 +2,7 @@ import 'package:ecommerce_app/resources/assets/app_icon/app_icons.dart';
 import 'package:ecommerce_app/resources/routes/app_routes_name.dart';
 import 'package:ecommerce_app/utils/app_style.dart';
 import 'package:ecommerce_app/view/screens/product_details_page/product_details_page.dart';
+import 'package:ecommerce_app/viewmodel/auth/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -20,8 +21,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final reTypePasswordController = TextEditingController();
   final phoneNumber = TextEditingController();
 
-  bool isObscurePass = true;
-  bool isObscureRePass = true;
+  final getController = Get.put(AuthViewModel());
 
   @override
   Widget build(BuildContext context) {
@@ -67,15 +67,15 @@ class _SignUpPageState extends State<SignUpPage> {
                   controller: passwordController,
                   icon: Icons.lock_open,
                   hintText: 'Your password',
-                  isObscure: isObscurePass,
-                  widget: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          isObscurePass = !isObscurePass;
-                        });
-                      },
-                      icon: Icon(isObscurePass?Icons.visibility_off:Icons.visibility)
-                  ),
+                  isObscure: getController.isObscurePass.value,
+                  widget: Obx(() {
+                    return IconButton(
+                        onPressed: () {
+                          getController.isObscurePass.value = !getController.isObscurePass.value;
+                        },
+                        icon: Icon(getController.isObscurePass.value?Icons.visibility_off:Icons.visibility)
+                    );
+                  }),
                 ),
                 AppStyle.height10,
 
@@ -83,15 +83,15 @@ class _SignUpPageState extends State<SignUpPage> {
                   controller: reTypePasswordController,
                   icon: Icons.lock_open,
                   hintText: 'Re-type password',
-                  isObscure: isObscureRePass,
-                  widget: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          isObscureRePass = !isObscureRePass;
-                        });
-                      },
-                      icon: Icon(isObscureRePass?Icons.visibility_off:Icons.visibility)
-                  ),
+                  isObscure: getController.isObscureRePass.value,
+                  widget: Obx(() {
+                    return IconButton(
+                        onPressed: () {
+                          getController.isObscureRePass.value = !getController.isObscureRePass.value;
+                        },
+                        icon: Icon(getController.isObscureRePass.value?Icons.visibility_off:Icons.visibility)
+                    );
+                  }),
                 ),
                 AppStyle.height30,
 

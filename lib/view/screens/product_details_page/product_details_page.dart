@@ -1,5 +1,4 @@
 import 'package:ecommerce_app/utils/app_style.dart';
-import 'package:ecommerce_app/view/screens/add_to_cart_page/add_to_cart_page.dart';
 import 'package:ecommerce_app/view/screens/home_page/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -27,7 +26,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
             padding: const EdgeInsets.only(right: AppStyle.padding10),
             child: GestureDetector(
               onTap: (){
-                Get.to(()=> const AddToCartPage());
+                Get.toNamed(AppRouteName.addToCartPage);
               },
                 child: const Icon(Icons.shopping_cart)
             ),

@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ecommerce_app/utils/app_style.dart';
+import 'package:ecommerce_app/viewmodel/home_page/home_page_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../resources/constant/app_constant.dart';
@@ -15,11 +16,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  bool isButtonLoading = false;
+
   Future<void> refresh()async{
     await Future.delayed(const Duration(seconds: 2));
     debugPrint("Refresh");
   }
+
+  final getController = Get.put(HomePageViewModel());
 
   @override
   Widget build(BuildContext context) {
@@ -106,25 +109,23 @@ class _HomePageState extends State<HomePage> {
               Center(
                 child: SizedBox(
                   width: Get.width*0.8,
-                  child: MaterialButton(
-                    onPressed: ()async{
-                      setState(() {
-                        isButtonLoading = true;
-                      });
-                      await Future.delayed(const Duration(seconds: 2));
-                      setState(() {
-                        isButtonLoading = false;
-                      });
-                    },
-                    height: 48,
-                    color: Colors.amber,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(AppStyle.radius10)
-                    ),
-                    child: isButtonLoading?
-                    const Center(child: CircularProgressIndicator(),
-                    ):Text("Load More", style: AppStyle.playFont16Bold),
-                  ),
+                  child: Obx(() {
+                    return MaterialButton(
+                      onPressed: ()async{
+                        getController.isButtonLoading.value = true;
+                        await Future.delayed(const Duration(seconds: 2));
+                        getController.isButtonLoading.value = false;
+                      },
+                      height: 48,
+                      color: Colors.amber,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(AppStyle.radius10)
+                      ),
+                      child: getController.isButtonLoading.value?
+                      const Center(child: CircularProgressIndicator(),
+                      ):Text("Load More", style: AppStyle.playFont16Bold),
+                    );
+                  }),
                 ),
               ),
               AppStyle.height20,

@@ -2,7 +2,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ecommerce_app/utils/app_style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../resources/constant/app_constant.dart';
 
 class ProductFullImagePage extends StatefulWidget {

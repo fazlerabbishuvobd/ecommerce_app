@@ -1,4 +1,5 @@
 import 'package:ecommerce_app/utils/app_style.dart';
+import 'package:ecommerce_app/viewmodel/addTo_cart_page/addTo_cart_page_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,7 +13,7 @@ class AddToCartPage extends StatefulWidget {
 }
 
 class _AddToCartPageState extends State<AddToCartPage> {
-  bool isCheckoutButtonLoading = false;
+  final getController = Get.put(AddToCartPageViewModel());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -137,32 +138,30 @@ class _AddToCartPageState extends State<AddToCartPage> {
 
             SizedBox(
               width: Get.width*0.36,
-              child: MaterialButton(
-                height: Get.height*0.06,
-                onPressed: ()async{
-                  setState(() {
-                    isCheckoutButtonLoading = true;
-                  });
-                  await Future.delayed(const Duration(seconds: 1));
-                  Get.toNamed(AppRouteName.checkoutPage);
-                  setState(() {
-                    isCheckoutButtonLoading = false;
-                  });
-                },
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(AppStyle.radius10),
-                ),
-                child: isCheckoutButtonLoading? const Center(
-                  child: CircularProgressIndicator(),
-                ): Row(
-                children: [
-                  Text("Checkout",style: AppStyle.playFont16Bold),
-                  SizedBox(width: Get.width*0.01,),
-                  Text("(120)",style: AppStyle.playFont16Bold.copyWith(color: Colors.red)),
-                ],
-                ),
-              ),
+              child: Obx(() {
+                return MaterialButton(
+                  height: Get.height*0.06,
+                  onPressed: ()async{
+                    getController.isCheckoutButtonLoading.value = true;
+                    await Future.delayed(const Duration(seconds: 1));
+                    Get.toNamed(AppRouteName.checkoutPage);
+                    getController.isCheckoutButtonLoading.value = false;
+                  },
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(AppStyle.radius10),
+                  ),
+                  child: getController.isCheckoutButtonLoading.value? const Center(
+                    child: CircularProgressIndicator(),
+                  ): Row(
+                    children: [
+                      Text("Checkout",style: AppStyle.playFont16Bold),
+                      SizedBox(width: Get.width*0.01,),
+                      Text("(120)",style: AppStyle.playFont16Bold.copyWith(color: Colors.red)),
+                    ],
+                  ),
+                );
+              }),
             )
           ],
         ),

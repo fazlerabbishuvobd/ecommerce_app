@@ -1,4 +1,5 @@
 import 'package:ecommerce_app/utils/app_style.dart';
+import 'package:ecommerce_app/viewmodel/checkout_page/checkout_page_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../resources/routes/app_routes_name.dart';
@@ -11,8 +12,8 @@ class CheckoutPage extends StatefulWidget {
 }
 
 class _CheckoutPageState extends State<CheckoutPage> {
-  bool isOrderButtonLoading = false;
-  int selectedDeliveryType = -1;
+
+  final getController = Get.put(CheckoutPageViewModel());
 
   @override
   Widget build(BuildContext context) {
@@ -131,17 +132,16 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   SizedBox(
                     width: Get.width,
                     height: Get.height*0.1,
-                    child: ListView.builder(
-                      physics: const BouncingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
+                    child: Obx(() {
+                      return ListView.builder(
+                        physics: const BouncingScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
                         itemCount: 3,
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: (){
                               debugPrint(index.toString());
-                              setState(() {
-                                selectedDeliveryType = index;
-                              });
+                              getController.selectedDeliveryType.value = index;
                             },
                             child: Container(
                               margin: const EdgeInsets.only(right: AppStyle.padding10),
@@ -152,7 +152,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(AppStyle.radius10),
                                 border: Border.all(width: 1,color: Colors.black),
-                                color: selectedDeliveryType == index? Colors.amber:Colors.transparent,
+                                color: getController.selectedDeliveryType.value == index? Colors.amber:Colors.transparent,
                               ),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -169,7 +169,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             ),
                           );
                         },
-                    ),
+                      );
+                    }),
                   ),
                 ],
               ),
@@ -206,26 +207,24 @@ class _CheckoutPageState extends State<CheckoutPage> {
             SizedBox(
               height: Get.height*0.06,
               width: Get.width*0.4,
-              child: MaterialButton(
-                onPressed: ()async{
-                  setState(() {
-                    isOrderButtonLoading = true;
-                  });
-                  await Future.delayed(const Duration(seconds: 2));
-                  Get.toNamed(AppRouteName.paymentPage);
-                  setState(() {
-                    isOrderButtonLoading = false;
-                  });
-                },
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(AppStyle.radius10),
-                ),
-                child: isOrderButtonLoading? const Center(
-                  child: CircularProgressIndicator(),):
+              child: Obx(() {
+                return MaterialButton(
+                  onPressed: ()async{
+                    getController.isOrderButtonLoading.value = true;
+                    await Future.delayed(const Duration(seconds: 2));
+                    Get.toNamed(AppRouteName.paymentPage);
+                    getController.isOrderButtonLoading.value = false;
+                  },
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(AppStyle.radius10),
+                  ),
+                  child: getController.isOrderButtonLoading.value? const Center(
+                    child: CircularProgressIndicator(),):
                   Text("Pay Order",style: AppStyle.playFont16Bold.copyWith(color: Colors.deepOrange),
-                ),
-              ),
+                  ),
+                );
+              }),
             )
           ],
         ),
