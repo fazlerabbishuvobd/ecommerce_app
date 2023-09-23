@@ -2,9 +2,9 @@ import 'package:ecommerce_app/resources/assets/app_icon/app_icons.dart';
 import 'package:ecommerce_app/resources/routes/app_routes_name.dart';
 import 'package:ecommerce_app/utils/app_style.dart';
 import 'package:ecommerce_app/view/screens/product_details_page/product_details_page.dart';
-import 'package:ecommerce_app/view/screens/profile_page/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
 
@@ -27,9 +27,8 @@ class _SignInPageState extends State<SignInPage> {
             alignment: Alignment.center,
             padding: const EdgeInsets.all(AppStyle.padding10),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const Icon(Icons.shopping_bag_outlined,size: 150,),
+                const Icon(Icons.shopping_bag_outlined,size: 120,),
                 Text("Hello, Again",style: AppStyle.playFontBold.copyWith(fontSize: 24),),
                 Text("Welcome back, you have seen missed",style: AppStyle.playFont,),
                 AppStyle.height40,
@@ -74,28 +73,54 @@ class _SignInPageState extends State<SignInPage> {
                     Get.offAllNamed(AppRouteName.bottomNavBarPage);
                   },
                 ),
-                SizedBox(height: Get.height*0.08,),
+                SizedBox(height: Get.height*0.1,),
 
-                Text("---------   or Sign In With   --------",style: AppStyle.playFont,),
+                Text("---------   Or Sign In With   --------",style: AppStyle.playFont,),
                 AppStyle.height20,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(AppIcon.google,height: Get.height*0.04,),
+                    InkWell(
+                      onTap: (){
+                        debugPrint("Google");
+                      },
+                        child: Image.asset(AppIcon.google,height: Get.height*0.04,)
+                    ),
                     AppStyle.width30,
-                    Image.asset(AppIcon.facebook,height: Get.height*0.04,),
+                    InkWell(
+                      onTap: (){
+                        debugPrint("Facebook");
+                      },
+                        child: Image.asset(AppIcon.facebook,height: Get.height*0.04,)
+                    ),
                     AppStyle.width30,
-                    Image.asset(AppIcon.microsoft,height: Get.height*0.04,),
+                    InkWell(
+                        onTap: (){
+                          debugPrint("Microsoft");
+                        },
+                        child: Image.asset(AppIcon.microsoft,height: Get.height*0.04,)
+                    ),
                     AppStyle.width30,
-                    Image.asset(AppIcon.google,height: Get.height*0.04,),
+                    InkWell(
+                        onTap: (){
+                          debugPrint("Email");
+                        },
+                        child: Image.asset(AppIcon.google,height: Get.height*0.04,)
+                    ),
                   ],
                 ),
 
-                SizedBox(height: Get.height*0.06,),
+                SizedBox(height: Get.height*0.05,),
                 
-                TextButton(
-                  onPressed: () => Get.toNamed(AppRouteName.signUpPage),
-                    child: Text("Don't have any account?  SignUP",style: AppStyle.playFontBold,)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Don't have any account?",style: AppStyle.playFont,),
+                    TextButton(
+                      onPressed: () => Get.toNamed(AppRouteName.signUpPage),
+                        child: Text("Sign Up",style: AppStyle.playFont16Bold.copyWith(color: Colors.deepOrange),)
+                    ),
+                  ],
                 ),
                 AppStyle.height40,
               ],
@@ -125,21 +150,20 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomContainer(
-      color: Colors.amber,
-      height: Get.height*0.08,
-      width: Get.width,
-      widget: TextFormField(
+    return ListTile(
+      tileColor: Colors.blue.withOpacity(0.2),
+      leading: Icon(icon),
+      title: TextFormField(
         controller: controller,
         decoration: InputDecoration(
-            suffix: widget,
-            hintText: '$hintText',
-            hintStyle: AppStyle.playFont16,
-            border: InputBorder.none,
-            prefixIcon: Icon(icon),
+          hintText: '$hintText',
+          hintStyle: AppStyle.playFont16,
+          border: InputBorder.none,
         ),
         obscureText: isObscure,
       ),
+      trailing: widget,
     );
+
   }
 }

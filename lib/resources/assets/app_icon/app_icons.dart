@@ -26,4 +26,9 @@ class AppIcon{
   static const String facebook = 'assets/icons/facebook.png';
   static const String microsoft = 'assets/icons/microsoft.png';
 
+  ///********************* Setting Page ****************************
+  static const String bd = 'assets/icons/bd.png';
+  static const String uk = 'assets/icons/uk.png';
+  static const String lightMode = 'assets/icons/lightMode.png';
+  static const String darkMode = 'assets/icons/darkMode.png';
 }

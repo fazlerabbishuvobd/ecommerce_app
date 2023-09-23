@@ -354,6 +354,7 @@ class ServiceWidgets extends StatelessWidget {
 class CustomContainer extends StatelessWidget {
   const CustomContainer({
     super.key,
+    this.onPressed,
     required this.height,
     required this.width,
     this.color,
@@ -365,19 +366,23 @@ class CustomContainer extends StatelessWidget {
   final Color? color;
   final Widget? widget;
   final EdgeInsetsGeometry? padding;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      padding: padding,
-      height: height,
-      width: width,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: color
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        alignment: Alignment.center,
+        padding: padding,
+        height: height,
+        width: width,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: color
+        ),
+          child: widget,
       ),
-        child: widget,
     );
   }
 }
