@@ -15,5 +15,28 @@ class AppConstants{
     AppImage.bannerImage9,
   ];
 
+  //*************** CategoryImage **********************
 
+  static const List categoriesImageList = [
+    AppImage.smartphones,
+    AppImage.laptop,
+    AppImage.fragrances,
+    AppImage.skincare,
+    AppImage.groceries,
+    AppImage.homeDecoration,
+    AppImage.furniture,
+    AppImage.tops,
+    AppImage.womenDresses,
+    AppImage.womenShoes,
+    AppImage.menShirts,
+    AppImage.menShoes,
+    AppImage.menWatches,
+    AppImage.menWatches,
+    AppImage.womenBag,
+    AppImage.womenJewellery,
+    AppImage.sunglasses,
+    AppImage.automotive,
+    AppImage.motorcycle,
+    AppImage.lighting,
+  ];
 }

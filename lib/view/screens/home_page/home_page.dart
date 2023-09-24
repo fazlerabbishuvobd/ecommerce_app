@@ -25,6 +25,12 @@ class _HomePageState extends State<HomePage> {
   final getController = Get.put(HomePageViewModel());
 
   @override
+  void initState() {
+    getController.fetchCategories();
+    getController.fetchProducts();
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
      onRefresh: refresh,
@@ -86,11 +92,11 @@ class _HomePageState extends State<HomePage> {
               Container(
                 padding: const EdgeInsets.all(AppStyle.padding5),
                 width: Get.width,
-                height: Get.height*0.14,
+                height: Get.height*0.15,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(AppStyle.radius10),
                 ),
-                child: const CategoryListViewWidget(),
+                child: CategoryListViewWidget(getController: getController),
               ),
               AppStyle.height20,
 
@@ -101,7 +107,7 @@ class _HomePageState extends State<HomePage> {
               ),
               AppStyle.height10,
               ProductGridViewWidgets(
-                itemCount: AppConstants.bannerImageList.length,
+                itemCount: 10,
               ),
               AppStyle.height20,
 
@@ -143,43 +149,50 @@ class _HomePageState extends State<HomePage> {
 class CategoryListViewWidget extends StatelessWidget {
   const CategoryListViewWidget({
     super.key,
+    required this.getController,
   });
+  final HomePageViewModel getController;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: AppConstants.bannerImageList.length,
+      itemCount: getController.categories.length,
       physics: const BouncingScrollPhysics(),
       scrollDirection: Axis.horizontal,
       itemBuilder: (context, index) {
+        var categoryList = getController.categories[index];
         return GestureDetector(
           onTap: () {
             debugPrint("$index");
+            getController.selectedCategory.value = index;
           },
-          child: Container(
-            alignment: Alignment.center,
-            margin: const EdgeInsets.only(right: AppStyle.padding10),
-            width: Get.width * 0.3,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(AppStyle.radius10),
-                border: Border.all(width: 1,color: Colors.black),
-                color: Colors.white
-            ),
-            child: Column(
-              children: [
-                ClipRRect(
+          child: Obx(() {
+            return Container(
+              alignment: Alignment.center,
+              margin: const EdgeInsets.only(right: AppStyle.padding10),
+              padding: const EdgeInsets.all(AppStyle.padding5),
+              width: Get.width * 0.3,
+              decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(AppStyle.radius10),
-                  child: Image.network(AppConstants.bannerImageList[index],height: Get.height*0.08,fit: BoxFit.fill,),
-                ),
-                AppStyle.height10,
-                Text('Electronics $index',
-                  style: AppStyle.playFont16,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
-            ),
-          ),
+                  border: Border.all(width: 1,color: Colors.black),
+                  color: getController.selectedCategory.value == index?Colors.amber.withOpacity(0.2):Colors.white
+              ),
+              child: Column(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(AppStyle.radius10),
+                    child: Image.asset(AppConstants.categoriesImageList[index],height: Get.height*0.08,fit: BoxFit.fill,),
+                  ),
+                  AppStyle.height10,
+                  Text(categoryList,
+                    style: AppStyle.playFont16,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            );
+          }),
         );
       },
     );
@@ -189,10 +202,12 @@ class CategoryListViewWidget extends StatelessWidget {
 class ProductGridViewWidgets extends StatelessWidget {
   const ProductGridViewWidgets({
     super.key,
-    required this.itemCount,
+    this.itemCount,
+    this.getController,
   });
 
-  final int itemCount;
+  final int? itemCount;
+  final HomePageViewModel? getController;
 
   @override
   Widget build(BuildContext context) {
@@ -207,6 +222,13 @@ class ProductGridViewWidgets extends StatelessWidget {
         childAspectRatio: 0.8,
       ),
       itemBuilder: (context, index) {
+        var productInfo = getController?.allProduct.products![index];
+        print('Home Page $productInfo');
+        if(productInfo == null)
+          {
+            return const Center(child: Text("No Data Available"),);
+          }
+          else{
           return GestureDetector(
             onTap: (){
               debugPrint("$index");
@@ -220,16 +242,16 @@ class ProductGridViewWidgets extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ClipRRect(
-                      borderRadius: const BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10)),
-                      child: Image.network(AppConstants.bannerImageList[index],height: Get.height*0.15,fit: BoxFit.fill,)
-                  ),
+                  // ClipRRect(
+                  //     borderRadius: const BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10)),
+                  //     child: Image.network(AppConstants.bannerImageList[index],height: Get.height*0.15,fit: BoxFit.fill,)
+                  // ),
                   Padding(
                     padding: const EdgeInsets.all(AppStyle.padding5),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Apple watch ultra pro - max 256 GB 7 pro 9 240 GB Apple',
+                        Text(productInfo.id.toString(),
                           style: AppStyle.playFontBold,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
@@ -269,6 +291,7 @@ class ProductGridViewWidgets extends StatelessWidget {
               ),
             ),
           );
+        }
         }
     );
   }
