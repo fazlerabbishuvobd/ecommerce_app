@@ -13,10 +13,10 @@ class HomePageRepository{
   }
 
   /// Fetch Products
-  Future<AllProductModel> getAllProduct() async{
-    Map<String,dynamic> jsonRawData = await apiServices.getApi(AppApiUrl.products);
-    print(jsonRawData);
-    return AllProductModel.fromJson(jsonRawData);
+  Future<List<Product>> getAllProduct() async{
+    final jsonRawData = await apiServices.getApi(AppApiUrl.products);
+    List<dynamic> productJson = jsonRawData['products'];
+    return productJson.map((e) => Product.fromJson(e)).toList();
   }
 
 }

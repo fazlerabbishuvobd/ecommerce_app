@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ecommerce_app/utils/app_style.dart';
 import 'package:ecommerce_app/viewmodel/home_page/home_page_view_model.dart';
@@ -24,12 +25,14 @@ class _HomePageState extends State<HomePage> {
 
   final getController = Get.put(HomePageViewModel());
 
-  @override
-  void initState() {
-    getController.fetchCategories();
-    getController.fetchProducts();
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   // getController.fetchCategories();
+  //   // getController.fetchProducts();
+  //   getController.fetchData();
+  //   super.initState();
+  // }
+
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
@@ -53,95 +56,218 @@ class _HomePageState extends State<HomePage> {
         ),
 
         body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+          child: Obx(() {
+            if(getController.isScreenLoading.value == true)
+              {
+                return Container(
+                  alignment: Alignment.center,
+                  height: Get.height*0.8,
+                  width: Get.width,
+                  child: const CircularProgressIndicator()
+                );
+              }
+            else {
+              if(getController.errorMessage.value.isEmpty)
+                {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
 
-              /// Banner Slider
-              SizedBox(
-                height: Get.height*0.25,
-                child: BannerSliderWidgets(
-                  isVisibleSliderDot: true,
-                  isVisibleImageNumber: false,
-                  itemCount: AppConstants.bannerImageList.length,
-                  imageList: AppConstants.bannerImageList,
-                ),
-              ),
-
-              /// Category
-              Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.symmetric(horizontal: AppStyle.padding10),
-                height: Get.height*0.05,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Categories', style: AppStyle.playFont16Bold),
-                    GestureDetector(
-                      onTap: () {
-                        debugPrint("See More");
-                        Get.toNamed(AppRouteName.allCategoryPage);
-                      },
-                      child: Text("See More", style: AppStyle.playFont16Bold),
-                    ),
-                  ],
-                ),
-              ),
-
-              /// Category
-              Container(
-                padding: const EdgeInsets.all(AppStyle.padding5),
-                width: Get.width,
-                height: Get.height*0.15,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(AppStyle.radius10),
-                ),
-                child: CategoryListViewWidget(getController: getController),
-              ),
-              AppStyle.height20,
-
-              /// Product List
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: AppStyle.padding10),
-                child: Text('Products', style: AppStyle.playFont16Bold),
-              ),
-              AppStyle.height10,
-              ProductGridViewWidgets(
-                itemCount: 10,
-              ),
-              AppStyle.height20,
-
-              /// Load More Button
-              Center(
-                child: SizedBox(
-                  width: Get.width*0.8,
-                  child: Obx(() {
-                    return MaterialButton(
-                      onPressed: ()async{
-                        getController.isButtonLoading.value = true;
-                        await Future.delayed(const Duration(seconds: 2));
-                        getController.isButtonLoading.value = false;
-                      },
-                      height: 48,
-                      color: Colors.amber,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(AppStyle.radius10)
+                      /// Banner Slider
+                      SizedBox(
+                        height: Get.height*0.25,
+                        child: BannerSliderWidgets(
+                          isVisibleSliderDot: true,
+                          isVisibleImageNumber: false,
+                          itemCount: AppConstants.bannerImageList.length,
+                          imageList: AppConstants.bannerImageList,
+                        ),
                       ),
-                      child: getController.isButtonLoading.value?
-                      const Center(child: CircularProgressIndicator(),
-                      ):Text("Load More", style: AppStyle.playFont16Bold),
-                    );
-                  }),
-                ),
-              ),
-              AppStyle.height20,
 
-            ],
-          ),
+                      /// Category
+                      Container(
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.symmetric(horizontal: AppStyle.padding10),
+                        height: Get.height*0.05,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Categories', style: AppStyle.playFont16Bold),
+                            GestureDetector(
+                              onTap: () {
+                                debugPrint("See More");
+                                Get.toNamed(AppRouteName.allCategoryPage);
+                              },
+                              child: Text("View all", style: AppStyle.playFont16),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      /// Category
+                      Container(
+                        padding: const EdgeInsets.all(AppStyle.padding5),
+                        width: Get.width,
+                        height: Get.height*0.15,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(AppStyle.radius10),
+                        ),
+                        child: CategoryListViewWidget(getController: getController),
+                      ),
+                      AppStyle.height20,
+
+                      /// Product List
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: AppStyle.padding10),
+                        child: Text('Products', style: AppStyle.playFont16Bold),
+                      ),
+                      AppStyle.height10,
+
+                      ProductGridViewWidgets(getController: getController),
+                      AppStyle.height20,
+
+                      /// Load More Button
+                      Center(
+                        child: SizedBox(
+                          width: Get.width*0.8,
+                          child: Obx(() {
+                            return MaterialButton(
+                              onPressed: ()async{
+                                getController.isButtonLoading.value = true;
+                                await Future.delayed(const Duration(seconds: 2));
+                                getController.isButtonLoading.value = false;
+                              },
+                              height: 48,
+                              color: Colors.amber,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(AppStyle.radius10)
+                              ),
+                              child: getController.isButtonLoading.value?
+                              const Center(child: CircularProgressIndicator(),
+                              ):Text("Load More", style: AppStyle.playFont16Bold),
+                            );
+                          }),
+                        ),
+                      ),
+                      AppStyle.height20,
+
+                    ],
+                  );
+                }
+              else{
+                return Text(getController.errorMessage.value);
+              }
+            }
+          }),
         ),
 
 
       ),
+    );
+  }
+}
+
+class ProductGridViewWidgets extends StatelessWidget {
+  const ProductGridViewWidgets({
+    super.key,
+    required this.getController,
+  });
+
+  final HomePageViewModel getController;
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: getController.productList.length,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+          childAspectRatio: 0.8,
+        ),
+        itemBuilder: (context, index) {
+          var productInfo = getController.productList[index];
+          double regularPrice = (productInfo.price! * productInfo.discountPercentage!)/100;
+          return GestureDetector(
+              onTap: (){
+                debugPrint("$index");
+                getController.selectedProduct.value = index;
+                Get.toNamed(AppRouteName.productDetailsPage,arguments: productInfo);
+              },
+              child: Obx(() {
+                return Container(
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(AppStyle.radius10),
+                    color: getController.selectedProduct.value == index?Colors.blue.withOpacity(0.3):Colors.transparent,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ClipRRect(
+                          borderRadius: const BorderRadius.only(topLeft: Radius.circular(AppStyle.padding10),topRight: Radius.circular(AppStyle.padding10)),
+                          child: CachedNetworkImage(
+                            imageUrl: "${productInfo.thumbnail}",height: Get.height*0.17,width: Get.width,fit: BoxFit.fill,
+                            progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                Center(child: CircularProgressIndicator(value: downloadProgress.progress,color: Colors.amber,)),
+                            errorWidget: (context, url, error) => const Icon(Icons.error),
+                          ),
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.all(AppStyle.padding5),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            /// Product Title
+                            Text('${productInfo.title}',
+                              style: AppStyle.playFontBold,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            AppStyle.height10,
+
+                            /// Rating - Stock
+                            Row(
+                              children: [
+                                Row(
+                                  children: [
+                                    const Icon(Icons.star,color: Colors.deepOrange,),
+                                    Text('${productInfo.rating}/5',style: AppStyle.playFont,),
+                                  ],
+                                ),
+                                AppStyle.width20,
+                                Text('Stock - ${productInfo.stock}',style: AppStyle.playFont,),
+                              ],
+                            ),
+                            AppStyle.height10,
+
+                            /// Product Price
+                            Row(
+                              children: [
+                                Text('\$${productInfo.price}',
+                                    style: AppStyle.playFont16Bold.copyWith(color: Colors.deepOrange)
+                                ),
+                                AppStyle.width20,
+                                Text('\$${regularPrice.toStringAsFixed(2)}',
+                                  style: AppStyle.playFont.copyWith(
+                                    decoration: TextDecoration.lineThrough,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }),
+            );
+
+        }
     );
   }
 }
@@ -199,115 +325,18 @@ class CategoryListViewWidget extends StatelessWidget {
   }
 }
 
-class ProductGridViewWidgets extends StatelessWidget {
-  const ProductGridViewWidgets({
-    super.key,
-    this.itemCount,
-    this.getController,
-  });
-
-  final int? itemCount;
-  final HomePageViewModel? getController;
-
-  @override
-  Widget build(BuildContext context) {
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: itemCount,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-        childAspectRatio: 0.8,
-      ),
-      itemBuilder: (context, index) {
-        var productInfo = getController?.allProduct.products![index];
-        print('Home Page $productInfo');
-        if(productInfo == null)
-          {
-            return const Center(child: Text("No Data Available"),);
-          }
-          else{
-          return GestureDetector(
-            onTap: (){
-              debugPrint("$index");
-              Get.toNamed(AppRouteName.productDetailsPage);
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(AppStyle.radius10),
-
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // ClipRRect(
-                  //     borderRadius: const BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10)),
-                  //     child: Image.network(AppConstants.bannerImageList[index],height: Get.height*0.15,fit: BoxFit.fill,)
-                  // ),
-                  Padding(
-                    padding: const EdgeInsets.all(AppStyle.padding5),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(productInfo.id.toString(),
-                          style: AppStyle.playFontBold,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        AppStyle.height10,
-                        Row(
-                          children: [
-                            Row(
-                              children: [
-                                const Icon(Icons.star,color: Colors.deepOrange,),
-                                Text('4.5/5(61)',style: AppStyle.playFont,),
-                              ],
-                            ),
-                            AppStyle.width20,
-                            const Text('Sold - 1.8K'),
-                          ],
-                        ),
-                        AppStyle.height10,
-
-                        Row(
-                          children: [
-                            Text('\$45.00',
-                                style: AppStyle.playFont16Bold.copyWith(color: Colors.deepOrange)
-                            ),
-                            AppStyle.width20,
-                            Text('\$50.00',
-                              style: AppStyle.playFont.copyWith(
-                                decoration: TextDecoration.lineThrough,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        }
-        }
-    );
-  }
-}
 
 class BannerSliderWidgets extends StatefulWidget {
   const BannerSliderWidgets({
     Key? key,
     required this.isVisibleImageNumber,
     required this.isVisibleSliderDot,
-    required this.itemCount,
+    this.itemCount,
     required this.imageList,
   }) : super(key: key);
 
   final bool isVisibleImageNumber,isVisibleSliderDot;
-  final int itemCount;
+  final int? itemCount;
   final List imageList;
 
   @override
@@ -334,16 +363,16 @@ class _BannerSliderWidgetsState extends State<BannerSliderWidgets> {
                 return GestureDetector(
                   onTap: () {
                     debugPrint("${index+1}");
-                    Get.toNamed(AppRouteName.productFullImagePage);
+                    Get.toNamed(AppRouteName.productFullImagePage,arguments: widget.imageList);
                   },
                   child: Container(
                     height: Get.height,
                     width: Get.width,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: NetworkImage(widget.imageList[index].toString()),
-                        fit: BoxFit.fill
-                      ),
+                    child: CachedNetworkImage(
+                      imageUrl: "${widget.imageList[index]}",fit: BoxFit.fill,
+                      progressIndicatorBuilder: (context, url, downloadProgress) =>
+                          Center(child: CircularProgressIndicator(value: downloadProgress.progress,color: Colors.amber,)),
+                      errorWidget: (context, url, error) => const Icon(Icons.error),
                     ),
                   ),
                 );

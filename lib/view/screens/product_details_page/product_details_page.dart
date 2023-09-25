@@ -1,8 +1,8 @@
+import 'package:ecommerce_app/model/all_product_model.dart';
 import 'package:ecommerce_app/utils/app_style.dart';
 import 'package:ecommerce_app/view/screens/home_page/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../resources/constant/app_constant.dart';
 import '../../../resources/routes/app_routes_name.dart';
 
 class ProductDetailsPage extends StatefulWidget {
@@ -13,6 +13,8 @@ class ProductDetailsPage extends StatefulWidget {
 }
 
 class _ProductDetailsPageState extends State<ProductDetailsPage> {
+  Product productInfo = Get.arguments;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,8 +45,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               alignment: Alignment.center,
               height: Get.height*0.3,
               child: BannerSliderWidgets(
-                itemCount: AppConstants.bannerImageList.length,
-                imageList: AppConstants.bannerImageList,
+                itemCount: productInfo.images?.length,
+                imageList: productInfo.images!,
                 isVisibleImageNumber: true,
                 isVisibleSliderDot: false,
               ),
@@ -56,11 +58,10 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("4560.00 TK",style: AppStyle.playFont16Bold.copyWith(color: Colors.deepOrange)),
+                      Text("${productInfo.price} TK",style: AppStyle.playFont16Bold.copyWith(color: Colors.deepOrange)),
                       
                       /// Favourite Share Button
                       const FavouriteShareButtonWidgets(),
@@ -68,14 +69,16 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   ),
                   Row(
                     children: [
-                      Text("1230.00 Tk",style: AppStyle.playFont.copyWith(decoration: TextDecoration.lineThrough),),
-                      AppStyle.width10,
-                      Text("5%",style: AppStyle.playFontBold,),
+                      Text("${((productInfo.price! * productInfo.discountPercentage!)/100).toStringAsFixed(2)} Tk",
+                        style: AppStyle.playFont.copyWith(decoration: TextDecoration.lineThrough),
+                      ),
+                      AppStyle.width20,
+                      Text("${productInfo.discountPercentage} %",style: AppStyle.playFontBold,),
                     ],
                   ),
                   AppStyle.height20,
 
-                  Text("Product Name",
+                  Text("${productInfo.title}",
                     style: AppStyle.playFont16Bold,
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis
@@ -83,7 +86,10 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   AppStyle.height10,
 
                   /// Rating Sold Favourite
-                  const RatingSoldFavouriteWidgets(),
+                  RatingSoldFavouriteWidgets(
+                    rating: productInfo.rating.toString(),
+                    stock: productInfo.stock.toString(),
+                  ),
                   AppStyle.height20,
 
                   Text("Product Variation",style: AppStyle.playFont16Bold),
@@ -142,7 +148,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
                   /// Product Descriptions
                   Text("Product Descriptions", style: AppStyle.playFont16Bold,),
-                  Text("Product Descriptions Product Descriptions Product Descriptions Product Descriptions",style: AppStyle.playFont),
+                  Text("${productInfo.description}",style: AppStyle.playFont),
                   SizedBox(height: Get.height*0.2),
                 ],
               ),
@@ -186,7 +192,10 @@ class FavouriteShareButtonWidgets extends StatelessWidget {
 class RatingSoldFavouriteWidgets extends StatelessWidget {
   const RatingSoldFavouriteWidgets({
     super.key,
+    this.rating,
+    this.stock
   });
+  final String? rating,stock;
 
   @override
   Widget build(BuildContext context) {
@@ -200,7 +209,7 @@ class RatingSoldFavouriteWidgets extends StatelessWidget {
             children: [
               const Icon(Icons.star,color: Colors.amber,),
               AppStyle.width10,
-              Text("4.25/5",style: AppStyle.playFontBold,),
+              Text("$rating/5",style: AppStyle.playFontBold,),
             ],
           ),
         ),
@@ -211,9 +220,9 @@ class RatingSoldFavouriteWidgets extends StatelessWidget {
           widget: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Sold',style: AppStyle.playFontBold,),
+              Text('Stock',style: AppStyle.playFontBold,),
               AppStyle.width10,
-              Text("450",style: AppStyle.playFontBold),
+              Text("$stock",style: AppStyle.playFontBold),
             ],
           ),
         ),

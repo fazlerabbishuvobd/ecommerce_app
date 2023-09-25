@@ -1,11 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ecommerce_app/utils/app_style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../resources/constant/app_constant.dart';
 
 class ProductFullImagePage extends StatefulWidget {
-  const ProductFullImagePage({super.key});
+  const ProductFullImagePage({Key? key}):super(key: key);
 
   @override
   State<ProductFullImagePage> createState() => _ProductFullImagePageState();
@@ -13,6 +13,7 @@ class ProductFullImagePage extends StatefulWidget {
 
 class _ProductFullImagePageState extends State<ProductFullImagePage> {
   int _sliderImageIndex = 0;
+  List imageList = Get.arguments;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,6 +22,7 @@ class _ProductFullImagePageState extends State<ProductFullImagePage> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
+          /// Cancel Button
           Padding(
             padding: const EdgeInsets.only(right: AppStyle.padding10),
             child: CircleAvatar(
@@ -34,14 +36,20 @@ class _ProductFullImagePageState extends State<ProductFullImagePage> {
               ),
             ),
           ),
+
           Container(
             margin: EdgeInsets.only(top: Get.height*0.02),
             child: CarouselSlider(
-                items: AppConstants.bannerImageList.map((item) {
-                  return Image.network(item, scale: 1.5,fit: BoxFit.fill);
+                items: imageList.map((item) {
+                  return CachedNetworkImage(
+                    imageUrl: item,fit: BoxFit.fill,
+                    progressIndicatorBuilder: (context, url, downloadProgress) =>
+                        Center(child: CircularProgressIndicator(value: downloadProgress.progress,color: Colors.amber,)),
+                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                  );
                 }).toList(),
                 options: CarouselOptions(
-                  height: Get.height*0.6,
+                  height: Get.height*0.7,
                   viewportFraction: 1.0,
                   onPageChanged: (index, reason) {
                     setState(() {
@@ -54,7 +62,7 @@ class _ProductFullImagePageState extends State<ProductFullImagePage> {
 
           AppStyle.height20,
           Center(
-              child: Text("${_sliderImageIndex+1} / ${AppConstants.bannerImageList.length}",style: AppStyle.playFont16Bold,)
+              child: Text("${_sliderImageIndex+1} / ${imageList.length}",style: AppStyle.playFont16Bold,)
           ),
 
           AppStyle.height20,
