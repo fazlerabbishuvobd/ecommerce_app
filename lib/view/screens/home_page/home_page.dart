@@ -307,7 +307,7 @@ class CategoryListViewWidget extends StatelessWidget {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(AppStyle.radius10),
-                    child: Image.asset(AppConstants.categoriesImageList[index],height: Get.height*0.08,fit: BoxFit.fill,),
+                    child: Image.asset(AppConstants.categoriesImageList[index],height: Get.height*0.07,fit: BoxFit.fill,),
                   ),
                   AppStyle.height10,
                   Text(categoryList,

@@ -9,6 +9,20 @@ class HomePageViewModel extends GetxController{
   RxBool isButtonLoading = false.obs;
   RxString errorMessage = ''.obs;
 
+  RxList searchItemList = [].obs;
+  RxInt selectedSearchItem =(-1).obs;
+
+  Future<void> fetchSearchItem(String keywords) async{
+    try{
+      final searchItem = await _pageRepository.getSearchProduct(keywords);
+      searchItemList.clear();
+      searchItemList.addAll(searchItem);
+    }catch(e)
+    {
+      errorMessage.value = e.toString();
+    }
+  }
+
   RxList categories = [].obs;
   RxInt selectedCategory = (-1).obs;
 

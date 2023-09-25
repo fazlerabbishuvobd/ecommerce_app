@@ -50,7 +50,7 @@ class _AddNewAddressPageState extends State<AddNewAddressPage> {
                 elevation: 5,
                 child: Container(
                   padding: const EdgeInsets.all(AppStyle.padding10),
-                  height: Get.height*0.18,
+                  height: Get.height*0.20,
                   width: Get.width,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -95,7 +95,7 @@ class _AddNewAddressPageState extends State<AddNewAddressPage> {
                 elevation: 5,
                 child: Container(
                   padding: const EdgeInsets.all(AppStyle.padding10),
-                  height: Get.height*0.25,
+                  height: Get.height*0.26,
                   width: Get.width,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

@@ -47,7 +47,7 @@ class _AddToCartPageState extends State<AddToCartPage> {
                   ),
                   child: Container(
                     padding: const EdgeInsets.all(AppStyle.padding10),
-                    height: Get.height*0.15,
+                    height: Get.height*0.16,
                     width: Get.width*0.85,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

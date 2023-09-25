@@ -178,7 +178,7 @@ class ThemeLanguageBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomContainer(
       padding: const EdgeInsets.all(AppStyle.padding10),
-        height: Get.height*0.25,
+        height: Get.height*0.26,
         width: Get.width,
       widget: Column(
         children: [
@@ -190,13 +190,13 @@ class ThemeLanguageBottomSheet extends StatelessWidget {
               CustomContainer(
                 padding: const EdgeInsets.all(AppStyle.padding10),
                 onPressed:onPressed1,
-                height: Get.height*0.14,
+                height: Get.height*0.15,
                   width: Get.width*0.25,
                 color: Colors.green.withOpacity(0.2),
                 widget: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset('$icon1',height: 60,),
+                    Image.asset('$icon1',height: 55,),
                     AppStyle.height10,
                     Text("$option1Text",style: AppStyle.playFontBold,),
                   ],
@@ -212,7 +212,7 @@ class ThemeLanguageBottomSheet extends StatelessWidget {
                 widget: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset('$icon2',height: 60,),
+                    Image.asset('$icon2',height: 55,),
                     AppStyle.height10,
                     Text("$option2Text",style: AppStyle.playFontBold,),
                   ],

@@ -294,7 +294,7 @@ class OrderSummeryWidgets extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppStyle.radius10),
       ),
       child: Container(
-        height: Get.height*0.25,
+        height: Get.height*0.27,
         width: Get.width,
         padding: const EdgeInsets.all(AppStyle.padding10),
         child: Column(
