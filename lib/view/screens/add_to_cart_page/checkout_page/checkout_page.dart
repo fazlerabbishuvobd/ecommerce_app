@@ -14,6 +14,10 @@ class CheckoutPage extends StatefulWidget {
 class _CheckoutPageState extends State<CheckoutPage> {
 
   final getController = Get.put(CheckoutPageViewModel());
+  var itemList = Get.arguments[0];
+  var totalPrice = Get.arguments[1];
+
+  double? payment;
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +77,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 child: ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                    itemCount: 5,
+                    itemCount: itemList.length,
                     itemBuilder: (context, index) {
                       return Card(
                         elevation: 5,
@@ -86,7 +90,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             children: [
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
-                                child: Image.network('https://play-lh.googleusercontent.com/C9CAt9tZr8SSi4zKCxhQc9v4I6AOTqRmnLchsu1wVDQL0gsQ3fmbCVgQmOVM1zPru8UH=w240-h480-rw',height: Get.height*0.13,fit: BoxFit.fill,),
+                                child: Image.asset('${itemList[index].productImage}',height: Get.height*0.13,fit: BoxFit.fill,),
                               ),
                               AppStyle.width20,
 
@@ -94,12 +98,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text("Product Name Product Name Product Name Product Name",
+                                    Text(itemList[index].title,
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                       style: AppStyle.playFontBold
                                     ),
-                                    Text("Details",
+                                    Text("${itemList[index].details}",
                                       style: AppStyle.playFont,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
@@ -107,8 +111,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text("12300 Tk",style: AppStyle.playFontBold.copyWith(color: Colors.deepOrange)),
-                                        Text("Qty: 4",style: AppStyle.playFontBold.copyWith(color: Colors.deepOrange))
+                                        Text("${itemList[index].price} Tk",style: AppStyle.playFontBold.copyWith(color: Colors.deepOrange)),
+                                        Text("Qty: ${itemList[index].quantity}",style: AppStyle.playFontBold.copyWith(color: Colors.deepOrange))
                                       ],
                                     )
                                   ],
@@ -180,7 +184,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
               AppStyle.height20,
 
 
-              const OrderSummeryWidgets(),
+              OrderSummeryWidgets(
+                itemTotal: totalPrice,
+                deliveryDiscount: -10,
+                deliveryFee: 120,
+                discount: -50,
+              ),
               SizedBox(height: Get.height*0.15,),
               
             ],
@@ -200,7 +209,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("Total",style: AppStyle.playFontBold,),
-                Text("456250.00 TK",style: AppStyle.playFont16Bold),
+                Text("$totalPrice TK",style: AppStyle.playFont16Bold),
               ],
             ),
 
@@ -284,10 +293,18 @@ class PromotionsWidgets extends StatelessWidget {
 class OrderSummeryWidgets extends StatelessWidget {
   const OrderSummeryWidgets({
     super.key,
+    required this.itemTotal,
+    this.deliveryFee,
+    this.deliveryDiscount,
+    this.discount,
   });
+
+  final double itemTotal;
+  final int? deliveryFee,deliveryDiscount,discount;
 
   @override
   Widget build(BuildContext context) {
+    double totalPayment = itemTotal+deliveryFee!.toInt()+deliveryDiscount!.toInt()+discount!.toInt();
     return Card(
       elevation: 5,
       shape: RoundedRectangleBorder(
@@ -304,25 +321,26 @@ class OrderSummeryWidgets extends StatelessWidget {
             const Divider(),
             AppStyle.height20,
 
-            const OrderSummeryInfo(
+            OrderSummeryInfo(
               name: 'Item Total',
-              amount: '1234560.00',
+              amount: '$itemTotal',
             ),
-            const OrderSummeryInfo(
+            OrderSummeryInfo(
               name: 'Delivery Fee',
-              amount: '123',
+              amount: '$deliveryFee',
             ),
-            const OrderSummeryInfo(
+
+            OrderSummeryInfo(
               name: 'Delivery Discount',
-              amount: '00',
+              amount: '$deliveryDiscount',
             ),
-            const OrderSummeryInfo(
+            OrderSummeryInfo(
               name: 'Discounts',
-              amount: '1230',
+              amount: '$discount',
             ),
-            const OrderSummeryInfo(
+            OrderSummeryInfo(
               name: 'Total Payment',
-              amount: '1234560.00',
+              amount: totalPayment.toStringAsFixed(2),
             ),
           ],
         ),

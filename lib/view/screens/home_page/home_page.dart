@@ -185,7 +185,7 @@ class ProductGridViewWidgets extends StatelessWidget {
           crossAxisCount: 2,
           crossAxisSpacing: 10,
           mainAxisSpacing: 10,
-          childAspectRatio: 0.8,
+          childAspectRatio: 0.75,
         ),
         itemBuilder: (context, index) {
           var productInfo = getController.productList[index];

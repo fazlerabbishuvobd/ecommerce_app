@@ -2,7 +2,8 @@ import 'package:ecommerce_app/utils/app_style.dart';
 import 'package:ecommerce_app/viewmodel/addTo_cart_page/addTo_cart_page_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import '../../../model/addTocartModel.dart';
+import '../../../resources/assets/app_icon/app_icons.dart';
 import '../../../resources/routes/app_routes_name.dart';
 
 class AddToCartPage extends StatefulWidget {
@@ -14,8 +15,23 @@ class AddToCartPage extends StatefulWidget {
 
 class _AddToCartPageState extends State<AddToCartPage> {
   final getController = Get.put(AddToCartPageViewModel());
+
+  double totalPrice =0.0 ;
+  List<AddToCartModel> addToCartItem = [
+    AddToCartModel(title: 'Iphone X', quantity: 1, price: 120.0,details: 'Hi 1',productImage: AppIcon.bkash),
+    AddToCartModel(title: 'Iphone 11', quantity: 1, price: 125.0,details: 'Hi 2',productImage: AppIcon.nagad),
+    AddToCartModel(title: 'Iphone 12', quantity: 1, price: 128.0,details: 'Hi 3',productImage: AppIcon.google),
+    AddToCartModel(title: 'Iphone 13', quantity: 1, price: 130.0,details: 'Hi 4',productImage: AppIcon.stripe),
+    AddToCartModel(title: 'Iphone 14', quantity: 1, price: 140.0,details: 'Hi 5',productImage: AppIcon.bd),
+    AddToCartModel(title: 'Iphone 15', quantity: 1, price: 150.0,details: 'Hi 6',productImage: AppIcon.rocket),
+  ];
+
+
   @override
   Widget build(BuildContext context) {
+    for (var item in addToCartItem) {
+      totalPrice += item.price;
+    }
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -32,11 +48,12 @@ class _AddToCartPageState extends State<AddToCartPage> {
       body: Container(
         padding: const EdgeInsets.all(AppStyle.padding10),
         height: Get.height*0.8,
+        width: Get.width,
         child: ListView.builder(
           physics: const BouncingScrollPhysics(),
-            itemCount: 11,
+            itemCount: addToCartItem.length+1,
             itemBuilder: (context, index) {
-              if(index<10){
+              if(index<addToCartItem.length){
                 return Card(
                   margin: EdgeInsets.only(
                       bottom: Get.height*0.02
@@ -48,7 +65,7 @@ class _AddToCartPageState extends State<AddToCartPage> {
                   child: Container(
                     padding: const EdgeInsets.all(AppStyle.padding10),
                     height: Get.height*0.16,
-                    width: Get.width*0.85,
+                    width: Get.width*0.8,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -56,21 +73,21 @@ class _AddToCartPageState extends State<AddToCartPage> {
                           children: [
                             ClipRRect(
                               borderRadius: BorderRadius.circular(AppStyle.radius10),
-                              child: Image.network('https://play-lh.googleusercontent.com/C9CAt9tZr8SSi4zKCxhQc9v4I6AOTqRmnLchsu1wVDQL0gsQ3fmbCVgQmOVM1zPru8UH=w240-h480-rw',height: Get.height,fit: BoxFit.fill,),
+                              child: Image.asset('${addToCartItem[index].productImage}',height: Get.height,fit: BoxFit.fill)
                             ),
                             AppStyle.width20,
 
                             SizedBox(
-                              width: Get.width*0.46,
+                              width: Get.width*0.42,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('Product Name Product Name Product Name Product Name',
+                                  Text(addToCartItem[index].title,
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     style: AppStyle.playFontBold
                                   ),
-                                  Text('Product details',
+                                  Text('${addToCartItem[index].details}',
                                     style: AppStyle.playFont,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
@@ -78,7 +95,7 @@ class _AddToCartPageState extends State<AddToCartPage> {
                                   ),
                                   const Spacer(),
 
-                                  Text('\$ 5666.00', style: AppStyle.playFont16Bold.copyWith(color: Colors.deepOrange)),
+                                  Text('\$ ${addToCartItem[index].price * addToCartItem[index].quantity}', style: AppStyle.playFont16Bold.copyWith(color: Colors.deepOrange)),
                                 ],
                               ),
                             ),
@@ -86,20 +103,40 @@ class _AddToCartPageState extends State<AddToCartPage> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                GestureDetector(
+                                InkWell(
                                     onTap: (){
                                       debugPrint("1");
+                                      setState(() {
+                                        totalPrice=0.0;
+                                        if(addToCartItem[index].quantity>1)
+                                          {
+                                            addToCartItem[index].quantity--;
+                                          }
+                                        else{
+                                          Get.snackbar('Can not be 0', 'Minimum 1',snackPosition:SnackPosition.BOTTOM);
+                                        }
+                                      });
                                     },
                                     child: const Icon(Icons.remove_circle,color: Colors.red,)
                                 ),
 
                                 AppStyle.width10,
-                                Text('1',style: AppStyle.playFontBold),
+                                Text('${addToCartItem[index].quantity}',style: AppStyle.playFontBold),
                                 AppStyle.width10,
 
-                                GestureDetector(
+                                InkWell(
                                     onTap: (){
                                       debugPrint("2");
+
+                                      setState(() {
+                                        if(addToCartItem[index].quantity<10)
+                                        {
+                                          addToCartItem[index].quantity++;
+                                        }
+                                        else{
+                                          Get.snackbar('Max Limit', 'Max Limit 10',snackPosition:SnackPosition.BOTTOM);
+                                        }
+                                      });
                                     },
                                     child: const Icon(Icons.add_circle,color: Colors.green,)
                                 ),
@@ -123,28 +160,29 @@ class _AddToCartPageState extends State<AddToCartPage> {
       bottomSheet: Container(
         padding: const EdgeInsets.all(AppStyle.padding10),
         height: Get.height*0.1,
+        width: Get.width,
         color: Colors.amber,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("Total",style: AppStyle.playFontBold,),
-                Text("456250.00 TK",style: AppStyle.playFont16Bold,),
+                Text("${totalPrice.toStringAsFixed(2)}TK",style: AppStyle.playFont16Bold,),
               ],
             ),
 
             SizedBox(
-              width: Get.width*0.36,
+              width: Get.width*0.38,
               child: Obx(() {
                 return MaterialButton(
                   height: Get.height*0.06,
                   onPressed: ()async{
                     getController.isCheckoutButtonLoading.value = true;
                     await Future.delayed(const Duration(seconds: 1));
-                    Get.toNamed(AppRouteName.checkoutPage);
+                    Get.toNamed(AppRouteName.checkoutPage,arguments: [addToCartItem,totalPrice]);
                     getController.isCheckoutButtonLoading.value = false;
                   },
                   color: Colors.white,
@@ -154,10 +192,11 @@ class _AddToCartPageState extends State<AddToCartPage> {
                   child: getController.isCheckoutButtonLoading.value? const Center(
                     child: CircularProgressIndicator(),
                   ): Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text("Checkout",style: AppStyle.playFont16Bold),
                       SizedBox(width: Get.width*0.01,),
-                      Text("(120)",style: AppStyle.playFont16Bold.copyWith(color: Colors.red)),
+                      Text("(${addToCartItem.length})",style: AppStyle.playFont16Bold.copyWith(color: Colors.red)),
                     ],
                   ),
                 );
