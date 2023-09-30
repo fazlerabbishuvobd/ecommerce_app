@@ -16,7 +16,6 @@ class AppConstants{
   ];
 
   //*************** CategoryImage **********************
-
   static const List categoriesImageList = [
     AppImage.smartphones,
     AppImage.laptop,
