@@ -5,7 +5,6 @@ class FireStoreHelper {
   final _db = FirebaseFirestore.instance.collection('cart');
 
   Future<void> addInfo(CartModel model) async {
-    // Set the data
     Map<String, dynamic> data = {
       'itemName': model.itemName,
       'details': model.details,
@@ -14,12 +13,10 @@ class FireStoreHelper {
       'quantity': model.quantity,
       'uid': model.uid,
     };
-
     await _db.doc().set(data);
   }
 
   Future<void> updateInfo(CartModel model) async {
-    // Set the data
     Map<String, dynamic> data = {
       'itemName': model.itemName,
       'details': model.details,

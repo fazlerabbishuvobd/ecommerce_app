@@ -2,7 +2,6 @@ import 'package:ecommerce_app/services/firebase/authentication/email_password_au
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../resources/routes/app_routes_name.dart';
 
 class AuthViewModel extends GetxController {
