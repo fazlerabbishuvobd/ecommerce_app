@@ -1,4 +1,6 @@
 import 'package:ecommerce_app/model/all_product_model.dart';
+import 'package:ecommerce_app/model/firestore/cart_model.dart';
+import 'package:ecommerce_app/services/firebase/firestore/firestore_helper.dart';
 import 'package:ecommerce_app/utils/app_style.dart';
 import 'package:ecommerce_app/view/screens/home_page/home_page.dart';
 import 'package:flutter/material.dart';
@@ -157,7 +159,50 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           ],
         ),
       ),
-      bottomSheet: const BottomPartWidgets(),
+      bottomSheet: Container(
+        padding: const EdgeInsets.symmetric(horizontal: AppStyle.padding10),
+        height: Get.height*0.08,
+        color: Colors.deepOrange,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Icon(Icons.store),
+            const Icon(Icons.message),
+            Row(
+              children: [
+                CustomMaterialButton(
+                  color: Colors.white,
+                  width: Get.width*0.3,
+                  buttonText: 'Buy Now',
+                  onPressed: () {
+                    debugPrint("Buy Now");
+                    Get.toNamed(AppRouteName.checkoutPage);
+                  },
+                ),
+                AppStyle.width10,
+
+                CustomMaterialButton(
+                  color: Colors.white,
+                  width: Get.width*0.3,
+                  buttonText: 'Add to Cart',
+                  onPressed: () {
+                    debugPrint("Add to Cart");
+                    //Get.toNamed(AppRouteName.addToCartPage);
+                    FireStoreHelper dataInfo = FireStoreHelper();
+                    CartModel model = CartModel(
+                        itemName:productInfo.title,
+                        price: productInfo.price!.toDouble(),
+                        quantity: 1,
+                        imageUrl: productInfo.thumbnail,
+                        uid: 'F3bHKgQjescMs1XKAsTJpSRbXxk1');
+                    dataInfo.addInfo(model);
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -349,51 +394,6 @@ class ReviewRatingListWidgets extends StatelessWidget {
   }
 }
 
-class BottomPartWidgets extends StatelessWidget {
-  const BottomPartWidgets({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: AppStyle.padding10),
-      height: Get.height*0.08,
-      color: Colors.deepOrange,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          const Icon(Icons.store),
-          const Icon(Icons.message),
-          Row(
-            children: [
-              CustomMaterialButton(
-                color: Colors.white,
-                width: Get.width*0.3,
-                buttonText: 'Buy Now',
-                onPressed: () {
-                  debugPrint("Buy Now");
-                  Get.toNamed(AppRouteName.checkoutPage);
-                },
-              ),
-              AppStyle.width10,
-
-              CustomMaterialButton(
-                color: Colors.white,
-                width: Get.width*0.3,
-                buttonText: 'Add to Cart',
-                onPressed: () {
-                  debugPrint("Add to Cart");
-                  Get.toNamed(AppRouteName.addToCartPage);
-                },
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 class ReviewImageSliderWidgets extends StatelessWidget {
   const ReviewImageSliderWidgets({

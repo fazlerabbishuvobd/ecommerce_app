@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "515794421165",
+    "project_id": "e-commerce-app-20d19",
+    "storage_bucket": "e-commerce-app-20d19.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:515794421165:android:230f0db5d7abbb71d48d24",
+        "android_client_info": {
+          "package_name": "com.fazlerabbi.ecommerce.ecommerce_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASmx14Y_oleOtBENGevwVZVJfB_2hDd98"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

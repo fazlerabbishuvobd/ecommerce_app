@@ -1,10 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce_app/utils/app_style.dart';
 import 'package:ecommerce_app/viewmodel/addTo_cart_page/addTo_cart_page_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../model/addTocartModel.dart';
-import '../../../resources/assets/app_icon/app_icons.dart';
-import '../../../resources/routes/app_routes_name.dart';
 
 class AddToCartPage extends StatefulWidget {
   const AddToCartPage({super.key});
@@ -15,23 +13,25 @@ class AddToCartPage extends StatefulWidget {
 
 class _AddToCartPageState extends State<AddToCartPage> {
   final getController = Get.put(AddToCartPageViewModel());
+  // F3bHKgQjescMs1XKAsTJpSRbXxk1 8tu2sQJIzCR9SqiGoYrIY8DhtDr2
+  final _db = FirebaseFirestore.instance.collection('cart').where('uid', isEqualTo: '8tu2sQJIzCR9SqiGoYrIY8DhtDr2');
 
   double totalPrice =0.0 ;
-  List<AddToCartModel> addToCartItem = [
-    AddToCartModel(title: 'Iphone X', quantity: 1, price: 120.0,details: 'Hi 1',productImage: AppIcon.bkash),
-    AddToCartModel(title: 'Iphone 11', quantity: 1, price: 125.0,details: 'Hi 2',productImage: AppIcon.nagad),
-    AddToCartModel(title: 'Iphone 12', quantity: 1, price: 128.0,details: 'Hi 3',productImage: AppIcon.google),
-    AddToCartModel(title: 'Iphone 13', quantity: 1, price: 130.0,details: 'Hi 4',productImage: AppIcon.stripe),
-    AddToCartModel(title: 'Iphone 14', quantity: 1, price: 140.0,details: 'Hi 5',productImage: AppIcon.bd),
-    AddToCartModel(title: 'Iphone 15', quantity: 1, price: 150.0,details: 'Hi 6',productImage: AppIcon.rocket),
-  ];
+  // List<AddToCartModel> addToCartItem = [
+  //   AddToCartModel(title: 'Iphone X', quantity: 1, price: 120.0,details: 'Hi 1',productImage: AppIcon.bkash),
+  //   AddToCartModel(title: 'Iphone 11', quantity: 1, price: 125.0,details: 'Hi 2',productImage: AppIcon.nagad),
+  //   AddToCartModel(title: 'Iphone 12', quantity: 1, price: 128.0,details: 'Hi 3',productImage: AppIcon.google),
+  //   AddToCartModel(title: 'Iphone 13', quantity: 1, price: 130.0,details: 'Hi 4',productImage: AppIcon.stripe),
+  //   AddToCartModel(title: 'Iphone 14', quantity: 1, price: 140.0,details: 'Hi 5',productImage: AppIcon.bd),
+  //   AddToCartModel(title: 'Iphone 15', quantity: 1, price: 150.0,details: 'Hi 6',productImage: AppIcon.rocket),
+  // ];
 
 
   @override
   Widget build(BuildContext context) {
-    for (var item in addToCartItem) {
-      totalPrice += item.price;
-    }
+    // for (var item in addToCartItem) {
+    //   totalPrice += item.price;
+    // }
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -45,15 +45,24 @@ class _AddToCartPageState extends State<AddToCartPage> {
         centerTitle: true,
         backgroundColor: Colors.amber,
       ),
-      body: Container(
-        padding: const EdgeInsets.all(AppStyle.padding10),
-        height: Get.height*0.8,
-        width: Get.width,
-        child: ListView.builder(
-          physics: const BouncingScrollPhysics(),
-            itemCount: addToCartItem.length+1,
-            itemBuilder: (context, index) {
-              if(index<addToCartItem.length){
+      body: StreamBuilder<QuerySnapshot>(
+        stream: _db.snapshots(),
+        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.hasError) {
+            return Text(snapshot.error.toString());
+          } else if (snapshot.hasData) {
+            if (snapshot.data!.docs.isEmpty) {
+              return const Center(child: Text('No data found'));
+            }
+            return ListView.builder(
+              itemCount: snapshot.data!.docs.length,
+              itemBuilder: (context, index) {
+                final document = snapshot.data!.docs[index];
+
                 return Card(
                   margin: EdgeInsets.only(
                       bottom: Get.height*0.02
@@ -72,8 +81,8 @@ class _AddToCartPageState extends State<AddToCartPage> {
                         Row(
                           children: [
                             ClipRRect(
-                              borderRadius: BorderRadius.circular(AppStyle.radius10),
-                              child: Image.asset('${addToCartItem[index].productImage}',height: Get.height,fit: BoxFit.fill)
+                                borderRadius: BorderRadius.circular(AppStyle.radius10),
+                                child: Image.network(document['imageUrl'],height: Get.height,width: Get.width*0.3,fit: BoxFit.fill)
                             ),
                             AppStyle.width20,
 
@@ -82,12 +91,12 @@ class _AddToCartPageState extends State<AddToCartPage> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(addToCartItem[index].title,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: AppStyle.playFontBold
+                                  Text(document['itemName'],
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: AppStyle.playFontBold
                                   ),
-                                  Text('${addToCartItem[index].details}',
+                                  Text('${document['details']}',
                                     style: AppStyle.playFont,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
@@ -95,7 +104,7 @@ class _AddToCartPageState extends State<AddToCartPage> {
                                   ),
                                   const Spacer(),
 
-                                  Text('\$ ${addToCartItem[index].price * addToCartItem[index].quantity}', style: AppStyle.playFont16Bold.copyWith(color: Colors.deepOrange)),
+                                  Text('\$ ${document['price'] * document['quantity']}', style: AppStyle.playFont16Bold.copyWith(color: Colors.deepOrange)),
                                 ],
                               ),
                             ),
@@ -108,10 +117,10 @@ class _AddToCartPageState extends State<AddToCartPage> {
                                       debugPrint("1");
                                       setState(() {
                                         totalPrice=0.0;
-                                        if(addToCartItem[index].quantity>1)
-                                          {
-                                            addToCartItem[index].quantity--;
-                                          }
+                                        if(document['quantity']>1)
+                                        {
+                                          //document['quantity']-- ;
+                                        }
                                         else{
                                           Get.snackbar('Can not be 0', 'Minimum 1',snackPosition:SnackPosition.BOTTOM);
                                         }
@@ -121,7 +130,7 @@ class _AddToCartPageState extends State<AddToCartPage> {
                                 ),
 
                                 AppStyle.width10,
-                                Text('${addToCartItem[index].quantity}',style: AppStyle.playFontBold),
+                                Text('${document['quantity']}',style: AppStyle.playFontBold),
                                 AppStyle.width10,
 
                                 InkWell(
@@ -129,9 +138,9 @@ class _AddToCartPageState extends State<AddToCartPage> {
                                       debugPrint("2");
 
                                       setState(() {
-                                        if(addToCartItem[index].quantity<10)
+                                        if(document['quantity']<10)
                                         {
-                                          addToCartItem[index].quantity++;
+                                          //document['quantity']++;
                                         }
                                         else{
                                           Get.snackbar('Max Limit', 'Max Limit 10',snackPosition:SnackPosition.BOTTOM);
@@ -148,15 +157,13 @@ class _AddToCartPageState extends State<AddToCartPage> {
                     ),
                   ),
                 );
-              }
-              else{
-                return Container(
-                  height: Get.height*0.1,
-                );
-              }
-            },
-        ),
+              },
+            );
+          }
+          return const Text('No Data Found');
+        },
       ),
+
       bottomSheet: Container(
         padding: const EdgeInsets.all(AppStyle.padding10),
         height: Get.height*0.1,
@@ -174,34 +181,34 @@ class _AddToCartPageState extends State<AddToCartPage> {
               ],
             ),
 
-            SizedBox(
-              width: Get.width*0.38,
-              child: Obx(() {
-                return MaterialButton(
-                  height: Get.height*0.06,
-                  onPressed: ()async{
-                    getController.isCheckoutButtonLoading.value = true;
-                    await Future.delayed(const Duration(seconds: 1));
-                    Get.toNamed(AppRouteName.checkoutPage,arguments: [addToCartItem,totalPrice]);
-                    getController.isCheckoutButtonLoading.value = false;
-                  },
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(AppStyle.radius10),
-                  ),
-                  child: getController.isCheckoutButtonLoading.value? const Center(
-                    child: CircularProgressIndicator(),
-                  ): Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Checkout",style: AppStyle.playFont16Bold),
-                      SizedBox(width: Get.width*0.01,),
-                      Text("(${addToCartItem.length})",style: AppStyle.playFont16Bold.copyWith(color: Colors.red)),
-                    ],
-                  ),
-                );
-              }),
-            )
+            // SizedBox(
+            //   width: Get.width*0.38,
+            //   child: Obx(() {
+            //     return MaterialButton(
+            //       height: Get.height*0.06,
+            //       onPressed: ()async{
+            //         getController.isCheckoutButtonLoading.value = true;
+            //         await Future.delayed(const Duration(seconds: 1));
+            //         Get.toNamed(AppRouteName.checkoutPage,arguments: [addToCartItem,totalPrice]);
+            //         getController.isCheckoutButtonLoading.value = false;
+            //       },
+            //       color: Colors.white,
+            //       shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(AppStyle.radius10),
+            //       ),
+            //       child: getController.isCheckoutButtonLoading.value? const Center(
+            //         child: CircularProgressIndicator(),
+            //       ): Row(
+            //         mainAxisAlignment: MainAxisAlignment.center,
+            //         children: [
+            //           Text("Checkout",style: AppStyle.playFont16Bold),
+            //           SizedBox(width: Get.width*0.01,),
+            //           Text("(${addToCartItem.length})",style: AppStyle.playFont16Bold.copyWith(color: Colors.red)),
+            //         ],
+            //       ),
+            //     );
+            //   }),
+            // )
           ],
         ),
       ),

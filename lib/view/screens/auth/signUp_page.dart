@@ -3,8 +3,10 @@ import 'package:ecommerce_app/resources/routes/app_routes_name.dart';
 import 'package:ecommerce_app/utils/app_style.dart';
 import 'package:ecommerce_app/view/screens/product_details_page/product_details_page.dart';
 import 'package:ecommerce_app/viewmodel/auth/auth_view_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -16,11 +18,7 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
 
   final _formKey = GlobalKey<FormState>();
-  final nameController = TextEditingController();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final reTypePasswordController = TextEditingController();
-  final phoneNumber = TextEditingController();
+  FirebaseAuth auth = FirebaseAuth.instance;
 
   final getController = Get.put(AuthViewModel());
 
@@ -37,14 +35,15 @@ class _SignUpPageState extends State<SignUpPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+
                   const Icon(Icons.shopping_bag_outlined,size: 60,),
                   Text("Hi, Welcome",style: AppStyle.playFontBold.copyWith(fontSize: 20),),
                   Text("Let's make your journey",style: AppStyle.playFont,),
                   AppStyle.height20,
 
                   CustomTextField(
-                    controller: nameController,
-                    validator: (value) => validateName(value),
+                    controller: getController.nameController,
+                    //validator: (value) => validateName(value),
                     icon: Icons.person_2_outlined,
                     hintText: 'Your name',
                     isObscure: false,
@@ -52,7 +51,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   AppStyle.height10,
 
                   CustomTextField(
-                    controller: emailController,
+                    controller: getController.emailController,
                     validator: (value) => validateEmail(value),
                     icon: Icons.email_outlined,
                     hintText: 'Your email',
@@ -61,8 +60,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   AppStyle.height10,
 
                   CustomTextField(
-                    controller: phoneNumber,
-                    validator: (value) => validatePhoneNo(value),
+                    controller: getController.phoneNumber,
+                    //validator: (value) => validatePhoneNo(value),
                     maxFieldDataLength: 11,
                     icon: Icons.phone_android_outlined,
                     hintText: 'Your phone number',
@@ -72,8 +71,8 @@ class _SignUpPageState extends State<SignUpPage> {
 
                   Obx(() {
                     return CustomTextField(
-                      controller: passwordController,
-                      validator: (value) => validatePassword(value),
+                      controller: getController.passwordController,
+                      //validator: (value) => validatePassword(value),
                       icon: Icons.lock_open,
                       hintText: 'Your password',
                       isObscure: getController.isObscurePass.value,
@@ -91,8 +90,8 @@ class _SignUpPageState extends State<SignUpPage> {
 
                   Obx(() {
                     return CustomTextField(
-                      controller: reTypePasswordController,
-                      validator: (value) => validatePassword(value),
+                      controller: getController.reTypePasswordController,
+                      //validator: (value) => validatePassword(value),
                       icon: Icons.lock_open,
                       hintText: 'Re-type password',
                       isObscure: getController.isObscureRePass.value,
@@ -112,23 +111,25 @@ class _SignUpPageState extends State<SignUpPage> {
                     color: Colors.amber,
                     width: Get.width*0.6,
                     buttonText: 'Sign Up',
-                    onPressed: (){
+                    onPressed: ()async{
                       if(_formKey.currentState!.validate())
                         {
-                          if(passwordController.text == reTypePasswordController.text)
+                          if(getController.passwordController.text == getController.reTypePasswordController.text)
                             {
-                              Get.offAllNamed(AppRouteName.signInPage);
+                              getController.signUpWithEmail();
                             }
                           else{
                             debugPrint("Password not match");
                           }
                         }
                       else{
-                        debugPrint("Error");
+                        debugPrint("Not Validated");
                       }
                     },
                   ),
                   SizedBox(height: Get.height*0.06,),
+
+
 
                   Text("---------   Or Sign Up With   --------",style: AppStyle.playFont,),
                   AppStyle.height20,
@@ -177,6 +178,16 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
         ),
       ),
+    );
+  }
+
+  SnackbarController customShowSnackbar({required String title,required String message}) {
+    return Get.showSnackbar(
+        GetSnackBar(
+          title:title,
+          message: message,
+          duration: const Duration(seconds: 2),
+        )
     );
   }
 

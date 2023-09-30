@@ -1,6 +1,7 @@
-import 'package:ecommerce_app/data/services/api/api_services.dart';
 import 'package:ecommerce_app/model/all_product_model.dart';
 import 'package:ecommerce_app/resources/app_api_url/app_api_url.dart';
+
+import '../../services/api/api_services.dart';
 
 class HomePageRepository{
   ApiServices apiServices = ApiServices();

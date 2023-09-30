@@ -17,6 +17,7 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage> {
 
   final _formKey = GlobalKey<FormState>();
+
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
@@ -80,9 +81,10 @@ class _SignInPageState extends State<SignInPage> {
                     color: Colors.amber,
                     width: Get.width*0.6,
                     buttonText: 'Sign In',
-                    onPressed: (){
+                    onPressed: ()async {
                       if(_formKey.currentState!.validate())
                         {
+                          getController.signInWithEmail();
                           Get.offAllNamed(AppRouteName.bottomNavBarPage);
                         }
                       else{

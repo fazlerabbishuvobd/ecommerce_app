@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ecommerce_app/utils/app_style.dart';
 import 'package:ecommerce_app/viewmodel/home_page/home_page_view_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../resources/constant/app_constant.dart';
@@ -24,14 +25,16 @@ class _HomePageState extends State<HomePage> {
   }
 
   final getController = Get.put(HomePageViewModel());
+  final user = FirebaseAuth.instance.currentUser;
 
-  // @override
-  // void initState() {
-  //   // getController.fetchCategories();
-  //   // getController.fetchProducts();
-  //   getController.fetchData();
-  //   super.initState();
-  // }
+  @override
+  void initState() {
+    // getController.fetchCategories();
+    // getController.fetchProducts();
+    //getController.fetchData();
+    print(user?.uid);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
