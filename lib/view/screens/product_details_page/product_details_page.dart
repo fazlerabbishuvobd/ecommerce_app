@@ -3,6 +3,7 @@ import 'package:ecommerce_app/model/firestore/cart_model.dart';
 import 'package:ecommerce_app/services/firebase/firestore/firestore_helper.dart';
 import 'package:ecommerce_app/utils/app_style.dart';
 import 'package:ecommerce_app/view/screens/home_page/home_page.dart';
+import 'package:ecommerce_app/viewmodel/addTo_cart_page/addTo_cart_page_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../resources/routes/app_routes_name.dart';
@@ -15,6 +16,7 @@ class ProductDetailsPage extends StatefulWidget {
 }
 
 class _ProductDetailsPageState extends State<ProductDetailsPage> {
+  final getController = Get.put(AddToCartPageViewModel());
   Product productInfo = Get.arguments;
 
   @override
@@ -194,7 +196,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                         price: productInfo.price!.toDouble(),
                         quantity: 1,
                         imageUrl: productInfo.thumbnail,
-                        uid: 'F3bHKgQjescMs1XKAsTJpSRbXxk1');
+                        uid: getController.uidS.value);
                     dataInfo.addInfo(model);
                   },
                 ),

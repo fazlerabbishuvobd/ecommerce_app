@@ -17,10 +17,6 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage> {
 
   final _formKey = GlobalKey<FormState>();
-
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-
   final getController = Get.put(AuthViewModel());
 
   @override
@@ -41,7 +37,7 @@ class _SignInPageState extends State<SignInPage> {
                   AppStyle.height40,
 
                   CustomTextField(
-                    controller: emailController,
+                    controller: getController.emailController,
                     validator: (value) => validateEmail(value),
                     icon: Icons.email_outlined,
                     hintText: 'Your email',
@@ -51,7 +47,7 @@ class _SignInPageState extends State<SignInPage> {
 
 
                   CustomTextField(
-                    controller: passwordController,
+                    controller: getController.passwordController,
                     validator: (value) => validatePassword(value),
                     icon: Icons.lock_open,
                     hintText: 'Your password',
@@ -81,11 +77,11 @@ class _SignInPageState extends State<SignInPage> {
                     color: Colors.amber,
                     width: Get.width*0.6,
                     buttonText: 'Sign In',
-                    onPressed: ()async {
+                    onPressed: ()async{
                       if(_formKey.currentState!.validate())
                         {
                           getController.signInWithEmail();
-                          Get.offAllNamed(AppRouteName.bottomNavBarPage);
+                          //Get.offAllNamed(AppRouteName.bottomNavBarPage);
                         }
                       else{
                         debugPrint("Not Validated");

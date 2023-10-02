@@ -111,7 +111,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     color: Colors.amber,
                     width: Get.width*0.6,
                     buttonText: 'Sign Up',
-                    onPressed: ()async{
+                    onPressed: (){
                       if(_formKey.currentState!.validate())
                         {
                           if(getController.passwordController.text == getController.reTypePasswordController.text)

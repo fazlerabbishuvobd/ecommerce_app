@@ -5,6 +5,7 @@ import 'package:ecommerce_app/view/screens/product_details_page/product_details_
 import 'package:ecommerce_app/view/screens/profile_page/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
 
@@ -141,7 +142,8 @@ class _SettingPageState extends State<SettingPage> {
             Center(
               child: CustomMaterialButton(
                 onPressed: (){
-                  Get.toNamed(AppRouteName.signInPage);
+                  removeUid();
+                  Get.offNamed(AppRouteName.signInPage);
                 },
                 color: Colors.amber,
                 buttonText: 'Log Out',
@@ -156,6 +158,12 @@ class _SettingPageState extends State<SettingPage> {
         ),
       ),
     );
+  }
+
+  Future<void> removeUid() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('uid');
+    print(prefs.get('uid'));
   }
 }
 

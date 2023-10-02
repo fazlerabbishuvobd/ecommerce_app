@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecommerce_app/services/firebase/firestore/firestore_helper.dart';
 import 'package:ecommerce_app/utils/app_style.dart';
 import 'package:ecommerce_app/viewmodel/addTo_cart_page/addTo_cart_page_view_model.dart';
 import 'package:flutter/material.dart';
@@ -13,86 +14,17 @@ class AddToCartPage extends StatefulWidget {
 }
 
 class _AddToCartPageState extends State<AddToCartPage> {
+  FireStoreHelper fireStoreHelper = FireStoreHelper();
   final getController = Get.put(AddToCartPageViewModel());
-  // F3bHKgQjescMs1XKAsTJpSRbXxk1 8tu2sQJIzCR9SqiGoYrIY8DhtDr2
-  //final _db = FirebaseFirestore.instance.collection('cart').where('uid', isEqualTo: '8tu2sQJIzCR9SqiGoYrIY8DhtDr2');
-
   double totalPrice =0.0 ;
-  final FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-  Stream<QuerySnapshot> getFilteredDocumentsStream() {
-    Query query = firestore.collection('cart').where('uid', isEqualTo: '8tu2sQJIzCR9SqiGoYrIY8DhtDr2');
-    return query.snapshots();
-  }
-
-  Future<void> incrementQuantity(documentId) async {
-    try {
-      // Reference to the Firestore document you want to update
-      DocumentReference docRef = firestore.collection('cart').doc(documentId);
-
-      // Fetch the current data from Firestore
-      DocumentSnapshot documentSnapshot = await docRef.get();
-
-      if (documentSnapshot.exists) {
-        // Get the current quantity value
-        int currentQuantity = documentSnapshot.get('quantity') ?? 0;
-
-        // Update the quantity (increment by 1)
-        int updatedQuantity = currentQuantity + 1;
-
-        // Update the quantity field in Firestore
-        await docRef.update({'quantity': updatedQuantity});
-        print('Quantity updated successfully.');
-
-      } else {
-        print('Document does not exist.');
-      }
-    } catch (error) {
-      print('Error: $error');
-    }
-  }
-  Future<void> decrementQuantity(documentId) async {
-    try {
-      // Reference to the Firestore document you want to update
-      DocumentReference docRef = firestore.collection('cart').doc(documentId);
-
-      // Fetch the current data from Firestore
-      DocumentSnapshot documentSnapshot = await docRef.get();
-
-      if (documentSnapshot.exists) {
-        // Get the current quantity value
-        int currentQuantity = documentSnapshot.get('quantity') ?? 0;
-
-        // Update the quantity (decrement by 1)
-        if(currentQuantity <= 1)
-          {
-            Get.showSnackbar(const GetSnackBar(
-              title: 'Minimum Limit Reached',
-              message: 'Quantity Cannot be empty',
-              duration: Duration(seconds: 2),
-            ));
-          }
-        else{
-          int updatedQuantity = currentQuantity - 1;
-
-          // Update the quantity field in Firestore
-          await docRef.update({'quantity': updatedQuantity});
-          print('Quantity updated successfully.');
-        }
-
-      } else {
-        print('Document does not exist.');
-      }
-    } catch (error) {
-      print('Error: $error');
-    }
-  }
 
   @override
+  void initState() {
+    getController.getUid();
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
-    // for (var item in addToCartItem) {
-    //   totalPrice += item.price;
-    // }
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -106,12 +38,14 @@ class _AddToCartPageState extends State<AddToCartPage> {
         centerTitle: true,
         backgroundColor: Colors.amber,
       ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: SizedBox(
+      body: Obx(() {
+        return Container(
+          margin: EdgeInsets.only(bottom: Get.height*0.1),
           height: Get.height,
-          child: StreamBuilder<QuerySnapshot>(
-            stream: getFilteredDocumentsStream(),
+          child: getController.isLoading.value?
+          const Center(child: CircularProgressIndicator(color: Colors.red,)):
+          StreamBuilder<QuerySnapshot>(
+            stream: fireStoreHelper.getFilteredDocumentsStream(uid: getController.uidS.value),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
@@ -124,7 +58,7 @@ class _AddToCartPageState extends State<AddToCartPage> {
                   return const Center(child: Text('No data found'));
                 }
                 return ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: snapshot.data!.docs.length,
                   itemBuilder: (context, index) {
@@ -180,8 +114,8 @@ class _AddToCartPageState extends State<AddToCartPage> {
                                   children: [
                                     InkWell(
                                         onTap: (){
-                                          debugPrint("1");
-                                          decrementQuantity(document.id);
+                                          debugPrint("Decrement");
+                                          fireStoreHelper.decrementQuantity(document.id);
                                         },
                                         child: const Icon(Icons.remove_circle,color: Colors.red,)
                                     ),
@@ -192,8 +126,8 @@ class _AddToCartPageState extends State<AddToCartPage> {
 
                                     InkWell(
                                         onTap: (){
-                                          debugPrint("2");
-                                          incrementQuantity(document.id);
+                                          debugPrint("Increment");
+                                          fireStoreHelper.incrementQuantity(document.id);
                                         },
                                         child: const Icon(Icons.add_circle,color: Colors.green,)
                                     ),
@@ -211,8 +145,8 @@ class _AddToCartPageState extends State<AddToCartPage> {
               return const Text('No Data Found');
             },
           ),
-        ),
-      ),
+        );
+      }),
 
       bottomSheet: Container(
         padding: const EdgeInsets.all(AppStyle.padding10),
@@ -264,4 +198,5 @@ class _AddToCartPageState extends State<AddToCartPage> {
       ),
     );
   }
+
 }
