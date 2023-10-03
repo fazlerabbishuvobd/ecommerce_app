@@ -2,6 +2,7 @@ import 'package:ecommerce_app/resources/assets/app_icon/app_icons.dart';
 import 'package:ecommerce_app/resources/routes/app_routes_name.dart';
 import 'package:ecommerce_app/utils/app_style.dart';
 import 'package:ecommerce_app/viewmodel/profile_page/profile_page_view_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,6 +16,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
 
   final getController = Get.put(ProfilePageViewModel());
+  final auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +76,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       children: [
                         Text("Fazle Rabbi",style: AppStyle.playFontBold.copyWith(fontSize: 18),),
                         Text("+08801767364544",style: AppStyle.playFont16),
-                        Text("frs.cse@gmail.com",style: AppStyle.playFont16),
+                        Text('${auth.currentUser!.email}',style: AppStyle.playFont16),
                       ],
                     ),
                   ],

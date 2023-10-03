@@ -187,7 +187,7 @@ class _AddNewAddressPageState extends State<AddNewAddressPage> {
                   ),
                 ),
               ),
-              SizedBox(height: Get.height*0.14,),
+              SizedBox(height: Get.height*0.06,),
 
               Container(
                 padding: const EdgeInsets.all(AppStyle.padding10),

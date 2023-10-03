@@ -1,7 +1,6 @@
-import 'package:ecommerce_app/resources/routes/app_routes_name.dart';
+import 'package:ecommerce_app/services/splash_screen/splash_screen_services.dart';
 import 'package:ecommerce_app/utils/app_style.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -12,7 +11,9 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 3)).then((value) => Get.offAllNamed(AppRouteName.signInPage));
+    Future.delayed(const Duration(seconds: 3)).then((value) {
+     SplashScreenServices.isLogin();
+    });
     super.initState();
   }
   @override

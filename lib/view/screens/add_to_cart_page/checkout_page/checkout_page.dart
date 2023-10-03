@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce_app/utils/app_style.dart';
 import 'package:ecommerce_app/viewmodel/checkout_page/checkout_page_view_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../resources/routes/app_routes_name.dart';
+import '../../../../services/firebase/firestore/firestore_helper.dart';
 
 class CheckoutPage extends StatefulWidget {
   const CheckoutPage({super.key});
@@ -14,9 +17,8 @@ class CheckoutPage extends StatefulWidget {
 class _CheckoutPageState extends State<CheckoutPage> {
 
   final getController = Get.put(CheckoutPageViewModel());
-  var itemList = Get.arguments[0];
-  var totalPrice = Get.arguments[1];
-
+  final auth = FirebaseAuth.instance;
+  FireStoreHelper fireStoreHelper = FireStoreHelper();
   double? payment;
 
   @override
@@ -72,58 +74,88 @@ class _CheckoutPageState extends State<CheckoutPage> {
               Text('Item Information',style: AppStyle.playFont16Bold),
               AppStyle.height10,
 
-              SizedBox(
-                width: Get.width,
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                    itemCount: itemList.length,
-                    itemBuilder: (context, index) {
-                      return Card(
-                        elevation: 5,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Container(
-                          padding: const EdgeInsets.all(5),
-                          child: Row(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.asset('${itemList[index].productImage}',height: Get.height*0.13,fit: BoxFit.fill,),
-                              ),
-                              AppStyle.width20,
-
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+              StreamBuilder<QuerySnapshot>(
+                stream: fireStoreHelper.getFilteredDocumentsStream(uid: auth.currentUser!.uid),
+                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text(snapshot.error.toString());
+                  } else if (snapshot.hasData) {
+                    if (snapshot.data!.docs.isEmpty) {
+                      return const Center(child: Text('No data found'));
+                    }
+                    return ListView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        final document = snapshot.data!.docs[index];
+                        return Card(
+                          margin: EdgeInsets.only(
+                              bottom: Get.height*0.02
+                          ),
+                          elevation: 5,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(AppStyle.radius5),
+                          ),
+                          child: Container(
+                            padding: const EdgeInsets.all(AppStyle.padding10),
+                            height: Get.height*0.16,
+                            width: Get.width*0.7,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
                                   children: [
-                                    Text(itemList[index].title,
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: AppStyle.playFontBold
+                                    ClipRRect(
+                                        borderRadius: BorderRadius.circular(AppStyle.radius10),
+                                        child: Image.network(document['imageUrl'],height: Get.height,width: Get.width*0.3,fit: BoxFit.fill)
                                     ),
-                                    Text("${itemList[index].details}",
-                                      style: AppStyle.playFont,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
+                                    AppStyle.width20,
+
+                                    SizedBox(
+                                      width: Get.width*0.55,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(document['itemName'],
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: AppStyle.playFontBold
+                                          ),
+                                          Text('${document['details']}',
+                                            style: AppStyle.playFont,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            textAlign: TextAlign.justify,
+                                          ),
+                                          const Spacer(),
+
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text('\$ ${document['price'] * document['quantity']}', style: AppStyle.playFont16Bold.copyWith(color: Colors.deepOrange)),
+                                              Text('${document['quantity']} pcs', style: AppStyle.playFont16Bold.copyWith(color: Colors.deepOrange)),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text("${itemList[index].price} Tk",style: AppStyle.playFontBold.copyWith(color: Colors.deepOrange)),
-                                        Text("Qty: ${itemList[index].quantity}",style: AppStyle.playFontBold.copyWith(color: Colors.deepOrange))
-                                      ],
-                                    )
+
                                   ],
                                 ),
-                              )
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                ),
+                        );
+                      },
+                    );
+                  }
+                  return const Text('No Data Found');
+                },
               ),
               AppStyle.height20,
 
@@ -185,7 +217,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
 
               OrderSummeryWidgets(
-                itemTotal: totalPrice,
+                itemTotal: 1230.00,
                 deliveryDiscount: -10,
                 deliveryFee: 120,
                 discount: -50,
@@ -209,7 +241,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("Total",style: AppStyle.playFontBold,),
-                Text("$totalPrice TK",style: AppStyle.playFont16Bold),
+                Text("1230.02 TK",style: AppStyle.playFont16Bold),
               ],
             ),
 

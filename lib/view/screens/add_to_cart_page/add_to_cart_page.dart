@@ -17,7 +17,6 @@ class _AddToCartPageState extends State<AddToCartPage> {
   FireStoreHelper fireStoreHelper = FireStoreHelper();
   final getController = Get.put(AddToCartPageViewModel());
   double totalPrice =0.0 ;
-
   @override
   void initState() {
     getController.getUid();
@@ -148,6 +147,7 @@ class _AddToCartPageState extends State<AddToCartPage> {
         );
       }),
 
+      /// Total - Checkout Button
       bottomSheet: Container(
         padding: const EdgeInsets.all(AppStyle.padding10),
         height: Get.height*0.1,

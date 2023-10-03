@@ -3,6 +3,7 @@ import 'package:ecommerce_app/resources/routes/app_routes_name.dart';
 import 'package:ecommerce_app/utils/app_style.dart';
 import 'package:ecommerce_app/view/screens/product_details_page/product_details_page.dart';
 import 'package:ecommerce_app/view/screens/profile_page/profile_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -141,7 +142,8 @@ class _SettingPageState extends State<SettingPage> {
             const Spacer(),
             Center(
               child: CustomMaterialButton(
-                onPressed: (){
+                onPressed: ()async{
+                  await FirebaseAuth.instance.signOut();
                   removeUid();
                   Get.offNamed(AppRouteName.signInPage);
                 },
