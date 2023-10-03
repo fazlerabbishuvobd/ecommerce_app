@@ -37,10 +37,26 @@ class HomePageViewModel extends GetxController{
 
   final productList = <Product>[].obs;
   RxInt selectedProduct = (-1).obs;
-
+  RxBool hasMore = true.obs;
+  int limit = 20;
   Future<void> fetchProducts() async{
     try{
-      final productResponseData = await _pageRepository.getAllProduct();
+      final productResponseData = await _pageRepository.getAllProduct(limit);
+      productList.addAll(productResponseData);
+    }catch(e)
+    {
+      errorMessage.value = e.toString();
+    }
+  }
+
+  Future<void> fetchMoreProducts() async{
+    try{
+      final productResponseData = await _pageRepository.getAllProduct(limit+=20);
+      if(productResponseData.length < 19)
+      {
+        hasMore.value = false;
+      }
+      productList.clear();
       productList.addAll(productResponseData);
     }catch(e)
     {

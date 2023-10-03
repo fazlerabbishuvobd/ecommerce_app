@@ -134,9 +134,11 @@ class _HomePageState extends State<HomePage> {
                         child: SizedBox(
                           width: Get.width*0.8,
                           child: Obx(() {
-                            return MaterialButton(
+                            return getController.hasMore.value?
+                            MaterialButton(
                               onPressed: ()async{
                                 getController.isButtonLoading.value = true;
+                                getController.fetchMoreProducts();
                                 await Future.delayed(const Duration(seconds: 2));
                                 getController.isButtonLoading.value = false;
                               },
@@ -148,7 +150,7 @@ class _HomePageState extends State<HomePage> {
                               child: getController.isButtonLoading.value?
                               const Center(child: CircularProgressIndicator(),
                               ):Text("Load More", style: AppStyle.playFont16Bold),
-                            );
+                            ):const Text("No More Product Available");
                           }),
                         ),
                       ),

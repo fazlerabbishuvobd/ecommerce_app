@@ -20,8 +20,8 @@ class HomePageRepository{
   }
 
   /// Fetch Products
-  Future<List<Product>> getAllProduct() async{
-    final jsonRawData = await apiServices.getApi(AppApiUrl.products);
+  Future<List<Product>> getAllProduct(int limit) async{
+    final jsonRawData = await apiServices.getApi('${AppApiUrl.products}?limit=$limit');
     List<dynamic> productJson = jsonRawData['products'];
     return productJson.map((e) => Product.fromJson(e)).toList();
   }
