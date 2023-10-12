@@ -70,8 +70,7 @@ class _HomePageState extends State<HomePage> {
                 );
               }
             else {
-              if(getController.errorMessage.value.isEmpty)
-                {
+              if(getController.errorMessage.value.isEmpty) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -136,11 +135,12 @@ class _HomePageState extends State<HomePage> {
                           child: Obx(() {
                             return getController.hasMore.value?
                             MaterialButton(
-                              onPressed: ()async{
-                                getController.isButtonLoading.value = true;
-                                getController.fetchMoreProducts();
-                                await Future.delayed(const Duration(seconds: 2));
-                                getController.isButtonLoading.value = false;
+                              onPressed: (){
+                                getController.fetchMoreProducts().then((value) {
+                                  setState(() {
+
+                                  });
+                                });
                               },
                               height: 48,
                               color: Colors.amber,
@@ -370,7 +370,7 @@ class _BannerSliderWidgetsState extends State<BannerSliderWidgets> {
                     debugPrint("${index+1}");
                     Get.toNamed(AppRouteName.productFullImagePage,arguments: widget.imageList);
                   },
-                  child: Container(
+                  child: SizedBox(
                     height: Get.height,
                     width: Get.width,
                     child: CachedNetworkImage(
