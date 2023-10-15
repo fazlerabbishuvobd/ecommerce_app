@@ -21,20 +21,14 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> refresh()async{
     await Future.delayed(const Duration(seconds: 2));
+    setState(() {
+
+    });
     debugPrint("Refresh");
   }
 
   final getController = Get.put(HomePageViewModel());
   final user = FirebaseAuth.instance.currentUser;
-
-  @override
-  void initState() {
-    // getController.fetchCategories();
-    // getController.fetchProducts();
-    //getController.fetchData();
-    print(user?.uid);
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -133,13 +127,12 @@ class _HomePageState extends State<HomePage> {
                         child: SizedBox(
                           width: Get.width*0.8,
                           child: Obx(() {
-                            return getController.hasMore.value?
-                            MaterialButton(
+                            return getController.productList.length != 100?MaterialButton(
                               onPressed: (){
                                 getController.fetchMoreProducts().then((value) {
                                   setState(() {
-
                                   });
+                                  debugPrint("Fetch More Product");
                                 });
                               },
                               height: 48,
@@ -150,7 +143,9 @@ class _HomePageState extends State<HomePage> {
                               child: getController.isButtonLoading.value?
                               const Center(child: CircularProgressIndicator(),
                               ):Text("Load More", style: AppStyle.playFont16Bold),
-                            ):const Text("No More Product Available");
+                            ):const Center(
+                                child: Text("No more product available")
+                            );
                           }),
                         ),
                       ),

@@ -53,11 +53,7 @@ class HomePageViewModel extends GetxController{
     try{
       isButtonLoading.value = true;
       final productResponseData = await _pageRepository.getAllProduct(limit+=20);
-      if(productResponseData.length < 19)
-      {
-        hasMore.value = false;
-      }
-      await Future.delayed(const Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 1));
       productList.clear();
       productList.addAll(productResponseData);
       isButtonLoading.value = false;

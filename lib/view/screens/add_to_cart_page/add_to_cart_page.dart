@@ -15,8 +15,10 @@ class AddToCartPage extends StatefulWidget {
 
 class _AddToCartPageState extends State<AddToCartPage> {
   FireStoreHelper fireStoreHelper = FireStoreHelper();
+
   final getController = Get.put(AddToCartPageViewModel());
   double totalPrice =0.0 ;
+
   @override
   void initState() {
     getController.getUid();
