@@ -26,4 +26,11 @@ class HomePageRepository{
     return productJson.map((e) => Product.fromJson(e)).toList();
   }
 
+  /// Fetch Category Wise Products
+  Future<List<Product>> getCategoryWiseProduct(String searchKeyWord) async{
+    final jsonRawData = await apiServices.getApi('${AppApiUrl.categoryWise}$searchKeyWord');
+    List<dynamic> productJson = jsonRawData['products'];
+    return productJson.map((e) => Product.fromJson(e)).toList();
+  }
+
 }

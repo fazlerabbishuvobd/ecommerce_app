@@ -17,7 +17,7 @@ class _AddToCartPageState extends State<AddToCartPage> {
   FireStoreHelper fireStoreHelper = FireStoreHelper();
 
   final getController = Get.put(AddToCartPageViewModel());
-  double totalPrice =0.0 ;
+  double totalPrice =0.0;
 
   @override
   void initState() {
@@ -64,6 +64,7 @@ class _AddToCartPageState extends State<AddToCartPage> {
                   itemCount: snapshot.data!.docs.length,
                   itemBuilder: (context, index) {
                     final document = snapshot.data!.docs[index];
+                    totalPrice += document['price']*document['quantity'];
                     return Card(
                       margin: EdgeInsets.only(
                           bottom: Get.height*0.02
@@ -97,12 +98,12 @@ class _AddToCartPageState extends State<AddToCartPage> {
                                           overflow: TextOverflow.ellipsis,
                                           style: AppStyle.playFontBold
                                       ),
-                                      Text('${document['details']}',
-                                        style: AppStyle.playFont,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        textAlign: TextAlign.justify,
-                                      ),
+                                      // Text('${document['details']}',
+                                      //   style: AppStyle.playFont,
+                                      //   maxLines: 1,
+                                      //   overflow: TextOverflow.ellipsis,
+                                      //   textAlign: TextAlign.justify,
+                                      // ),
                                       const Spacer(),
 
                                       Text('\$ ${document['price'] * document['quantity']}', style: AppStyle.playFont16Bold.copyWith(color: Colors.deepOrange)),
@@ -158,12 +159,12 @@ class _AddToCartPageState extends State<AddToCartPage> {
         child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
+            const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Total",style: AppStyle.playFontBold,),
-                Text("${totalPrice.toStringAsFixed(2)}TK",style: AppStyle.playFont16Bold,),
+                // Text("Total",style: AppStyle.playFontBold,),
+                // Text("${totalPrice.toStringAsFixed(2)}TK",style: AppStyle.playFont16Bold,),
               ],
             ),
 
@@ -175,7 +176,7 @@ class _AddToCartPageState extends State<AddToCartPage> {
                   onPressed: ()async{
                     getController.isCheckoutButtonLoading.value = true;
                     await Future.delayed(const Duration(seconds: 1));
-                    Get.toNamed(AppRouteName.checkoutPage);
+                    Get.toNamed(AppRouteName.checkoutPage,arguments: totalPrice);
                     getController.isCheckoutButtonLoading.value = false;
                   },
                   color: Colors.white,

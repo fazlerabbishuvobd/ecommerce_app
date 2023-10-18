@@ -35,6 +35,19 @@ class HomePageViewModel extends GetxController{
     }
   }
 
+  RxList categoryWiseProducts =[].obs;
+  Future<void> fetchCategoryWiseProduct(String category) async{
+    try{
+      isScreenLoading.value = true;
+      categoryWiseProducts.value = await _pageRepository.getCategoryWiseProduct(category);
+      isScreenLoading.value = false;
+    }catch(e)
+    {
+      errorMessage.value = e.toString();
+    }
+  }
+
+
   final productList = <Product>[].obs;
   RxInt selectedProduct = (-1).obs;
   RxBool hasMore = true.obs;

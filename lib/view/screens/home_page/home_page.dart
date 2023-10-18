@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ecommerce_app/utils/app_style.dart';
+import 'package:ecommerce_app/view/screens/home_page/category_wise_products.dart';
+import 'package:ecommerce_app/view/screens/home_page/notification_page.dart';
 import 'package:ecommerce_app/viewmodel/home_page/home_page_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +47,7 @@ class _HomePageState extends State<HomePage> {
               child: GestureDetector(
                   onTap: (){
                     debugPrint("Notification Page");
+                    Get.to(()=> const NotificationPage());
                   },
                   child: const Icon(Icons.notifications)
               ),
@@ -288,9 +291,8 @@ class CategoryListViewWidget extends StatelessWidget {
       itemBuilder: (context, index) {
         var categoryList = getController.categories[index];
         return GestureDetector(
-          onTap: () {
-            debugPrint("$index");
-            getController.selectedCategory.value = index;
+          onTap: (){
+            Get.to(()=> CategoryWiseProduct(categoryName: index==0?'Smartphone':'Laptops'));
           },
           child: Obx(() {
             return Container(

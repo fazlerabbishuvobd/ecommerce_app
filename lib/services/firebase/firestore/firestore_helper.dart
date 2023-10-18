@@ -19,7 +19,6 @@ class FireStoreHelper {
 
   Future<void> incrementQuantity(documentId) async {
     try {
-
       DocumentReference docRef = _db.doc(documentId);
       DocumentSnapshot documentSnapshot = await docRef.get();
 

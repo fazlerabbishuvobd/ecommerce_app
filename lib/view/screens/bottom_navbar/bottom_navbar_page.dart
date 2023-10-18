@@ -62,14 +62,14 @@ class _BottomNavBarPageState extends State<BottomNavBarPage> {
             selectedLabelStyle: AppStyle.playFontBold,
             unselectedLabelStyle: AppStyle.playFont,
           ),
-          Positioned(
-              left: Get.width*0.40,
-              child: Text("100",style: AppStyle.playFontBold.copyWith(color: Colors.deepOrange),)
-          ),
-          Positioned(
-            right: Get.width*0.29,
-              child: Text("100",style: AppStyle.playFontBold.copyWith(color: Colors.deepOrange),)
-          ),
+          // Positioned(
+          //     left: Get.width*0.40,
+          //     child: Text("100",style: AppStyle.playFontBold.copyWith(color: Colors.deepOrange),)
+          // ),
+          // Positioned(
+          //   right: Get.width*0.29,
+          //     child: Text("100",style: AppStyle.playFontBold.copyWith(color: Colors.deepOrange),)
+          // ),
         ],
       ),
     );

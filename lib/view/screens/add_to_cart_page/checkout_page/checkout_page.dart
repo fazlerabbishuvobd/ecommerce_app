@@ -17,9 +17,9 @@ class CheckoutPage extends StatefulWidget {
 class _CheckoutPageState extends State<CheckoutPage> {
 
   final getController = Get.put(CheckoutPageViewModel());
+  final totalPrice = Get.arguments;
   final auth = FirebaseAuth.instance;
   FireStoreHelper fireStoreHelper = FireStoreHelper();
-  double? payment;
 
   @override
   Widget build(BuildContext context) {
@@ -126,12 +126,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                               overflow: TextOverflow.ellipsis,
                                               style: AppStyle.playFontBold
                                           ),
-                                          Text('${document['details']}',
-                                            style: AppStyle.playFont,
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            textAlign: TextAlign.justify,
-                                          ),
+                                          // Text('${document['details']}',
+                                          //   style: AppStyle.playFont,
+                                          //   maxLines: 1,
+                                          //   overflow: TextOverflow.ellipsis,
+                                          //   textAlign: TextAlign.justify,
+                                          // ),
                                           const Spacer(),
 
                                           Row(
@@ -217,7 +217,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
 
               OrderSummeryWidgets(
-                itemTotal: 1230.00,
+                itemTotal: totalPrice,
                 deliveryDiscount: -10,
                 deliveryFee: 120,
                 discount: -50,
@@ -236,12 +236,13 @@ class _CheckoutPageState extends State<CheckoutPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("Total",style: AppStyle.playFontBold,),
-                Text("1230.02 TK",style: AppStyle.playFont16Bold),
+                Text("${totalPrice+60}",style: AppStyle.playFont16Bold),
               ],
             ),
 
